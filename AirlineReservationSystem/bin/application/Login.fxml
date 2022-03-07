@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+   <children>
+      <ImageView fitHeight="497.0" fitWidth="805.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../airplanes1-1440x900.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="N_RESIZE" />
+         </cursor>
+      </ImageView>
+      <AnchorPane layoutX="7.0" layoutY="14.0" prefHeight="246.0" prefWidth="359.0">
+         <children>
+            <TextField fx:id="username" blendMode="COLOR_BURN" cacheHint="SCALE" layoutX="53.0" layoutY="46.0" prefHeight="46.0" prefWidth="279.0" promptText="Username">
+               <font>
+                  <Font name="Bell MT Bold" size="13.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.41" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                     <bumpInput>
+                        <Glow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.7925146222114563" green="0.9218557476997375" blue="0.9263157844543457" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </TextField>
+            <Button layoutX="257.0" layoutY="184.0" mnemonicParsing="false" onAction="#LoginMember" prefHeight="40.0" prefWidth="88.0" style="-fx-background-color: #589bd1; -fx-background-radius: 100;" text="Login" textFill="#1f3448" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="System Italic" size="14.0" />
+               </font>
+            </Button>
+            <TextField fx:id="password" blendMode="COLOR_BURN" cache="true" cacheHint="SCALE" layoutX="53.0" layoutY="113.0" prefHeight="46.0" prefWidth="279.0" promptText="Password">
+               <font>
+                  <Font name="Bell MT Bold" size="13.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <BoxBlur height="35.41" />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="145.32">
+                           <color>
+                              <Color red="0.648421049118042" green="0.8527719378471375" blue="0.8842105269432068" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </TextField>
+            <Label layoutX="263.0" layoutY="5.0" prefHeight="18.0" prefWidth="371.0" text="Airline Reservation System" textFill="#fffefe">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
