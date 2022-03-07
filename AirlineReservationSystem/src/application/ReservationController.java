@@ -157,6 +157,7 @@ public class ReservationController implements Initializable {
 				ps.setInt(5, Integer.parseInt(numberOfBugs.getText()));
 				ps.executeUpdate();
 				ps.close();
+				AlertController.alert1("Ticket Reserved!");
 				//System.out.println("i' here ewrfew");
 	
 				/*
