@@ -68,7 +68,7 @@ public class Controller implements Initializable  {
 	    @FXML
 	    void LoginMember(ActionEvent event) {
 	    	
-	    /*	try{
+	    /*try{
 	    	rs=DB.SelectFun("Select * from user");
 	    	while(rs.next()) {
 	    		u=rs.getString(4);
@@ -86,8 +86,8 @@ public class Controller implements Initializable  {
 	      	        alert.setHeaderText("Error");
 	      	        alert.setContentText("Enter your username and password");
 	      	        alert.showAndWait();
-	  	    }*/
-			/*if(user.equals(u) && pass.equals(p)) {
+	  	    }
+			if(user.equals(u) && pass.equals(p)) {
 				
 	   		    loadWindow("src/application/DashBoardAdmin.fxml","Aurora");	
 	    		}
@@ -99,7 +99,7 @@ public class Controller implements Initializable  {
 	            alert.showAndWait();
 	            }*/
 	      	 loadWindow("src/application/DashBoardAdmin.fxml","Aurora");	
-	    	//}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
+	    //	}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
 	    }
 
 

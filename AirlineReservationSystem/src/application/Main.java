@@ -25,7 +25,7 @@ public class Main extends Application {
 			Parent fxmlLoader =FXMLLoader.load(url);
 			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 			//fxmlLoader.setRoot(new AnchorPane());
-		//	Parent root = fxmlLoader.load();
+			//	Parent root = fxmlLoader.load();
 			
 			Scene scene = new Scene(fxmlLoader,800,500);
 	    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

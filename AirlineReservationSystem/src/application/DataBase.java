@@ -16,7 +16,7 @@ public class DataBase {
 	    
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			 Connection con=DriverManager.getConnection("jdbc:mysql://localhost/mcss","root","root");
+			 Connection con=DriverManager.getConnection("jdbc:mysql://localhost/ars","root","root");
     	    stmt=con.createStatement();
 	         }
 	  	catch (Exception ex) {
@@ -27,7 +27,7 @@ public class DataBase {
     public static Connection ConnectDb(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/ars","root","");
+            Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/ars","root","root");
             return conn;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
