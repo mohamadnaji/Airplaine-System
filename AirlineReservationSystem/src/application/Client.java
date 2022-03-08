@@ -3,23 +3,19 @@ package application;
 import java.time.LocalDate;
 
 public class Client {
-	String firstName, lastName, passportNumber, nationality, gender,phoneNumber, emailAddress,frequentFlyerNumber;
-	int frequentFlyerPoints;
+	String firstName, lastName, passportNumber, ageGroup, phoneNumber, emailAddress;
 	LocalDate birthDate;
 	
 	
-	public Client(String firstName, String lastName, String passportNumber, String nationality, String gender,
-			String phoneNumber, String emailAddress, String frequentFlyerNumber, int frequentFlyerPoints,
-			LocalDate birthDate) {
+	public Client(String firstName, String lastName, String passportNumber, String ageGroup,
+			String phoneNumber, String emailAddress, LocalDate birthDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.passportNumber = passportNumber;
-		this.nationality = nationality;
-		this.gender = gender;
+		//this.nationality = nationality;
+		this.ageGroup = ageGroup;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
-		this.frequentFlyerNumber = frequentFlyerNumber;
-		this.frequentFlyerPoints = frequentFlyerPoints;
 		this.birthDate = birthDate;
 	}
 
@@ -53,27 +49,6 @@ public class Client {
 		this.passportNumber = passportNumber;
 	}
 
-
-	public String getNationality() {
-		return nationality;
-	}
-
-
-	public void setNationality(String nationality) {
-		this.nationality = nationality;
-	}
-
-
-	public String getGender() {
-		return gender;
-	}
-
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -94,26 +69,6 @@ public class Client {
 	}
 
 
-	public String getFrequentFlyerNumber() {
-		return frequentFlyerNumber;
-	}
-
-
-	public void setFrequentFlyerNumber(String frequentFlyerNumber) {
-		this.frequentFlyerNumber = frequentFlyerNumber;
-	}
-
-
-	public int getFrequentFlyerPoints() {
-		return frequentFlyerPoints;
-	}
-
-
-	public void setFrequentFlyerPoints(int frequentFlyerPoints) {
-		this.frequentFlyerPoints = frequentFlyerPoints;
-	}
-
-
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
@@ -121,6 +76,16 @@ public class Client {
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+
+
+	public String getAgeGroup() {
+		return ageGroup;
+	}
+
+
+	public void setAgeGroup(String ageGroup) {
+		this.ageGroup = ageGroup;
 	}
 	
 	

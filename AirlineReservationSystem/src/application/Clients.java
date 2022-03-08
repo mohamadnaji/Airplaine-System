@@ -1,32 +1,20 @@
 package application;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-import application.ClientsModel;
-import javafx.animation.ParallelTransition;
-import javafx.animation.RotateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -34,10 +22,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
-import javafx.util.converter.IntegerStringConverter;
 
 public class Clients implements Initializable{
 
@@ -68,11 +53,13 @@ public class Clients implements Initializable{
         pt.play();
     }*/
     
+	@FXML
+	private AnchorPane anchorPane;
+	
 	@FXML private TextField firstName;
 	@FXML private TextField lastName;
-	@FXML private RadioButton male;
-	@FXML private RadioButton female;
-	@FXML private ChoiceBox nationality;
+	@FXML private RadioButton child;
+	@FXML private RadioButton adult;
 	@FXML private DatePicker birthDate;
 	@FXML private TextField passportNumber;
 	@FXML private TextField mobilePhone;
@@ -82,12 +69,12 @@ public class Clients implements Initializable{
     @FXML private TableColumn<Client, String> firstNameColumn;
     @FXML private TableColumn<Client, String> lastNameColumn;
     @FXML private TableColumn<Client, String> passportNumberColumn;
-    @FXML private TableColumn<Client, String> nationalityColumn;
+    //@FXML private TableColumn<Client, String> nationalityColumn;
     @FXML private TableColumn<Client, LocalDate> birthDateColumn;
-    @FXML private TableColumn<Client, String> genderColumn;
+    @FXML private TableColumn<Client, String> ageColumn;
     @FXML private TableColumn<Client, String> mobilePhoneColumn;
-    @FXML private TableColumn<Client, String> frequentFlyerNumberColumn;
-    @FXML private TableColumn<Client, Integer> frequentFlyerPointsColumn;
+    //@FXML private TableColumn<Client, String> frequentFlyerNumberColumn;
+    //@FXML private TableColumn<Client, Integer> frequentFlyerPointsColumn;
     @FXML private TableColumn<Client, String> emailAddressColumn;
     
     @FXML private TextField filterTextArea;
@@ -97,53 +84,59 @@ public class Clients implements Initializable{
 
     public ObservableList<Client> clientsList;
     
-	ToggleGroup gender;
-	String fn,ln,pn,mbNB,emailAd,ad,g,nat;
-	
+	ToggleGroup age;
+	String fn,ln,pn,mbNB,emailAd,a;
+	AnchorPane history;
 	
 	@Override
     public void initialize(URL url, ResourceBundle rb) {
-		
 		fillTable();
 		
 
-		gender = new ToggleGroup();
-		male.setToggleGroup(gender);
-		female.setToggleGroup(gender);
+		age = new ToggleGroup();
+		child.setToggleGroup(age);
+		adult.setToggleGroup(age);
 		
-		String[] countryCodes = java.util.Locale.getISOCountries();
-		  
-		for (String countryCode : countryCodes) {
-		    Locale locale = new Locale("", countryCode);
-		    String name = locale.getDisplayCountry();
-		    if(name == "Israel") continue;
-		    nationality.getItems().add(name);
-		}
-		
-		
+		/*
+		viewFlightsHistoryButton.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent event) {
+		        try {
+		        	FXMLLoader fxmlLoader = new FXMLLoader();
+		            fxmlLoader.setLocation(getClass().getResource("src/application/ClientHistory.fxml"));
+		            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+		            Stage stage = new Stage();
+		            stage.setTitle("New Window");
+		            stage.setScene(scene);
+		            stage.show();
+		        }
+		        catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		    }
+		});
+		*/
 		
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("firstName"));
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("lastName"));
 		passportNumberColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("passportNumber"));
-		nationalityColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("nationality"));
+		//nationalityColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("nationality"));
 		birthDateColumn.setCellValueFactory(new PropertyValueFactory<Client, LocalDate>("birthDate"));
-		genderColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("gender"));
+		ageColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("ageGroup"));
 		mobilePhoneColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("phoneNumber"));
-		frequentFlyerNumberColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("frequentFlyerNumber"));
-		frequentFlyerPointsColumn.setCellValueFactory(new PropertyValueFactory<Client, Integer>("frequentFlyerPoints"));
+		//frequentFlyerNumberColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("frequentFlyerNumber"));
+		//frequentFlyerPointsColumn.setCellValueFactory(new PropertyValueFactory<Client, Integer>("frequentFlyerPoints"));
 		emailAddressColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("emailAddress"));
 		
-		/*
+		
 		clientsTable.setRowFactory( tv -> {
             TableRow<Client> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
-                    deleteButton.setDisable(false);
+                    viewFlightsHistoryButton.setDisable(false);
                 }
             });
             return row ;
         });
-		*/
 		
         //rotategears();
     }    
@@ -151,9 +144,9 @@ public class Clients implements Initializable{
 	
 	 public void fillTable() {
 		 ArrayList<Client> clientsDemo = new ArrayList<>();
-			Client c1 = new Client("Fatima","Kaouk","LH84739278","Lebanon","Female","76345787","fatimakaouk@gmail.com","54745689",1500,LocalDate.of(2000, 6, 9));
-			Client c2 = new Client("Mariam","Hussein","LH84739278","Lebanon","Female","76345787","fatimakaouk@gmail.com","54745689",1500,LocalDate.of(2000, 6, 9));
-			Client c3 = new Client("Nour","Ali","LH84739278","Lebanon","Female","76345787","fatimakaouk@gmail.com","54745689",1500,LocalDate.of(2000, 6, 9));
+			Client c1 = new Client("Fatima","Kaouk","LH84739278","Adult","76345787","fatimakaouk@gmail.com",LocalDate.of(2000, 6, 9));
+			Client c2 = new Client("Mariam","Hussein","LH84739278","Adult","76345787","fatimakaouk@gmail.com",LocalDate.of(2000, 6, 9));
+			Client c3 = new Client("Nour","Ali","LH84739278","Adult","76345787","fatimakaouk@gmail.com",LocalDate.of(2000, 6, 9));
 			clientsDemo.add(c1);clientsDemo.add(c2);clientsDemo.add(c3);
 			
 		 //clientsList = FXCollections.observableArrayList(ClientsModel.getAllClients());
@@ -183,8 +176,7 @@ public class Clients implements Initializable{
 	private Boolean noEmptyFields() {
 		if( firstName.getText().trim().isEmpty() || lastName.getText().trim().isEmpty() ||
     			passportNumber.getText().trim().isEmpty() || mobilePhone.getText().trim().isEmpty() ||
-    			emailAddress.getText().trim().isEmpty() || (gender.getSelectedToggle()==null) ||
-    			nationality.getSelectionModel().isEmpty() || birthDate.getValue()==null )
+    			emailAddress.getText().trim().isEmpty())
 			return false;
 		return true;
 	}
@@ -207,9 +199,8 @@ public class Clients implements Initializable{
     		pn = passportNumber.getText().trim();
     		mbNB = mobilePhone.getText().trim();
     		emailAd = emailAddress.getText().trim();
-    		nat = nationality.getSelectionModel().toString();
     		LocalDate bd = birthDate.getValue();
-    		g = ((RadioButton)gender.getSelectedToggle()).getText();
+    		a = ((RadioButton)age.getSelectedToggle()).getText();
     		
     		if(!ClientsModel.checkClient(fn,ln,pn)) {
     			Alert alert = new Alert(AlertType.ERROR);
@@ -220,7 +211,7 @@ public class Clients implements Initializable{
     			return;
     		}
     		
-    		ClientsModel.addClient(fn,ln,pn,bd,g,nat,mbNB,emailAd);
+    		ClientsModel.addClient(fn,ln,pn,bd,a,mbNB,emailAd);
     		
     		Alert clientAdded = new Alert(Alert.AlertType.INFORMATION);
     		clientAdded.setTitle("Client Added");

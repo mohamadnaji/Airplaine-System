@@ -19,10 +19,10 @@ public class ClientsModel {
     	try{
     		rs = DB.SelectFun("Select * from client");
     		while(rs.next()) {
-    			fn = rs.getString("first_name");
-    			ln = rs.getString("last_name");
-    			pn = rs.getString("passport_number");
-    			if(fn.equals(fName) && ln.equals(lName) && pn.equals(passNb))
+    			fn = rs.getString(2); //passenger first name
+    			ln = rs.getString(3); //passenger last name
+    			//pn = rs.getString("passport_number"); //
+    			if(fn.equals(fName) && ln.equals(lName) /*&& pn.equals(passNb)*/)
     				return false;
     	   }
 	        
@@ -36,18 +36,24 @@ public class ClientsModel {
 		rs = DB.SelectFun("Select * from client");
 		ArrayList<Client> listOfClients = new ArrayList<>();
 		while(rs.next()) {
-        	Client client =new Client(rs.getString("first_name"),rs.getString("last_name"),rs.getString("passport_number"),
-        			rs.getString("nationality"), rs.getString("gender"), rs.getString("phone_number"), rs.getString("emailAddress"),
-        			rs.getString("frequentFlyerNumber"), rs.getInt("frequent_flyer_points"), rs.getDate("birth_date").toLocalDate());
+        	Client client =new Client(
+        			rs.getString(2), //first name
+        			rs.getString(3), //last name
+        			"LH43534535",
+        			/*rs.getString("passport_number"),*/
+        			/*rs.getString("ageGroup"), */
+        			"adult",
+        			rs.getString(7), //phone number
+        			rs.getString(4), //email address
+        			rs.getDate(5).toLocalDate()); //birth date
            listOfClients.add(client);
         }
         return listOfClients;
 		
 	}
 	
-	public static void addClient(String fn,String ln,String pn,LocalDate bd,String g,String nat,String mbNB,String emailAd) {
-		String Query = "INSERT INTO client (first_name,last_name,birth_date,gender,nationality,passport_number,mobile_phone,email_address)"
-    			+ " VALUES ("+fn+","+ln+","+bd+","+g+","+nat+","+pn+","+mbNB+","+emailAd+")";
+	public static void addClient(String fn,String ln,String pn,LocalDate bd,String a,String mbNB,String emailAd) {
+		String Query = "INSERT INTO Passenger VALUES ("/*+id","*/+fn+","+ln+","+bd+","+a+","+pn+","+mbNB+","+emailAd+")";
     		try {
     			DB.InsertFun(Query);
     			} 
