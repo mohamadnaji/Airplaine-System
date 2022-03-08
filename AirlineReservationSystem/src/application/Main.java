@@ -20,7 +20,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-		     
 			URL url = new File("src/application/Login.fxml").toURI().toURL();
 			Parent fxmlLoader =FXMLLoader.load(url);
 			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));

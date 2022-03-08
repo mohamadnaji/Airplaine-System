@@ -3,24 +3,18 @@ package application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 //import java.util.Random;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-//import javax.lang.model.element.ExecutableElement;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-//import javafx.event.ActionEvent;
-import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,79 +31,107 @@ public class AddFlight implements Initializable{
 	@FXML
 	private TextField id_textField;
 	@FXML
-	private TextField name_textField;
+	private TextField airline_name_textField;
 	@FXML
 	private TextField source_textField;
 	@FXML
 	private TextField destination_textField;
 	@FXML
-	private TextField arrivalTime_textField;
+	private TextField arrival_time_textField;
 	@FXML
-	private TextField departureTime_textField;
+	private TextField departure_time_textField;
 	@FXML
 	private TextField price_textField;
+	
 	@FXML
-	private DatePicker date_textField;
+	private DatePicker arrival_date_textField;
+	@FXML
+	private DatePicker departure_date_textField;
+	
+	@FXML
+	private TextField nbr_of_seats_TextField;
+	@FXML
+	private TextField nbr_of_reserved_seats_textField;
+	@FXML
+	private TextField capacity_textField;
+	
+	
 	@FXML
 	private TableView<Flight> flights_tableView;
 	@FXML
 	private TableColumn<Flight, Integer> id_col;
 	@FXML
-	private TableColumn<Flight, String> name_col;
+	private TableColumn<Flight, String> airlineName_col;
 	@FXML
 	private TableColumn<Flight, String> source_col;
 	@FXML
 	private TableColumn<Flight, String> destination_col;
 	@FXML
-	private TableColumn<Flight, Date> date_col;
-	@FXML
 	private TableColumn<Flight, String> arrivalTime_col;
 	@FXML
 	private TableColumn<Flight, String> departureTime_col;
 	@FXML
-	private TableColumn<Flight, Integer> price_col;
+	private TableColumn<Flight, Date> arrivalDate_col;
+	@FXML
+	private TableColumn<Flight, Date> departureDate_col;
+	
+	@FXML
+	private TableColumn<Flight, Integer> nbrOfSeats_col;
+	@FXML
+	private TableColumn<Flight, Integer> nbrOfReservedSeats_col;
+	@FXML
+	private TableColumn<Flight, Integer> capacity_col;
+
 	@FXML
 	private Button addButton;
 	@FXML
 	private Button updateButton;
 	@FXML
 	private Button deleteButton;
+	@FXML
+	private Button clearButton;
 	
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet;
 	Connection connection = DataBase.ConnectDb();
 	ObservableList<Flight> flightsList;
 	
+	String airline_name, source, destination, arrTime, depTime;
+	int id, flight_price, capacity,nbr_of_seats, nbr_of_reserved_seats;
+	LocalDate arrival_date, departure_date;
+	int id_autoincrement = FlightsModel.getMaxID() + 1;
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
 			fillTable();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		id_textField.setText(id_autoincrement + "");
 		id_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("flight_id"));
-		name_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_name"));
+		airlineName_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("airline_name"));
 		source_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("source"));
 		destination_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
-		date_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("date"));
+		arrivalDate_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("arrival_date"));
+		departureDate_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("departure_date"));
+		// HERE WE HAVE A PROBLEM !!!!
+//		departureDate_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("departure_date"));
+		
 		arrivalTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("arrival_time"));
 		departureTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("departure_time"));
-		price_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("flight_price"));
-		System.out.println("6");
-		
-		
+		capacity_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("capacity"));
+		nbrOfReservedSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_reserved_seats"));
+		nbrOfSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_seats"));				
 	}
 
 	private ObservableList<Flight> fillTable() throws SQLException {
-		ArrayList<Flight> flightsDemo = new ArrayList<>();
-		Flight f1 = new Flight(1001, "Air France", "France", "Lebanon", 450, LocalDate.of(2022, 5, 5), "10 pm", "06 pm");
-		Flight f2 = new Flight(1002, "Emirates", "France", "Lebanon", 450, LocalDate.of(2022, 5, 5), "10 pm", "06 pm");
-		Flight f3 = new Flight(1003, "Middle East", "France", "Lebanon", 450, LocalDate.of(2022, 5, 5), "10 pm", "06 pm");
-		flightsDemo.add(f1);
-		flightsDemo.add(f2);
-		flightsDemo.add(f3);
-		
+		//ArrayList<Flight> flightsDemo = new ArrayList<>();
+//		Flight f1 = new Flight(1001, "Air France", "France", "Lebanon", 450, LocalDate.of(2022, 5, 5), "10 pm", "06 pm");
+//		Flight f2 = new Flight(1002, "Emirates", "France", "Lebanon", 450, LocalDate.of(2022, 5, 5), "10 pm", "06 pm");
+//		Flight f3 = new Flight(1003, "Middle East", "France", "Lebanon", 450, LocalDate.of(2022, 5, 5), "10 pm", "06 pm");
+//		flightsDemo.add(f1);
+//		flightsDemo.add(f2);
+//		flightsDemo.add(f3);
 		flightsList = FXCollections.observableArrayList(FlightsModel.getAllFlights());
 		//flightsList = FXCollections.observableArrayList(flightsDemo);
 		flights_tableView.setItems(flightsList);
@@ -119,20 +141,76 @@ public class AddFlight implements Initializable{
 
 	
 	private Boolean noEmpltyFields() {
-		if (id_textField.getText().isEmpty() || name_textField.getText().isEmpty()
+		System.out.println("CHECK IF WE HAVE EMPTY FIELDS");
+		if (id_textField.getText().isEmpty() || airline_name_textField.getText().trim().isEmpty()
 				|| source_textField.getText().trim().isEmpty()
 				|| destination_textField.getText().trim().isEmpty()
-				|| price_textField.getText().trim().isEmpty()
-				|| arrivalTime_textField.getText().isEmpty()
-				|| departureTime_textField.getText().isEmpty()) {
+				|| arrival_time_textField.getText().trim().isEmpty()
+				|| departure_time_textField.getText().trim().isEmpty()
+				|| capacity_textField.getText().isEmpty()
+				|| nbr_of_seats_TextField.getText().isEmpty()
+				|| nbr_of_reserved_seats_textField.getText().isEmpty()
+//				|| arrival_date_textField.getValue() 
+//				|| departure_date_textField.getValue() 
+				) {
+			System.out.println("EMPTY FIELDS");
 			return false;
 		}
+		System.out.println("NO EMPTY FIELDS");
 		return true;
 	}
 	
-	String flight_name, source, dest, arrTime, depTime;
-	int id, flight_price;
-	LocalDate date;
+	// Event Listener on Button.onAction
+		@FXML
+		public void handleDeleteButton() throws SQLException {
+			System.out.println("DELETE BUTTON");
+			if(id_textField.getText().isEmpty()) {
+				Alert failed = new Alert(Alert.AlertType.WARNING);
+				failed.setTitle("Missing Fields!");
+				failed.setContentText("Please fill the id.");
+				failed.show();
+			} else {
+				id = Integer.parseInt(id_textField.getText());
+				System.out.println("DELETE flight with ID = " + id);
+				FlightsModel.deleteFlightByID(id);
+				fillTable();
+				System.out.println("Delete is ok!");
+				Alert flightDeleteAlert = new Alert(Alert.AlertType.INFORMATION);
+				flightDeleteAlert.setContentText("This flight has been successfly deleted.");
+				flightDeleteAlert.show();
+				fillTable();
+			}
+			
+		}
+	
+	// Event Listener on Button.onAction
+		@FXML
+		public void handleUpdateButton() throws SQLException {
+			System.out.println("UPDATE BUTTON");
+			if(id_textField.getText().isEmpty()) {
+				Alert failed = new Alert(Alert.AlertType.WARNING);
+				failed.setTitle("Missing Fields!");
+				failed.setContentText("Please fill the id.");
+				failed.show();
+			}
+			id = Integer.parseInt(id_textField.getText());
+			airline_name = airline_name_textField.getText();
+			source = source_textField.getText();
+			destination = destination_textField.getText();
+			nbr_of_seats = Integer.parseInt(nbr_of_seats_TextField.getText());
+			nbr_of_reserved_seats = Integer.parseInt(nbr_of_reserved_seats_textField.getText());
+			capacity = Integer.parseInt(capacity_textField.getText());
+			depTime = departure_time_textField.getText();
+			arrTime = arrival_time_textField.getText();		
+			arrival_date = arrival_date_textField.getValue();
+			departure_date = departure_date_textField.getValue();
+			FlightsModel.updateFlightByID(id, airline_name, capacity, nbr_of_seats, nbr_of_reserved_seats, source, destination, arrTime, depTime, arrival_date, departure_date);
+			fillTable();
+			Alert flightUpdateAlert = new Alert(Alert.AlertType.INFORMATION);
+			flightUpdateAlert.setContentText("This flight has been successfly updated.");
+			flightUpdateAlert.show();
+			fillTable();
+		}
 
 	// Event Listener on Button.onAction
 	@FXML
@@ -140,152 +218,82 @@ public class AddFlight implements Initializable{
 		System.out.println("ADD BUTTON");
 		
 		if(!noEmpltyFields()) {
+			System.out.println("WE HAVE EMPTY FIELDS");
 			Alert failed = new Alert(Alert.AlertType.WARNING);
 			failed.setTitle("Missing Fields!");
 			failed.setContentText("Please fill all fields.");
 			failed.show();
 		}
+//		if(FlightsModel.checkFlightByID(id) == true) {
+//			Alert failed = new Alert(Alert.AlertType.WARNING);
+//			failed.setTitle("Flight already exist!");
+//			failed.setContentText("Clear, and re-enter all fields ");
+//			failed.show();
+//		}
 		
 		else {
+			System.out.println("WE DON'T HAVE EMPTY FIELDS");
 			id = Integer.parseInt(id_textField.getText());
-			flight_name = name_textField.getText();
-			flight_price = Integer.parseInt(price_textField.getText());
+			airline_name = airline_name_textField.getText();
 			source = source_textField.getText();
-			dest = destination_textField.getText();
-			date = date_textField.getValue();
-			arrTime = arrivalTime_textField.getText();
-			dest = destination_textField.getText();
-			 
-			        	
-			        	
-			FlightsModel.addFlight(id, flight_name, source, dest, flight_price, date, arrTime, depTime);
-			
+			destination = destination_textField.getText();
+			nbr_of_seats = Integer.parseInt(nbr_of_seats_TextField.getText());
+			nbr_of_reserved_seats = Integer.parseInt(nbr_of_reserved_seats_textField.getText());
+			capacity = Integer.parseInt(capacity_textField.getText());
+			depTime = departure_time_textField.getText();
+			arrTime = arrival_time_textField.getText();		
+			arrival_date = arrival_date_textField.getValue();
+			departure_date = departure_date_textField.getValue();
+			System.out.println("Getting data done");
+			FlightsModel.addFlight(id, airline_name, capacity, nbr_of_seats, nbr_of_reserved_seats, 
+					source, destination, arrTime, depTime, arrival_date, departure_date);
+			System.out.println("ADD IS OK");
 			Alert flightAddAlert = new Alert(Alert.AlertType.INFORMATION);
 			flightAddAlert.setTitle("Flight Added!");
 			flightAddAlert.setContentText("New Flight has been successfly added.");
 			flightAddAlert.show();
 			fillTable();
-		}
-		
-//		try {
-//			
-//			String query = "insert into flight value("
-//							+id_textField.getText()+",'"
-//							+name_textField.getText()+"','"
-//							+source_textField.getText()+"',"
-//							+destination_textField.getText()+"','"
-//							+ arrivalTime_textField.getText() + "','"
-//							+ departureTime_textField.getText() + "','"
-//							+ date_textField.getValue() + "',"
-//							+ price_textField.getText()
-//							+")";
-//			preparedStatement = connection.prepareStatement(query);
-//			resultSet = preparedStatement.executeQuery();
-//			showFlights();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
+		}	
 	}
 	
-	// Event Listener on Button.onAction
 	@FXML
-	public void handleDeleteButton() {
-		System.out.println("DELETE BUTTON");
-//		try {
-//			String query = "DELETE FROM flight where id =" + id_textField.getText() + "";
-//			preparedStatement = connection.prepareStatement(query);
-//			resultSet = preparedStatement.executeQuery();
-//		} catch ( Exception e) {
-//			e.printStackTrace();
-//		}
-	
+	public void handleClearButton() throws SQLException {
+		System.out.println("CLEAR BUTTON");
+		id_textField.setText(id_autoincrement + "");
+		airline_name_textField.clear();
+		source_textField.clear();
+		destination_textField.clear();
+		capacity_textField.clear();
+		nbr_of_reserved_seats_textField.clear();
+		nbr_of_seats_TextField.clear();
+		arrival_time_textField.clear();
+		departure_time_textField.clear();
+//		arrival_date_textField.setValue(null);
+//		departure_date_textField.setValue(null);
 	}
-	// Event Listener on Button.onAction
+	
 	@FXML
-	public void handleUpdateButton() {
-		System.out.println("UPDATE BUTTON");
-//		try {
-//			String query = "update flight set name = ' " + name_textField.getText() + "', source = '" + source_textField.getText() + 
-//					"', destination = '" + destination_textField.getText() + ", date = '" + date_textField.getValue() + 
-//					"', arrival_time = '" + arrivalTime_textField.getText() + "', departure_time = '" + departureTime_textField.getText() + 
-//					"', flight_price = " + price_textField.getText() + ")";
-//			preparedStatement = connection.prepareStatement(query);
-//			resultSet = preparedStatement.executeQuery();
-//			showFlights();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
-		
+	public void handleTableViewMouseAction() {
+		Flight flight = flights_tableView.getSelectionModel().getSelectedItem();
+//		System.out.println("id = " + flight.getFlight_id());
+		id_textField.setText("" + flight.getFlight_id());
+		airline_name_textField.setText(flight.getAirline_name());
+		source_textField.setText(flight.getSource());
+		destination_textField.setText(flight.getDestination());
+		nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
+		nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
+		capacity_textField.setText("" + flight.getCapacity());
+		arrival_time_textField.setText(flight.getArrival_time());
+		departure_time_textField.setText(flight.getDeparture_time());
+		arrival_date_textField.setValue(flight.getArrival_date());
+		departure_date_textField.setValue(flight.getDeparture_date());
 	}
 	
-//	public void Random() {
-//		Random random = new Random();
-//		id_textField.setText(""+random.nextInt(1000+1));
-//	}
-//	
-//	public ObservableList<Flight> getFlightsList() {
-//		
-//		Connection connection = DataBase.ConnectDb();
-//		
-//		ObservableList<Flight> flightsList = FXCollections.observableArrayList();
-//		String sql = "SELECT * FROM flight";
-//		try {
-////			preparedStatement = connection.prepareStatement(sql);
-////			st = connection.createStatement();
-////			rs = st.executeQuery(sql);
-//			preparedStatement = connection.prepareStatement(sql);
-//			resultSet = preparedStatement.executeQuery();
-//			System.out.println("1");
-////			resultSet = preparedStatement.executeQuery();
-//			System.out.println("2");
-//			while(resultSet.next()) {
-////				flight = new Flight(resultSet.getInt("flight_id"), 
-////						resultSet.getString("flight_name"), 
-////						resultSet.getString("flight_price"),
-////						resultSet.getDate("date"),
-////						resultSet.getString("source"),
-////						resultSet.getString("destination"),
-////						resultSet.getString("arrival_time"),
-////						resultSet.getString(("departure_time")));
-//				Flight flight = new Flight();
-//				flight.setFlight_id(resultSet.getInt("flight_id"));
-//				flight.setFlight_name(resultSet.getString("flight_name"));
-//				flight.setDate(resultSet.getDate("date"));
-//				flight.setSource(resultSet.getString("source"));
-//				flight.setDestination(resultSet.getString("destination"));
-//				flight.setFlight_price(resultSet.getInt("flight_price"));
-//				System.out.println("33");
-////				flights_tableView.setItems(flightsList);
-//			
-//				flightsList.add(flight);
-//				System.out.println("3");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println("4");
-//		return flightsList;
-//	}
-//	
 	
 	
-//	public void showFlights () throws SQLException {
-//		flightsList = fillTable();
-//		System.out.println("5");
-//		id_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("flight_id"));
-//		name_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_name"));
-//		source_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("source"));
-//		destination_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
-//		date_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("date"));
-//		arrivalTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("arrival_time"));
-//		departureTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("departure_time"));
-//		price_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("flight_price"));
-//		System.out.println("6");
-//		flights_tableView.setItems(flightsList);
-//		System.out.println("7");
-//	}
+	
+	
+	
 	
 
 }
