@@ -82,7 +82,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </ImageView>
-            <Button fx:id="theatre" mnemonicParsing="false" onAction="#goToTheatre" prefHeight="64.0" prefWidth="130.0" style="-fx-background-color: #7eafb7;" text="Registration" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="theatre" mnemonicParsing="false" onAction="#goToReservation" prefHeight="64.0" prefWidth="130.0" style="-fx-background-color: #7eafb7;" text="Registration" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font name="Georgia Bold" size="15.0" />
                </font>

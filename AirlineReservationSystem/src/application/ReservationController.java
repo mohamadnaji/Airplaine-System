@@ -29,8 +29,8 @@ public class ReservationController implements Initializable {
 	private ObservableList<String> flightListData;
 	
 	@FXML
-	private ComboBox<Passenger> passengerList;
-	private ObservableList<Passenger> passengerListData;
+	private ComboBox<Client> passengerList;
+	private ObservableList<Client> passengerListData;
 
     @FXML
     private TextField ticketId;
@@ -67,21 +67,21 @@ public class ReservationController implements Initializable {
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
 			while (m_ResultSet.next()) {
-				Passenger t = new Passenger(m_ResultSet.getInt(1), m_ResultSet.getInt(2), m_ResultSet.getString(3));
+				Client t = new Client(m_ResultSet.getString(1), m_ResultSet.getString(2), m_ResultSet.getString(3));
 				passengerListData.add(t);
 				// System.out.println(t);
 			}
 			m_Statement.close();
 			
 			passengerList.setItems(passengerListData);
-			passengerList.setConverter(new StringConverter<Passenger>() {
+			passengerList.setConverter(new StringConverter<Client>() {
 			    @Override
-			    public String toString(Passenger object) {
-			        return object != null? object.getFirstName() : "";
+			    public String toString(Client object) {
+			        return object != null? object.getLastName() + " " + object.getFirstName() : "";
 			    }
 
 			    @Override
-			    public Passenger fromString(String string) {
+			    public Client fromString(String string) {
 			        return passengerList.getItems().stream().filter(ap -> 
 			            ap.getFirstName().equals(string)).findFirst().orElse(null);
 			    }
@@ -153,7 +153,7 @@ public class ReservationController implements Initializable {
 				ps.setInt(1, Integer.parseInt(ticketId.getText()));
 				ps.setInt(2, Integer.parseInt(flightPrice.getText()));
 				ps.setInt(3, Integer.parseInt(flightList.getValue()));
-				ps.setInt(4, passengerList.getValue().getPassengerId());
+				ps.setString(4, passengerList.getValue().getPassportNumber());
 				ps.setInt(5, Integer.parseInt(numberOfBugs.getText()));
 				ps.executeUpdate();
 				ps.close();
