@@ -151,13 +151,13 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="8.0" layoutY="83.0" prefHeight="18.0" prefWidth="62.0" text="Flight ID">
+            <Label layoutX="8.0" layoutY="140.0" prefHeight="18.0" prefWidth="62.0" text="Flight ID">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="FlightId" layoutX="8.0" layoutY="110.0" />
-            <Button layoutX="395.0" layoutY="110.0" mnemonicParsing="false" onAction="#setSeats" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: #7eafb7;" text="Search Reseved Lists" textFill="WHITE">
+            <TextField fx:id="FlightId" layoutX="128.0" layoutY="137.0" />
+            <Button layoutX="408.0" layoutY="136.0" mnemonicParsing="false" onAction="#setSeats" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: #7eafb7;" text="Search Reseved Lists" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

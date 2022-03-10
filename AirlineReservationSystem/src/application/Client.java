@@ -20,6 +20,14 @@ public class Client {
 	}
 
 
+	public Client(String firstName, String lastName, String passportNumber) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.passportNumber = passportNumber;
+	}
+
+
 	public String getFirstName() {
 		return firstName;
 	}
