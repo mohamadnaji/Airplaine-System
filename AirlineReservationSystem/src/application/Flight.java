@@ -4,19 +4,21 @@ import java.time.LocalDate;
 
 public class Flight {
 	
-	private int flight_id, nbr_of_seats, nbr_of_reserved_seats, capacity, flag; // flag = 1 if the flight is not deleted, 0 if deleted
+	private int flight_id, nbr_of_seats, nbr_of_reserved_seats, flag; // flag = 1 if the flight is not deleted, 0 if deleted
 	private String airline_name, source, destination, arrival_time, departure_time;
 	private LocalDate arrival_date, departure_date;
+	private String flight_number;
 	
 	public Flight() {
 		
 	}
 
-	public Flight(int flight_id, String airline_name, int capacity, int nbr_of_seats, int nbr_of_reserved_seats, String source,
+	public Flight(int flight_id, String flight_number, String airline_name, int nbr_of_seats, int nbr_of_reserved_seats, String source,
 			String destination, String arrival_time, String departure_time, LocalDate arrival_date,
 			LocalDate departure_date) {
 		super();
 		this.flight_id = flight_id;
+		this.flight_number = flight_number;
 		this.nbr_of_seats = nbr_of_seats;
 		this.nbr_of_reserved_seats = nbr_of_reserved_seats;
 		this.airline_name = airline_name;
@@ -24,7 +26,6 @@ public class Flight {
 		this.destination = destination;
 		this.arrival_time = arrival_time;
 		this.departure_time = departure_time;
-		this.capacity = capacity;
 		this.arrival_date = arrival_date;
 		this.departure_date = departure_date;
 		this.flag = 1;
@@ -98,13 +99,6 @@ public class Flight {
 		this.departure_time = departure_time;
 	}
 
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
 
 	public LocalDate getArrival_date() {
 		return arrival_date;
@@ -124,6 +118,14 @@ public class Flight {
 	
 	public void setFlag(int flag) {
 		this.flag = flag;
+	}
+	
+	public String getFlight_number() {
+		return flight_number;
+	}
+	
+	public void setFlight_number(String flight_nbr) {
+		flight_number = flight_nbr;
 	}
 	
 }

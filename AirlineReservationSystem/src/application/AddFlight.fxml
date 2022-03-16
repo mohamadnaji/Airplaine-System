@@ -42,22 +42,22 @@
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="428.0" layoutY="21.0" prefHeight="33.0" prefWidth="107.0" text="Arrival Date" textFill="#331bfa">
+            <Label layoutX="392.0" layoutY="67.0" prefHeight="33.0" prefWidth="107.0" text="Arrival Date" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="428.0" layoutY="62.0" prefHeight="33.0" prefWidth="107.0" text="Departure Date" textFill="#331bfa">
+            <Label layoutX="392.0" layoutY="108.0" prefHeight="33.0" prefWidth="107.0" text="Departure Date" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="428.0" layoutY="103.0" prefHeight="33.0" prefWidth="107.0" text="ArrivalTime" textFill="#331bfa">
+            <Label layoutX="392.0" layoutY="149.0" prefHeight="33.0" prefWidth="107.0" text="ArrivalTime" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="428.0" layoutY="144.0" prefHeight="33.0" prefWidth="107.0" text="Departure Time" textFill="#331bfa">
+            <Label layoutX="392.0" layoutY="190.0" prefHeight="33.0" prefWidth="107.0" text="Departure Time" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
@@ -65,15 +65,15 @@
             <TextField fx:id="airline_name_textField" layoutX="185.0" layoutY="49.0" prefHeight="25.0" prefWidth="175.0" />
             <TextField fx:id="source_textField" layoutX="185.0" layoutY="90.0" prefHeight="25.0" prefWidth="175.0" />
             <TextField fx:id="destination_textField" layoutX="185.0" layoutY="131.0" prefHeight="25.0" prefWidth="175.0" />
-            <TextField fx:id="arrival_time_textField" layoutX="543.0" layoutY="107.0" prefHeight="25.0" prefWidth="175.0" />
-            <TextField fx:id="departure_time_textField" layoutX="543.0" layoutY="148.0" prefHeight="25.0" prefWidth="175.0" />
-            <DatePicker fx:id="arrival_date_textField" layoutX="543.0" layoutY="25.0" />
-            <Button fx:id="addButton" layoutX="767.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="30.0" prefWidth="87.0" style="-fx-background-color: #7eafb7;" text="Add" textFill="WHITE">
+            <TextField fx:id="arrival_time_textField" layoutX="551.0" layoutY="149.0" prefHeight="25.0" prefWidth="175.0" />
+            <TextField fx:id="departure_time_textField" layoutX="551.0" layoutY="190.0" prefHeight="25.0" prefWidth="175.0" />
+            <DatePicker fx:id="arrival_date_textField" layoutX="551.0" layoutY="71.0" />
+            <Button fx:id="addButton" layoutX="769.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="45.0" prefWidth="108.0" style="-fx-background-color: #7eafb7;" text="Add" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <DatePicker fx:id="departure_date_textField" layoutX="543.0" layoutY="66.0" />
+            <DatePicker fx:id="departure_date_textField" layoutX="551.0" layoutY="108.0" />
             <Label layoutX="17.0" layoutY="166.0" prefHeight="33.0" prefWidth="97.0" text="Nbr Of Seats" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
@@ -86,34 +86,44 @@
                </font>
             </Label>
             <TextField fx:id="nbr_of_reserved_seats_textField" layoutX="185.0" layoutY="214.0" prefHeight="25.0" prefWidth="175.0" />
-            <Label layoutX="428.0" layoutY="181.0" prefHeight="33.0" prefWidth="107.0" text="Capacity" textFill="#331bfa">
+            <Button fx:id="clearButton" layoutX="769.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="45.0" prefWidth="108.0" style="-fx-background-color: #7eafb7;" text="Clear" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Label fx:id="flight_number_label" layoutX="392.0" layoutY="26.0" prefHeight="33.0" prefWidth="107.0" text="Flight Number" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="capacity_textField" layoutX="543.0" layoutY="185.0" prefHeight="25.0" prefWidth="175.0" />
-            <Button fx:id="clearButton" layoutX="767.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="87.0" style="-fx-background-color: #7eafb7;" text="Clear" textFill="WHITE">
+            <TextField fx:id="flight_number_textField" layoutX="551.0" layoutY="30.0" prefHeight="25.0" prefWidth="175.0" />
+            <Button fx:id="getAllFlights" layoutX="741.0" layoutY="218.0" mnemonicParsing="false" onAction="#getAllFlightsButton" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #7eafb7;" text="Get  All Flights" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="hideAllFlights" layoutX="741.0" layoutY="220.0" mnemonicParsing="false" onAction="#HideAllFlightsButton" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #7eafb7;" text="Hide Flights" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Button>
          </children>
       </Pane>
-    <AnchorPane layoutX="66.0" layoutY="350.0" minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="914.0">
+    <AnchorPane layoutX="25.0" layoutY="350.0" minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="1023.0">
          <children>
-            <TableView fx:id="flights_tableView" onMouseClicked="#handleTableViewMouseAction" prefHeight="237.0" prefWidth="914.0">
+            <TableView fx:id="flights_tableView" onMouseClicked="#handleTableViewMouseAction" prefHeight="237.0" prefWidth="1024.0">
               <columns>
-                <TableColumn fx:id="id_col" prefWidth="63.0" text="Flight Id" />
-                <TableColumn fx:id="airlineName_col" prefWidth="89.33334350585938" text="Airline Name" />
-                  <TableColumn fx:id="source_col" prefWidth="89.33334350585938" text="Source" />
-                  <TableColumn fx:id="destination_col" prefWidth="89.33334350585938" text="Destination" />
-                  <TableColumn fx:id="arrivalDate_col" prefWidth="85.0" text="Arrival Date" />
-                  <TableColumn fx:id="departureDate_col" prefWidth="85.0" text="Dep Date" />
-                  <TableColumn fx:id="arrivalTime_col" minWidth="4.79998779296875" prefWidth="85.0" text="Arrival Time" />
-                  <TableColumn fx:id="departureTime_col" minWidth="0.0" prefWidth="85.0" text="Dep Time" />
-                  <TableColumn fx:id="nbrOfSeats_col" minWidth="0.0" prefWidth="88.3333740234375" text="Seats Number" />
-                  <TableColumn fx:id="nbrOfReservedSeats_col" minWidth="0.0" prefWidth="94.6666259765625" text="Reserved Seats" />
-                  <TableColumn fx:id="capacity_col" minWidth="0.0" prefWidth="56.3333740234375" text="Capacity" />
+                <TableColumn fx:id="id_col" prefWidth="63.0" text="Id" />
+                  <TableColumn fx:id="flightNumber_col" minWidth="0.0" prefWidth="63.0" text="Flight Nbr" />
+                <TableColumn fx:id="airlineName_col" prefWidth="120.0" text="Airline Name" />
+                  <TableColumn fx:id="source_col" prefWidth="120.0" text="Source" />
+                  <TableColumn fx:id="destination_col" prefWidth="120.0" text="Destination" />
+                  <TableColumn fx:id="arrivalDate_col" prefWidth="95.0" text="Arrival Date" />
+                  <TableColumn fx:id="departureDate_col" prefWidth="95.0" text="Dep Date" />
+                  <TableColumn fx:id="arrivalTime_col" minWidth="4.79998779296875" prefWidth="94.0" text="Arrival Time" />
+                  <TableColumn fx:id="departureTime_col" minWidth="0.0" prefWidth="94.0" text="Dep Time" />
+                  <TableColumn fx:id="nbrOfSeats_col" minWidth="0.0" prefWidth="81.0" text="Seats Nbr" />
+                  <TableColumn fx:id="nbrOfReservedSeats_col" minWidth="0.0" prefWidth="78.0" text="Rsrvd Seats" />
               </columns>
             </TableView>
          </children>
