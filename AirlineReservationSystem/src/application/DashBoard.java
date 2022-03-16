@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -64,8 +65,6 @@ public class DashBoard implements Initializable{
         	URL url3 = new File("src/application/BookSeat.fxml").toURI().toURL();
         	seats =FXMLLoader.load(url3);
         	
-        	URL url4 = new File("src/application/ReservationView.fxml").toURI().toURL();
-        	reservations =FXMLLoader.load(url4);
         	
         	
            //homep=FXMLLoader.load(getClass().getResource("src/application/Home.fxml"));
@@ -119,7 +118,9 @@ public class DashBoard implements Initializable{
     	setNode(clients);
     }
     @FXML
-    private void goToReservation(ActionEvent event) {
+    private void goToReservation(ActionEvent event) throws IOException {
+    	URL url4 = new File("src/application/ReservationView.fxml").toURI().toURL();
+    	reservations =FXMLLoader.load(url4);
         setNode(reservations);
     }
     @FXML
