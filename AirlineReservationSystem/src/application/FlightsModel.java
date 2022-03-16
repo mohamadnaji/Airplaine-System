@@ -19,16 +19,16 @@ public class FlightsModel {
 		ArrayList<Flight> flightsList = new ArrayList<>();
 		while(rs.next()) {
 			Flight flight = new Flight(rs.getInt(1), //flight id
+					rs.getString(12),
 					rs.getString(2), // airline_name
-					rs.getInt(3), // capacity
-					rs.getInt(4), // nbr_of_seats
-					rs.getInt(5), // nbr of reserved seats
-					rs.getString(6), // source
-					rs.getString(7), //destination
-					rs.getString(8), // arrival time
-					rs.getString(9), //departure time
-					rs.getDate(10).toLocalDate(), // arrival date
-					rs.getDate(11).toLocalDate() // departure date
+					rs.getInt(3), // nbr_of_seats
+					rs.getInt(4), // nbr of reserved seats
+					rs.getString(5), // source
+					rs.getString(6), //destination
+					rs.getString(7), // arrival time
+					rs.getString(8), //departure time
+					rs.getDate(9).toLocalDate(), // arrival date
+					rs.getDate(10).toLocalDate() // departure date
 	//				rs.getInt(12)  // flag
 					); 
 			flightsList.add(flight);
@@ -37,12 +37,12 @@ public class FlightsModel {
 		return flightsList;
 	}
 	
-	public static void addFlight(int id, String airline_name, int capacity, int nbr_of_seats, int nbr_of_reserved_seats, String source,
+	public static void addFlight(int id, String flight_number, String airline_name, int nbr_of_seats, int nbr_of_reserved_seats, String source,
 			String destination, String arrival_time, String departure_time, LocalDate arrival_date, LocalDate departure_date) throws SQLException {
 		int flag = 1;
 		
 		try{
-			DB.InsertFun("INSERT INTO flight VALUES("+id+",'"+airline_name+"',"+capacity+","+nbr_of_seats+","+nbr_of_reserved_seats+",'"+source+"','"
+			DB.InsertFun("INSERT INTO flight VALUES("+id+",'"+airline_name+"',"+flight_number+","+nbr_of_seats+","+nbr_of_reserved_seats+",'"+source+"','"
 				+destination+"','"+arrival_time+"','"+departure_time+"','"+arrival_date+"','"+departure_date+"',"+flag+")");
 		}
 		catch(Exception e1){ 
@@ -59,13 +59,13 @@ public class FlightsModel {
 		}
 	}
 	
-	public static void updateFlightByID(int id, String airline_name, int capacity, int nbr_of_seats, int nbr_of_reserved_seats, 
+	public static void updateFlightByID(int id, String flight_number, String airline_name, int nbr_of_seats, int nbr_of_reserved_seats, 
 			String source, String destination, String arrival_time, String departure_time, LocalDate arrival_date, LocalDate departure_date) {
 		
 		try {
 			DB.InsertFun("UPDATE flight SET airline_name = '" + airline_name + 
-					"',capacity = " + capacity + 
-					",nbr_of_seats = " + nbr_of_seats + ",nbr_of_reserved_seats = " + nbr_of_reserved_seats +
+					"',flight_number = '" + flight_number +
+					"',nbr_of_seats = " + nbr_of_seats + ",nbr_of_reserved_seats = " + nbr_of_reserved_seats +
 					",source ='" + source + "',destination = '" + destination +
 					 "',arrival_time = '" + arrival_time + "',departure_time ='" + departure_time + 
 					"',arrival_date = '" + arrival_date +

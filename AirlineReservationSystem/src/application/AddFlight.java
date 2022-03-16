@@ -4,13 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Date;
-//import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -19,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
 import javafx.scene.control.TableColumn;
@@ -53,7 +50,10 @@ public class AddFlight implements Initializable{
 	@FXML
 	private TextField nbr_of_reserved_seats_textField;
 	@FXML
-	private TextField capacity_textField;
+	private TextField flight_number_textField;
+	
+	@FXML
+	private Label flight_number_label;
 	
 	
 	@FXML
@@ -80,7 +80,7 @@ public class AddFlight implements Initializable{
 	@FXML
 	private TableColumn<Flight, Integer> nbrOfReservedSeats_col;
 	@FXML
-	private TableColumn<Flight, Integer> capacity_col;
+	private TableColumn<Flight, String> flightNumber_col;
 
 	@FXML
 	private Button addButton;
@@ -91,12 +91,18 @@ public class AddFlight implements Initializable{
 	@FXML
 	private Button clearButton;
 	
+	@FXML
+	private Button hideAllFlights;
+	
+	@FXML
+	private Button getAllFlights;
+	
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet;
 	Connection connection = DataBase.ConnectDb();
 	ObservableList<Flight> flightsList;
 	
-	String airline_name, source, destination, arrTime, depTime;
+	String flight_number, airline_name, source, destination, arrTime, depTime;
 	int id, flight_price, capacity,nbr_of_seats, nbr_of_reserved_seats;
 	LocalDate arrival_date, departure_date;
 	int id_autoincrement = FlightsModel.getMaxID() + 1;
@@ -104,6 +110,10 @@ public class AddFlight implements Initializable{
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
 			fillTable();
+			flights_tableView.setVisible(false);
+			hideAllFlights.setVisible(false);
+			flight_number_textField.setVisible(false);
+			flight_number_label.setVisible(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -119,7 +129,7 @@ public class AddFlight implements Initializable{
 		
 		arrivalTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("arrival_time"));
 		departureTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("departure_time"));
-		capacity_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("capacity"));
+		flightNumber_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_number"));
 		nbrOfReservedSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_reserved_seats"));
 		nbrOfSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_seats"));				
 	}
@@ -147,7 +157,7 @@ public class AddFlight implements Initializable{
 				|| destination_textField.getText().trim().isEmpty()
 				|| arrival_time_textField.getText().trim().isEmpty()
 				|| departure_time_textField.getText().trim().isEmpty()
-				|| capacity_textField.getText().isEmpty()
+				|| flight_number_textField.getText().isEmpty()
 				|| nbr_of_seats_TextField.getText().isEmpty()
 				|| nbr_of_reserved_seats_textField.getText().isEmpty()
 //				|| arrival_date_textField.getValue() 
@@ -194,17 +204,17 @@ public class AddFlight implements Initializable{
 				failed.show();
 			}
 			id = Integer.parseInt(id_textField.getText());
+			flight_number = generateFlightNumber();
 			airline_name = airline_name_textField.getText();
 			source = source_textField.getText();
 			destination = destination_textField.getText();
 			nbr_of_seats = Integer.parseInt(nbr_of_seats_TextField.getText());
 			nbr_of_reserved_seats = Integer.parseInt(nbr_of_reserved_seats_textField.getText());
-			capacity = Integer.parseInt(capacity_textField.getText());
 			depTime = departure_time_textField.getText();
 			arrTime = arrival_time_textField.getText();		
 			arrival_date = arrival_date_textField.getValue();
 			departure_date = departure_date_textField.getValue();
-			FlightsModel.updateFlightByID(id, airline_name, capacity, nbr_of_seats, nbr_of_reserved_seats, source, destination, arrTime, depTime, arrival_date, departure_date);
+			FlightsModel.updateFlightByID(id, flight_number, airline_name, nbr_of_seats, nbr_of_reserved_seats, source, destination, arrTime, depTime, arrival_date, departure_date);
 			fillTable();
 			Alert flightUpdateAlert = new Alert(Alert.AlertType.INFORMATION);
 			flightUpdateAlert.setContentText("This flight has been successfly updated.");
@@ -234,18 +244,18 @@ public class AddFlight implements Initializable{
 		else {
 			System.out.println("WE DON'T HAVE EMPTY FIELDS");
 			id = Integer.parseInt(id_textField.getText());
+			flight_number = generateFlightNumber();
 			airline_name = airline_name_textField.getText();
 			source = source_textField.getText();
 			destination = destination_textField.getText();
 			nbr_of_seats = Integer.parseInt(nbr_of_seats_TextField.getText());
 			nbr_of_reserved_seats = Integer.parseInt(nbr_of_reserved_seats_textField.getText());
-			capacity = Integer.parseInt(capacity_textField.getText());
 			depTime = departure_time_textField.getText();
 			arrTime = arrival_time_textField.getText();		
 			arrival_date = arrival_date_textField.getValue();
 			departure_date = departure_date_textField.getValue();
 			System.out.println("Getting data done");
-			FlightsModel.addFlight(id, airline_name, capacity, nbr_of_seats, nbr_of_reserved_seats, 
+			FlightsModel.addFlight(id, flight_number, airline_name, nbr_of_seats, nbr_of_reserved_seats, 
 					source, destination, arrTime, depTime, arrival_date, departure_date);
 			System.out.println("ADD IS OK");
 			Alert flightAddAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -260,10 +270,10 @@ public class AddFlight implements Initializable{
 	public void handleClearButton() throws SQLException {
 		System.out.println("CLEAR BUTTON");
 		id_textField.setText(id_autoincrement + "");
+		flight_number_textField.clear();
 		airline_name_textField.clear();
 		source_textField.clear();
 		destination_textField.clear();
-		capacity_textField.clear();
 		nbr_of_reserved_seats_textField.clear();
 		nbr_of_seats_TextField.clear();
 		arrival_time_textField.clear();
@@ -277,17 +287,51 @@ public class AddFlight implements Initializable{
 		Flight flight = flights_tableView.getSelectionModel().getSelectedItem();
 //		System.out.println("id = " + flight.getFlight_id());
 		id_textField.setText("" + flight.getFlight_id());
+		flight_number_textField.setText(flight.getFlight_number());
 		airline_name_textField.setText(flight.getAirline_name());
 		source_textField.setText(flight.getSource());
 		destination_textField.setText(flight.getDestination());
 		nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
 		nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
-		capacity_textField.setText("" + flight.getCapacity());
 		arrival_time_textField.setText(flight.getArrival_time());
 		departure_time_textField.setText(flight.getDeparture_time());
 		arrival_date_textField.setValue(flight.getArrival_date());
 		departure_date_textField.setValue(flight.getDeparture_date());
 	}
+	
+	
+	
+	@FXML
+	public void getAllFlightsButton() {
+		flights_tableView.setVisible(true);
+		getAllFlights.setVisible(false);
+		hideAllFlights.setVisible(true);
+	}
+	
+	@FXML
+	public void HideAllFlightsButton() {
+		flights_tableView.setVisible(false);
+		getAllFlights.setVisible(true);
+		hideAllFlights.setVisible(false);
+	}
+	
+//	 if airline name is "Air Canada" the flight number should be "ACxxx" where xxx is
+//	 * a random 3 digit number between 101 and 300
+	public String generateFlightNumber() {
+		String flight_nbr = "";
+		//split the airline name by white space
+		String[] strings = airline_name_textField.getText().split("\\s+");
+		int randomNumber = getRandomInteger(101, 300);
+		flight_nbr =  flight_nbr + strings[0].charAt(0) + strings[1].charAt(0) + String.valueOf(randomNumber);
+		return flight_nbr;
+	}
+	
+	public int getRandomInteger(int max, int min) {
+		return ((int) (Math.random()*(max - min))) + min;
+	}
+	
+	
+	
 	
 	
 	
