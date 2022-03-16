@@ -91,10 +91,6 @@ public class ReservationController implements Initializable {
 				}
 			});
 
-			// print the value
-			passengerList.valueProperty().addListener((ov, oldVal, newVal) -> {
-				System.out.println(newVal.getFirstName() + " - " + newVal.getLastName());
-			});
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -152,13 +148,15 @@ public class ReservationController implements Initializable {
 				Ticket newTicket = new Ticket();
 				newTicket.setTicketId(Integer.parseInt(ticketId.getText()));
 				newTicket.setFlightId(Integer.parseInt(flightList.getValue()));
-				newTicket.setPassengerId(Integer.parseInt(passengerList.getValue().getPassportNumber()));
+				newTicket.setPassengerId(Integer.parseInt(passengerList.getValue().getFirstName()));
 				newTicket.setFlightPriceId(Integer.parseInt(flightPrice.getText()));
 				newTicket.setNumberOfBugs(Integer.parseInt(numberOfBugs.getText()));
 
 				IDao<Ticket, Integer> ticketDao = TicketDaoImpl.getTicketDaoImpl();
 				ticketDao.save(newTicket);
 				AlertController.alert1("Saved successfully");
+				reset();
+				
 			} else {
 //				error.setText("Fill The Form and Check Box to Insert !!");
 				AlertController.alert("Please Fill The Form to save !!", "Insert Error");
@@ -168,5 +166,13 @@ public class ReservationController implements Initializable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	public void reset() throws SQLException {
+		loadPassengerList(null);
+		loadFlightList(null);
+		loadMaxTicketId(null);
+		numberOfBugs.setText(null);
+		flightPrice.setText(null);
 	}
 }
