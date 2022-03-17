@@ -1,6 +1,7 @@
 package daoimpl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,13 +30,15 @@ public class TicketDaoImpl implements ITicketDao {
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement("insert into ticket "
-					+ "(ticket_id,flight_id,passenger_id,flight_price,nb_of_bags,seat_number, meals,payment_id,flag) "
-					+ "values (?,?,?,?,?,0,0,0,0)");
+					+ "(ticket_id,flight_id,passenger_id,flight_price,nb_of_bags,seat_number, meals,payment_id,flag,creation_date) "
+					+ "values (?,?,?,?,?,0,0,0,0,now())");
 			ps.setInt(1, t.getTicketId());
 			ps.setInt(2, t.getFlightId());
 			ps.setInt(3, t.getPassengerId());
 			ps.setInt(4, t.getFlightPriceId());
 			ps.setInt(5, t.getNumberOfBugs());
+			// TODO save current date
+			// I have added the value from the database
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 public class Ticket {
 
 	private Integer ticketId;
@@ -11,6 +13,7 @@ public class Ticket {
 	private String meal;
 	private Integer seatNumber;
 	private Integer paymentId;
+	private Date creationDate;
 
 	public Integer getTicketId() {
 		return ticketId;
@@ -84,8 +87,16 @@ public class Ticket {
 		this.paymentId = paymentId;
 	}
 
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	public Ticket(Integer ticketId, Integer ticketNumber, Integer flightId, Integer passengerId, Integer flightPriceId,
-			Integer numberOfBugs, String meal, Integer seatNumber, Integer paymentId) {
+			Integer numberOfBugs, String meal, Integer seatNumber, Integer paymentId, Date cre) {
 		super();
 		this.ticketId = ticketId;
 		this.ticketNumber = ticketNumber;
@@ -96,8 +107,10 @@ public class Ticket {
 		this.meal = meal;
 		this.seatNumber = seatNumber;
 		this.paymentId = paymentId;
+		this.creationDate = cre;
 	}
 
 	public Ticket() {
+		
 	}
 }
