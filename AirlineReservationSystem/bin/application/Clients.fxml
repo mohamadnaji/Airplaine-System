@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Clients">
+<AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Clients">
 <children>
       <Label layoutX="242.0" layoutY="7.0" prefHeight="29.0" prefWidth="207.0" text="Add Client Details" textFill="#3e5ab7">
          <font>
@@ -34,32 +33,18 @@
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="385.0" layoutY="38.0" prefHeight="33.0" prefWidth="137.0" text="Passport Number" textFill="#331bfa">
-               <font>
-                  <Font name="Cambria Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="7.0" layoutY="77.0" prefHeight="33.0" prefWidth="97.0" text="Gender" textFill="#331bfa">
-               <font>
-                  <Font name="Cambria Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="385.0" layoutY="-2.0" prefHeight="33.0" prefWidth="107.0" text="Birth Date" textFill="#331bfa">
+            <Label layoutX="383.0" layoutY="-2.0" prefHeight="33.0" prefWidth="137.0" text="Passport Number" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
             <TextField fx:id="lastName" layoutX="100.0" layoutY="42.0" prefHeight="25.0" prefWidth="175.0" />
-            <TextField fx:id="passportNumber" layoutX="510.0" layoutY="43.0" prefHeight="25.0" prefWidth="175.0" />
-            <DatePicker fx:id="birthDate" layoutX="511.0" layoutY="2.0" />
-            <Label layoutX="385.0" layoutY="76.0" prefHeight="33.0" prefWidth="97.0" text="Nationality" textFill="#331bfa">
-               <font>
-                  <Font name="Cambria Bold" size="14.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="nationality" layoutX="510.0" layoutY="81.0" prefHeight="25.0" prefWidth="175.0" />
-            <RadioButton fx:id="male" layoutX="100.0" layoutY="84.0" mnemonicParsing="false" text="Male" />
-            <RadioButton fx:id="female" layoutX="158.0" layoutY="84.0" mnemonicParsing="false" text="Female" />
+            <TextField fx:id="passportNumber" layoutX="510.0" layoutY="2.0" prefHeight="25.0" prefWidth="175.0" />
+            <RadioButton fx:id="child" layoutX="100.0" layoutY="84.0" mnemonicParsing="false" text="Child">
+               <toggleGroup>
+                  <ToggleGroup fx:id="age" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="adult" layoutX="158.0" layoutY="84.0" mnemonicParsing="false" text="Adult" toggleGroup="$age" />
          </children>
       </Pane>
       <Label layoutX="242.0" layoutY="186.0" prefHeight="29.0" prefWidth="226.0" text="Add Contact Information" textFill="#3e5ab7">
@@ -84,20 +69,17 @@
             <TextField fx:id="emailAddress" layoutX="510.0" layoutY="2.0" prefHeight="25.0" prefWidth="175.0" />
          </children>
       </Pane>
-      <AnchorPane layoutX="69.0" layoutY="391.0" minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="1030.0">
+      <AnchorPane layoutX="69.0" layoutY="391.0" minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="903.0">
          <children>
-            <TableView fx:id="clientsTable" prefHeight="256.0" prefWidth="1030.0">
+            <TableView fx:id="clientsTable" prefHeight="256.0" prefWidth="903.0">
                <columns>
-                  <TableColumn fx:id="firstNameColumn" prefWidth="104.4000244140625" text="First Name" />
-                  <TableColumn fx:id="lastNameColumn" prefWidth="101.99995422363281" text="Last Name" />
-                  <TableColumn fx:id="passportNumberColumn" prefWidth="123.19999694824219" text="Passport Number" />
-                  <TableColumn fx:id="nationalityColumn" prefWidth="68.7999267578125" text="Nationality" />
-                  <TableColumn fx:id="birthDateColumn" prefWidth="86.800048828125" text="Birth Date" />
-                  <TableColumn fx:id="genderColumn" prefWidth="48.800048828125" text="Gender" />
-                  <TableColumn fx:id="mobilePhoneColumn" minWidth="0.0" prefWidth="87.199951171875" text="Mobile Phone" />
-                  <TableColumn fx:id="frequentFlyerNumberColumn" minWidth="4.79998779296875" prefWidth="137.60003662109375" text="Frequent Flyer Number" />
-                  <TableColumn fx:id="frequentFlyerPointsColumn" prefWidth="130.4000244140625" text="Frequent Flyer Points" />
-                  <TableColumn fx:id="emailAddressColumn" minWidth="0.0" prefWidth="140.79998779296875" text="Email Address" />
+                  <TableColumn fx:id="firstNameColumn" prefWidth="123.20001220703125" text="First Name" />
+                  <TableColumn fx:id="lastNameColumn" prefWidth="111.59996032714844" text="Last Name" />
+                  <TableColumn fx:id="passportNumberColumn" prefWidth="141.2000732421875" text="Passport Number" />
+                  <TableColumn fx:id="birthDateColumn" prefWidth="86.7999267578125" text="Birth Date" />
+                  <TableColumn fx:id="ageColumn" prefWidth="68.4000244140625" text="Age Group" />
+                  <TableColumn fx:id="mobilePhoneColumn" minWidth="0.0" prefWidth="113.60009765625" text="Mobile Phone" />
+                  <TableColumn fx:id="emailAddressColumn" minWidth="0.0" prefWidth="259.199951171875" text="Email Address" />
                </columns>
             </TableView>
          </children>
