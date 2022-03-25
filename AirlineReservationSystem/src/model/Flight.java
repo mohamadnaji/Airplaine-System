@@ -1,20 +1,39 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Flight {
-	
-	private int flight_id, nbr_of_seats, nbr_of_reserved_seats, flag; // flag = 1 if the flight is not deleted, 0 if deleted
+
+	private int flight_id, nbr_of_seats, nbr_of_reserved_seats, flag; // flag = 1 if the flight is not deleted, 0 if
+																		// deleted
 	private String airline_name, source, destination, arrival_time, departure_time;
 	private LocalDate arrival_date, departure_date;
 	private String flight_number;
-	
-	public Flight() {
-		
+	private String arrivalDateString,departureDateString;
+
+	public String getArrivalDateString() {
+		return arrivalDateString;
 	}
 
-	public Flight(int flight_id, String flight_number, String airline_name, int nbr_of_seats, int nbr_of_reserved_seats, String source,
-			String destination, String arrival_time, String departure_time, LocalDate arrival_date,
+	public void setArrivalDateString(String arrivalDateString) {
+		this.arrivalDateString = arrivalDateString;
+	}
+
+	public String getDepartureDateString() {
+		return departure_date.toString();
+	}
+
+	public void setDepartureDateString(String departureDateString) {
+		this.departureDateString = departureDateString;
+	}
+
+	public Flight() {
+
+	}
+
+	public Flight(int flight_id, String flight_number, String airline_name, int nbr_of_seats, int nbr_of_reserved_seats,
+			String source, String destination, String arrival_time, String departure_time, LocalDate arrival_date,
 			LocalDate departure_date) {
 		super();
 		this.flight_id = flight_id;
@@ -34,7 +53,7 @@ public class Flight {
 	public int getFlight_id() {
 		return flight_id;
 	}
-	
+
 	public int getFlag() {
 		return flag;
 	}
@@ -99,7 +118,6 @@ public class Flight {
 		this.departure_time = departure_time;
 	}
 
-
 	public LocalDate getArrival_date() {
 		return arrival_date;
 	}
@@ -115,17 +133,19 @@ public class Flight {
 	public void setDeparture_date(LocalDate departure_date) {
 		this.departure_date = departure_date;
 	}
-	
+
 	public void setFlag(int flag) {
 		this.flag = flag;
 	}
-	
+
 	public String getFlight_number() {
 		return flight_number;
 	}
-	
+
 	public void setFlight_number(String flight_nbr) {
 		flight_number = flight_nbr;
 	}
 	
+	
+
 }

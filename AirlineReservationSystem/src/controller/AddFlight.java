@@ -105,7 +105,8 @@ public class AddFlight implements Initializable {
 
 	String flight_number, airline_name, source, destination, arrTime, depTime;
 	int id, flight_price, capacity, nbr_of_seats, nbr_of_reserved_seats;
-	LocalDate arrival_date, departure_date;
+	LocalDate arrival_date;
+	LocalDate departure_date;
 	int id_autoincrement = FlightsModel.getMaxID() + 1;
 
 	@Override
@@ -201,19 +202,19 @@ public class AddFlight implements Initializable {
 			failed.setContentText("Please fill the id.");
 			failed.show();
 		}
-		id = Integer.parseInt(id_textField.getText());
-		flight_number = generateFlightNumber();
-		airline_name = airline_name_textField.getText();
-		source = source_textField.getText();
-		destination = destination_textField.getText();
-		nbr_of_seats = Integer.parseInt(nbr_of_seats_TextField.getText());
-		nbr_of_reserved_seats = Integer.parseInt(nbr_of_reserved_seats_textField.getText());
-		depTime = departure_time_textField.getText();
-		arrTime = arrival_time_textField.getText();
-		arrival_date = arrival_date_textField.getValue();
-		departure_date = departure_date_textField.getValue();
-		FlightsModel.updateFlightByID(id, flight_number, airline_name, nbr_of_seats, nbr_of_reserved_seats, source,
-				destination, arrTime, depTime, arrival_date, departure_date);
+		Flight flight = new Flight();
+		flight.setFlight_id(Integer.parseInt(id_textField.getText()));
+		flight.setFlight_number(generateFlightNumber());
+		flight.setAirline_name(airline_name_textField.getText());
+		flight.setSource(source_textField.getText());
+		flight.setDestination(destination_textField.getText());
+		flight.setNbr_of_seats(Integer.parseInt(nbr_of_seats_TextField.getText()));
+		flight.setNbr_of_reserved_seats(Integer.parseInt(nbr_of_reserved_seats_textField.getText()));
+		flight.setDeparture_time(departure_time_textField.getText());
+		flight.setArrival_time(arrival_time_textField.getText());
+		flight.setArrival_date(arrival_date_textField.getValue());
+		flight.setDeparture_date(departure_date_textField.getValue());
+		FlightsModel.updateFlightByID(flight);
 		fillTable();
 		Alert flightUpdateAlert = new Alert(Alert.AlertType.INFORMATION);
 		flightUpdateAlert.setContentText("This flight has been successfly updated.");
@@ -241,7 +242,6 @@ public class AddFlight implements Initializable {
 //		}
 
 		else {
-			System.out.println("WE DON'T HAVE EMPTY FIELDS");
 			id = Integer.parseInt(id_textField.getText());
 			flight_number = generateFlightNumber();
 			airline_name = airline_name_textField.getText();
@@ -253,10 +253,12 @@ public class AddFlight implements Initializable {
 			arrTime = arrival_time_textField.getText();
 			arrival_date = arrival_date_textField.getValue();
 			departure_date = departure_date_textField.getValue();
-			System.out.println("Getting data done");
-			FlightsModel.addFlight(id, flight_number, airline_name, nbr_of_seats, nbr_of_reserved_seats, source,
+
+			Flight flight = new Flight(id, flight_number, airline_name, nbr_of_seats, nbr_of_reserved_seats, source,
 					destination, arrTime, depTime, arrival_date, departure_date);
-			System.out.println("ADD IS OK");
+
+			FlightsModel.addFlight(flight);
+
 			Alert flightAddAlert = new Alert(Alert.AlertType.INFORMATION);
 			flightAddAlert.setTitle("Flight Added!");
 			flightAddAlert.setContentText("New Flight has been successfly added.");

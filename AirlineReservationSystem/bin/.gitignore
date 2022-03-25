@@ -1,7 +1,4 @@
-/application/
-/controller/
-/model/
-/pojo/
-/view/
-/dao/
 /daoimpl/
+/controller/
+/dao/
+/model/

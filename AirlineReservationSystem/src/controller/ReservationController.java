@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import dao.IDao;
+import dao.ITicketDao;
 import daoimpl.TicketDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -125,18 +126,8 @@ public class ReservationController implements Initializable {
 
 	public void loadMaxTicketId(ActionEvent event) throws SQLException {
 
-		Connection con = DataBase.ConnectDb();
-
-		Statement m_Statement = con.createStatement();
-		String query = "SELECT Max(ticket_id) FROM ticket";
-
-		ResultSet m_ResultSet = m_Statement.executeQuery(query);
-		while (m_ResultSet.next()) {
-			Integer flightId = m_ResultSet.getInt(1) + 1;
-			this.ticketId.setText(flightId.toString());
-			// System.out.println(t);
-		}
-		m_Statement.close();
+		ITicketDao ticketDao = TicketDaoImpl.getTicketDaoImpl();
+		this.ticketId.setText(ticketDao.getMaxTicketId().toString());
 	}
 
 	@FXML
@@ -144,7 +135,7 @@ public class ReservationController implements Initializable {
 		try {
 			if (!ticketId.getText().isEmpty() && !flightPrice.getText().isEmpty() && !flightList.getValue().isEmpty()
 					&& passengerList.getValue() != null && !numberOfBugs.getText().isEmpty()) {
-				
+
 				Ticket newTicket = new Ticket();
 				newTicket.setTicketId(Integer.parseInt(ticketId.getText()));
 				newTicket.setFlightId(Integer.parseInt(flightList.getValue()));
@@ -156,7 +147,7 @@ public class ReservationController implements Initializable {
 				ticketDao.save(newTicket);
 				AlertController.alert1("Saved successfully");
 				reset();
-				
+
 			} else {
 //				error.setText("Fill The Form and Check Box to Insert !!");
 				AlertController.alert("Please Fill The Form to save !!", "Insert Error");
@@ -167,7 +158,7 @@ public class ReservationController implements Initializable {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public void reset() throws SQLException {
 		loadPassengerList(null);
 		loadFlightList(null);

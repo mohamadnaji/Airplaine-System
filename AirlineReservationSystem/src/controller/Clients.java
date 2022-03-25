@@ -218,7 +218,9 @@ public class Clients implements Initializable {
 				return;
 			}
 
-			ClientsModel.addClient(fn, ln, pn, bd, a, mbNB, emailAd);
+			Client t = new Client(fn, ln, pn, a, mbNB, emailAd, bd);
+
+			ClientsModel.addClient(t);
 
 			Alert clientAdded = new Alert(Alert.AlertType.INFORMATION);
 			clientAdded.setTitle("Client Added");
