@@ -1,21 +1,22 @@
 package controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import dao.IDao;
+import daoimpl.ClientDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.DatePicker;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -24,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import model.Client;
+import model.Flight;
 
 public class Clients implements Initializable {
 
@@ -45,9 +47,9 @@ public class Clients implements Initializable {
 	 * pt.setCycleCount(ParallelTransition.INDEFINITE); pt.play(); }
 	 */
 
-	@FXML
-	private AnchorPane anchorPane;
 
+	@FXML
+	private AnchorPane clientHistory;
 	@FXML
 	private TextField firstName;
 	@FXML
@@ -56,10 +58,6 @@ public class Clients implements Initializable {
 	private RadioButton child;
 	@FXML
 	private RadioButton adult;
-	@FXML
-	private DatePicker birthDate;
-	@FXML
-	private TextField passportNumber;
 	@FXML
 	private TextField mobilePhone;
 	@FXML
@@ -72,11 +70,6 @@ public class Clients implements Initializable {
 	@FXML
 	private TableColumn<Client, String> lastNameColumn;
 	@FXML
-	private TableColumn<Client, String> passportNumberColumn;
-	// @FXML private TableColumn<Client, String> nationalityColumn;
-	@FXML
-	private TableColumn<Client, LocalDate> birthDateColumn;
-	@FXML
 	private TableColumn<Client, String> ageColumn;
 	@FXML
 	private TableColumn<Client, String> mobilePhoneColumn;
@@ -84,7 +77,36 @@ public class Clients implements Initializable {
 	// @FXML private TableColumn<Client, Integer> frequentFlyerPointsColumn;
 	@FXML
 	private TableColumn<Client, String> emailAddressColumn;
+	
+	
+	@FXML
+	private TableView<Flight> clientFlightsTable;
+	@FXML
+	private TableColumn<Flight, String> flightNbColumn;
+	@FXML
+	private TableColumn<Flight, String> sourceColumn;
+	@FXML
+	private TableColumn<Flight, String> destinationColumn;
+	@FXML
+	private TableColumn<Flight, LocalDate> departureDateColumn;
+	@FXML
+	private TableColumn<Flight, LocalDate> arrivalDateColumn;
 
+	
+	@FXML
+	private Label firstNameLabel;
+	@FXML
+	private Label lastNameLabel;
+	@FXML
+	private Label mobilePhoneLabel;
+	@FXML
+	private Label emailAddressLabel;
+	@FXML
+	private RadioButton child1;
+	@FXML
+	private RadioButton adult1;
+	
+	
 	@FXML
 	private TextField filterTextArea;
 	@FXML
@@ -93,50 +115,57 @@ public class Clients implements Initializable {
 	private Button updateButton;
 	@FXML
 	private Button viewFlightsHistoryButton;
+	@FXML
+	private Button cancelButton;
+	@FXML
+	private Button addButton;
 
 	public ObservableList<Client> clientsList;
+	public ObservableList<Flight> flightsList;
 
-	ToggleGroup age;
-	String fn, ln, pn, mbNB, emailAd, a;
-	AnchorPane history;
+	ToggleGroup ageToggleGroup,ageToggleGroup1;
+	String fn, ln, mbNB, emailAd, age;
+		
+	Client selectedClient;
+	
+	int updating = 0; // 0 --> not updating(adding), 1 --> updating
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		fillTable();
+		try {
+			fillClientsTable();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		age = new ToggleGroup();
-		child.setToggleGroup(age);
-		adult.setToggleGroup(age);
-
-		/*
-		 * viewFlightsHistoryButton.setOnAction(new EventHandler<ActionEvent>() { public
-		 * void handle(ActionEvent event) { try { FXMLLoader fxmlLoader = new
-		 * FXMLLoader(); fxmlLoader.setLocation(getClass().getResource(
-		 * "src/application/ClientHistory.fxml")); Scene scene = new
-		 * Scene(fxmlLoader.load(), 600, 400); Stage stage = new Stage();
-		 * stage.setTitle("New Window"); stage.setScene(scene); stage.show(); } catch
-		 * (IOException e) { e.printStackTrace(); } } });
-		 */
+		ageToggleGroup = new ToggleGroup();
+		child.setToggleGroup(ageToggleGroup);
+		adult.setToggleGroup(ageToggleGroup);
+		
+		ageToggleGroup1 = new ToggleGroup();
+		child1.setToggleGroup(ageToggleGroup1);
+		adult1.setToggleGroup(ageToggleGroup1);
 
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("firstName"));
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("lastName"));
-		passportNumberColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("passportNumber"));
-		// nationalityColumn.setCellValueFactory(new PropertyValueFactory<Client,
-		// String>("nationality"));
-		birthDateColumn.setCellValueFactory(new PropertyValueFactory<Client, LocalDate>("birthDate"));
 		ageColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("ageGroup"));
 		mobilePhoneColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("phoneNumber"));
-		// frequentFlyerNumberColumn.setCellValueFactory(new
-		// PropertyValueFactory<Client, String>("frequentFlyerNumber"));
-		// frequentFlyerPointsColumn.setCellValueFactory(new
-		// PropertyValueFactory<Client, Integer>("frequentFlyerPoints"));
 		emailAddressColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("emailAddress"));
+		
+		flightNbColumn.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_number"));
+		sourceColumn.setCellValueFactory(new PropertyValueFactory<Flight, String>("source"));
+		destinationColumn.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
+		arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<Flight, LocalDate>("arrival_date"));
+		departureDateColumn.setCellValueFactory(new PropertyValueFactory<Flight, LocalDate>("departure_date"));
 
 		clientsTable.setRowFactory(tv -> {
 			TableRow<Client> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 1 && (!row.isEmpty())) {
 					viewFlightsHistoryButton.setDisable(false);
+					updateButton.setDisable(false);
+					deleteButton.setDisable(false);
 				}
 			});
 			return row;
@@ -145,21 +174,10 @@ public class Clients implements Initializable {
 		// rotategears();
 	}
 
-	public void fillTable() {
-		ArrayList<Client> clientsDemo = new ArrayList<>();
-		Client c1 = new Client("Fatima", "Kaouk", "LH84739278", "Adult", "76345787", "fatimakaouk@gmail.com",
-				LocalDate.of(2000, 6, 9));
-		Client c2 = new Client("Mariam", "Hussein", "LH84739278", "Adult", "76345787", "fatimakaouk@gmail.com",
-				LocalDate.of(2000, 6, 9));
-		Client c3 = new Client("Nour", "Ali", "LH84739278", "Adult", "76345787", "fatimakaouk@gmail.com",
-				LocalDate.of(2000, 6, 9));
-		clientsDemo.add(c1);
-		clientsDemo.add(c2);
-		clientsDemo.add(c3);
-
-		// clientsList =
-		// FXCollections.observableArrayList(ClientsModel.getAllClients());
-		clientsList = FXCollections.observableArrayList(clientsDemo);
+	public void fillClientsTable() throws SQLException {
+		//clientsList = FXCollections.observableArrayList(ClientsModel.getAllClients());
+		IDao<Client, Integer> clientDao = ClientDaoImpl.getclientDaoImpl();
+		clientsList = FXCollections.observableArrayList(clientDao.findAll());
 		clientsTable.setItems(clientsList);
 		clientsTable.setEditable(true);
 		clientsTable.setFixedCellSize(30.0);
@@ -180,52 +198,160 @@ public class Clients implements Initializable {
 
 		clientsTable.setItems(filteredData);
 	}
+	
+	
+	public void fillFlightsTable() throws SQLException {
+		flightsList = FXCollections.observableArrayList(ClientsModel.getClientFlights(selectedClient));
+		clientFlightsTable.setItems(flightsList);
+		clientFlightsTable.setEditable(true);
+		clientFlightsTable.setFixedCellSize(30.0);
+
+		FilteredList<Flight> filteredData = new FilteredList<>(flightsList, p -> true);
+
+		filterTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(flight -> {
+				// If filter text is empty, display all persons.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				return flight.getFlight_number().toLowerCase().contains(newValue.toLowerCase())
+						|| flight.getSource().toLowerCase().contains(newValue.toLowerCase())
+						|| flight.getDestination().toLowerCase().contains(newValue.toLowerCase());
+			});
+		});
+
+		clientFlightsTable.setItems(filteredData);
+	}
 
 	private Boolean noEmptyFields() {
-		if (firstName.getText().trim().isEmpty() || lastName.getText().trim().isEmpty()
-				|| passportNumber.getText().trim().isEmpty() || mobilePhone.getText().trim().isEmpty()
-				|| emailAddress.getText().trim().isEmpty())
+		if (
+				firstName.getText().trim().isEmpty() 
+				|| lastName.getText().trim().isEmpty()
+				|| mobilePhone.getText().trim().isEmpty()
+				|| emailAddress.getText().trim().isEmpty()
+				)
 			return false;
 		return true;
 	}
 
 	@FXML
-	void addClient(ActionEvent event) {
-
+	void addClient(ActionEvent event) throws SQLException {
+		
 		if (!noEmptyFields()) {
-			Alert failed = new Alert(Alert.AlertType.WARNING);
-			failed.setTitle("Missing Fields");
-			failed.setContentText("Please fill all fields.");
-			failed.show();
+			AlertController.alert("Error", "Empty Fields");
+			return;
 		}
-
-		else {
-
-			fn = firstName.getText().trim();
-			ln = lastName.getText().trim();
-			pn = passportNumber.getText().trim();
-			mbNB = mobilePhone.getText().trim();
-			emailAd = emailAddress.getText().trim();
-			LocalDate bd = birthDate.getValue();
-			a = ((RadioButton) age.getSelectedToggle()).getText();
-
-			if (!ClientsModel.checkClient(fn, ln, pn)) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("Error");
-				alert.setContentText("Client already added.");
-				alert.showAndWait();
+		
+		fn = firstName.getText().trim();
+		ln = lastName.getText().trim();
+		mbNB = mobilePhone.getText().trim();
+		emailAd = emailAddress.getText().trim();
+		age = ((RadioButton) ageToggleGroup.getSelectedToggle()).getText();
+		
+		//adding
+		if(updating==0) {
+			if (!ClientsModel.checkClient(fn, ln, age, emailAd, mbNB)) {
+				AlertController.alert("Error", "Empty Fields");
 				return;
 			}
-
-			ClientsModel.addClient(fn, ln, pn, bd, a, mbNB, emailAd);
-
-			Alert clientAdded = new Alert(Alert.AlertType.INFORMATION);
-			clientAdded.setTitle("Client Added");
-			clientAdded.setContentText("New client has been successfly added.");
-			clientAdded.show();
-			fillTable();
+			
+			//ClientsModel.addClient(fn, ln, age, emailAd, mbNB);
+			Client newClient = new Client(fn,ln,age,emailAd,mbNB,1);
+			IDao<Client, Integer> clientDao = ClientDaoImpl.getclientDaoImpl();
+			clientDao.save(newClient);
+			AlertController.alert1("New client has been successfly added.");
 		}
+		
+		//updating
+		else {
+			selectedClient.setFirstName(fn);
+			selectedClient.setLastName(ln);
+			selectedClient.setAgeGroup(age);
+			selectedClient.setEmailAddress(emailAd);
+			selectedClient.setPhoneNumber(mbNB);
+			ClientsModel.updateClient(selectedClient);
+			
+			addButton.setText("Add");
+			updateButton.setDisable(true);
+			deleteButton.setDisable(true);
+			viewFlightsHistoryButton.setDisable(true);
+			cancelButton.setVisible(false);
+		}
+		
+		
+		fillClientsTable();
+		reset();
+	}
+	
+	
+	@FXML
+	void updateClient(ActionEvent event) throws SQLException {
+		updating = 1;
+		cancelButton.setVisible(true);
+		
+		selectedClient = clientsTable.getSelectionModel().getSelectedItem();
+		firstName.setText(selectedClient.getFirstName());
+		lastName.setText(selectedClient.getLastName());
+		mobilePhone.setText(selectedClient.getPhoneNumber());
+		emailAddress.setText(selectedClient.getEmailAddress());
+		if(selectedClient.getAgeGroup().equals("Adult"))
+			ageToggleGroup.selectToggle(adult);
+		else
+			ageToggleGroup.selectToggle(child);
+		
+		updateButton.setDisable(true);
+		addButton.setText("Update");
+	}
+	
+	@FXML
+	void deleteClient(ActionEvent event) throws SQLException {
+		selectedClient = clientsTable.getSelectionModel().getSelectedItem();
+		//ClientsModel.deleteClient(selectedClient);
+		IDao<Client, Integer> clientDao = ClientDaoImpl.getclientDaoImpl();
+		clientDao.delete(selectedClient);
+		fillClientsTable();
+	}
+	
+	@FXML
+	void cancelUpdate(ActionEvent event) throws SQLException {
+		updating = 0;
+		
+		addButton.setText("Add");
+		updateButton.setDisable(true);
+		deleteButton.setDisable(true);
+		viewFlightsHistoryButton.setDisable(true);
+		cancelButton.setVisible(false);
+		reset();
+	}
+	
+	@FXML
+	void viewFlightsHistory(ActionEvent event) throws SQLException {
+		selectedClient = clientsTable.getSelectionModel().getSelectedItem();
+		clientHistory.setVisible(true);
+		firstNameLabel.setText(selectedClient.getFirstName());
+		lastNameLabel.setText(selectedClient.getLastName());
+		mobilePhoneLabel.setText(selectedClient.getPhoneNumber());
+		emailAddressLabel.setText(selectedClient.getEmailAddress());
+		if(selectedClient.getAgeGroup().equals("Adult"))
+			adult1.setSelected(true);
+		else
+			child1.setSelected(true);
+		
+		fillFlightsTable();
+	}
+	
+	@FXML
+    void exitHistory(MouseEvent mouseEvent) {
+		clientHistory.setVisible(false);
+    }
+	
+	public void reset() {
+		firstName.setText("");
+		lastName.setText("");
+		mobilePhone.setText("");
+		emailAddress.setText("");
+		ageToggleGroup.getSelectedToggle().setSelected(false);
 	}
 
 }

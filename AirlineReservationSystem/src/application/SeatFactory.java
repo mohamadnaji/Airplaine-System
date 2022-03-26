@@ -1,5 +1,9 @@
 package application;
 
+import pojo.Business;
+import pojo.Economy;
+import pojo.FirstClass;
+
 public class SeatFactory {
 
 	public SeatFactory() {

@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -20,7 +19,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			URL url = new File("src/application/Login.fxml").toURI().toURL();
+			URL url = new File("src/view/Login.fxml").toURI().toURL();
 			Parent fxmlLoader =FXMLLoader.load(url);
 			//FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 			//fxmlLoader.setRoot(new AnchorPane());

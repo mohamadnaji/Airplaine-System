@@ -58,14 +58,6 @@ public class DashBoard implements Initializable{
         	
         	URL url1 = new File("src/view/AddFlight.fxml").toURI().toURL();
         	homep =FXMLLoader.load(url1);
-
-        	URL url2 = new File("src/view/Clients.fxml").toURI().toURL();
-        	clients =FXMLLoader.load(url2);
-        	
-        	URL url3 = new File("src/view/BookSeat.fxml").toURI().toURL();
-        	seats =FXMLLoader.load(url3);
-        	
-        	
         	
            //homep=FXMLLoader.load(getClass().getResource("src/view/Home.fxml"));
     /*       mov=FXMLLoader.load(getClass().getResource("Movies.fxml"));
@@ -77,6 +69,7 @@ public class DashBoard implements Initializable{
             
         	System.out.println(ex);
         }
+        
         setNode(homep);
     }
     
@@ -114,7 +107,9 @@ public class DashBoard implements Initializable{
     }
    
     @FXML
-    void goToClients(ActionEvent event) {
+    void goToClients(ActionEvent event) throws IOException {
+    	URL url2 = new File("src/view/Clients.fxml").toURI().toURL();
+    	clients =FXMLLoader.load(url2);
     	setNode(clients);
     }
     @FXML
@@ -137,7 +132,9 @@ public class DashBoard implements Initializable{
     	setNode(theat);
     }
     @FXML
-    private void goToSeat(ActionEvent event) {
+    private void goToSeat(ActionEvent event) throws IOException {
+    	URL url3 = new File("src/view/BookSeat.fxml").toURI().toURL();
+    	seats =FXMLLoader.load(url3);
         setNode(seats);
     }
     @FXML
@@ -155,5 +152,3 @@ public class DashBoard implements Initializable{
         setNode(historyp);
     }
     }
-
-    
