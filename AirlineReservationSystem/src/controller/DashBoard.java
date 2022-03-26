@@ -45,7 +45,10 @@ public class DashBoard implements Initializable{
     @FXML
     private Button show;
     
-    AnchorPane mov,theat,showp,homep,settingsp,historyp,clients,seats, reservations;
+    @FXML
+    private Button passport;
+    
+    AnchorPane mov,theat,showp,homep,settingsp,historyp,clients,seats, reservations, passportDetails;
     /**
      * Initialises the controller class.
      */
@@ -64,6 +67,8 @@ public class DashBoard implements Initializable{
         	
         	URL url3 = new File("src/view/BookSeat.fxml").toURI().toURL();
         	seats =FXMLLoader.load(url3);
+        	
+        	URL url4 = new File("src/views/Passport.fxml").toURI().toURL();
         	
         	
         	
@@ -154,6 +159,12 @@ public class DashBoard implements Initializable{
     private void goToHistory(ActionEvent event) {
         setNode(historyp);
     }
+    
+    @FXML
+    private void goToPassportDetails(ActionEvent event) {
+    	setNode(passportDetails);
+    }
+    
     }
 
     

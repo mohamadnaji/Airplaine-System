@@ -31,9 +31,10 @@
           <RowConstraints maxHeight="61.66667175292969" minHeight="10.0" prefHeight="61.66667175292969" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="79.33332824707031" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="98.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="125.0" minHeight="9.0" prefHeight="63.39999999999998" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="156.99997558593748" minHeight="10.0" prefHeight="143.39999999999998" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="125.0" minHeight="9.0" prefHeight="98.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="156.99997558593748" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="148.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="149.0" minHeight="10.0" prefHeight="87.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="149.0" minHeight="10.0" prefHeight="87.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -134,6 +135,16 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </ImageView>
+            <Button fx:id="logout1" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" textFill="WHITE">
+               <font>
+                  <Font name="Georgia Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="passport" mnemonicParsing="false" onAction="#goToPassportDetails" prefHeight="63.0" prefWidth="114.0" style="-fx-background-color: #7eafb7;" text="Passport" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Georgia Bold" size="18.0" />
+               </font>
+            </Button>
          </children>
       </GridPane>
       <AnchorPane fx:id="holderPane" layoutX="250.0" layoutY="41.0" maxWidth="1.7976931348623157E308" />
