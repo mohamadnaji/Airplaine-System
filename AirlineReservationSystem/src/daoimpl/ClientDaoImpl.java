@@ -34,7 +34,7 @@ public class ClientDaoImpl implements IClientDao {
 		pn = t.getPassportNumber();
 		mbNB = t.getPhoneNumber();
 		emailAd = t.getEmailAddress();
-		String Query = "INSERT INTO Passenger VALUES ("/* +id"," */ + fn + "," + ln + "," + bd + "," + a + "," + pn
+		String Query = "INSERT INTO client VALUES ("/* +id"," */ + fn + "," + ln + "," + bd + "," + a + "," + pn
 				+ "," + mbNB + "," + emailAd + ")";
 		try {
 			db.InsertFun(Query);
