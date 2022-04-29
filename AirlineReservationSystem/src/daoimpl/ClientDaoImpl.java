@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 import dao.IClientDao;
 import model.Client;
+import model.Flight;
 import pojo.DataBase;
 
 public class ClientDaoImpl implements IClientDao {
@@ -34,7 +36,7 @@ public class ClientDaoImpl implements IClientDao {
 		pn = t.getPassportNumber();
 		mbNB = t.getPhoneNumber();
 		emailAd = t.getEmailAddress();
-		String Query = "INSERT INTO client VALUES ("/* +id"," */ + fn + "," + ln + "," + bd + "," + a + "," + pn
+		String Query = "INSERT INTO passenger VALUES ("/* +id"," */ + fn + "," + ln + "," + bd + "," + a + "," + pn
 				+ "," + mbNB + "," + emailAd + ")";
 		try {
 			db.InsertFun(Query);
@@ -50,7 +52,7 @@ public class ClientDaoImpl implements IClientDao {
 		Connection conn = db.ConnectDb();
 		PreparedStatement ps;
 		try {
-			ps = conn.prepareStatement("update client set flag = 0 where client_id = ? ");
+			ps = conn.prepareStatement("update passenger set flag = 0 where passenger_id = ? ");
 			ps.setInt(1, t);
 			ps.executeUpdate();
 			ps.close();
@@ -62,8 +64,35 @@ public class ClientDaoImpl implements IClientDao {
 
 	@Override
 	public Client findById(Integer key) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = DataBase.ConnectDb();
+		PreparedStatement ps;
+		Client client = null;
+		try {
+			ps = con.prepareStatement("SELECT passenger_id,first_name,last_name,email,"
+					+ "birth_date,nationality,phone_number,ticket_id,flag "
+					+ "FROM passenger where passenger_id = ?");
+
+			ps.setInt(1, key);
+			ResultSet m_ResultSet = ps.executeQuery();
+			while (m_ResultSet.next()) {
+
+				client = new Client(
+						m_ResultSet.getInt(1),
+						m_ResultSet.getString(2),
+						m_ResultSet.getString(3),
+						null,//passport numbrer
+						null,//age group
+						m_ResultSet.getString(7),
+						m_ResultSet.getString(4),
+						m_ResultSet.getDate(5).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+						m_ResultSet.getInt(8),
+						m_ResultSet.getInt(9));
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return client;
 	}
 
 	@Override
@@ -73,7 +102,7 @@ public class ClientDaoImpl implements IClientDao {
 		PreparedStatement ps;
 		ArrayList<Client> listOfClients = new ArrayList<>();
 		try {
-			ps = con.prepareStatement("SELECT * from CLIENT");
+			ps = con.prepareStatement("SELECT * from passenger");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

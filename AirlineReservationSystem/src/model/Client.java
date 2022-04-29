@@ -5,6 +5,22 @@ import java.time.LocalDate;
 public class Client {
 	String firstName, lastName, passportNumber, ageGroup, phoneNumber, emailAddress;
 	LocalDate birthDate;
+	Integer passengerId, ticketId,flag;
+	
+	public Client(int passengerId, String firstName, String lastName, String passportNumber, String ageGroup,
+			String phoneNumber, String emailAddress, LocalDate birthDate, int ticketId, int flag) {
+		super();
+		this.passengerId = passengerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.passportNumber = passportNumber;
+		this.ageGroup = ageGroup;
+		this.phoneNumber = phoneNumber;
+		this.emailAddress = emailAddress;
+		this.birthDate = birthDate;
+		this.ticketId = ticketId;
+		this.flag = flag;
+	}
 
 	public Client(String firstName, String lastName, String passportNumber, String ageGroup, String phoneNumber,
 			String emailAddress, LocalDate birthDate) {
