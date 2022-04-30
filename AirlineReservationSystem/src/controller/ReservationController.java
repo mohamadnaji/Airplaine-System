@@ -72,7 +72,7 @@ public class ReservationController implements Initializable {
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
 			while (m_ResultSet.next()) {
-				Client t = new Client(m_ResultSet.getString(1), m_ResultSet.getString(2), m_ResultSet.getString(3));
+				Client t = new Client(m_ResultSet.getInt(1), m_ResultSet.getString(2), m_ResultSet.getString(3));
 				passengerListData.add(t);
 				// System.out.println(t);
 			}

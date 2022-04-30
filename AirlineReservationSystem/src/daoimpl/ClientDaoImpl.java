@@ -4,14 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 import dao.IClientDao;
 import model.Client;
-import model.Flight;
 import pojo.DataBase;
 
 public class ClientDaoImpl implements IClientDao {
@@ -27,17 +25,12 @@ public class ClientDaoImpl implements IClientDao {
 
 	@Override
 	public void save(Client t) {
-		String fn, ln, a, pn, mbNB, emailAd;
-		LocalDate bd;
-		fn = t.getFirstName();
-		ln = t.getLastName();
-		bd = t.getBirthDate();
-		a = t.getAgeGroup();
-		pn = t.getPassportNumber();
-		mbNB = t.getPhoneNumber();
-		emailAd = t.getEmailAddress();
-		String Query = "INSERT INTO passenger VALUES ("/* +id"," */ + fn + "," + ln + "," + bd + "," + a + "," + pn
-				+ "," + mbNB + "," + emailAd + ")";
+
+		// TODO Auto-generated method stub
+		
+		int flag = 1;
+		String Query = "INSERT INTO `ars`.`passenger` (`first_name`, `last_name`, `age_group`, `email`, `phone_number`, `flag`) "
+				+ " VALUES ('" +t.getFirstName()+ "','" +t.getLastName()+ "','" +t.getAgeGroup()+ "','" +t.getEmailAddress()+ "','" +t.getPhoneNumber()+ "', '" +flag+ "');";
 		try {
 			db.InsertFun(Query);
 		} catch (SQLException e) {
@@ -47,77 +40,85 @@ public class ClientDaoImpl implements IClientDao {
 
 	@Override
 	public void delete(Integer t) {
+		// TODO Auto-generated method stub
+		//String Query = "DELETE FROM `ars`.`passenger` WHERE (`passenger_id` = '"+client.getClientID()+"');";
+		String Query = "UPDATE `ars`.`passenger` SET `flag` = '0' WHERE (`passenger_id` = '"+ t +"');";
 
-		Connection conn = db.ConnectDb();
-		PreparedStatement ps;
 		try {
-			ps = conn.prepareStatement("update passenger set flag = 0 where passenger_id = ? ");
-			ps.setInt(1, t);
-			ps.executeUpdate();
-			ps.close();
+			db.InsertFun(Query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public Client findById(Integer key) {
-		Connection con = DataBase.ConnectDb();
-		PreparedStatement ps;
+
+		// TODO Auto-generated method stub
+		ResultSet rs = null;
 		Client client = null;
 		try {
-			ps = con.prepareStatement("SELECT passenger_id,first_name,last_name,email,"
-					+ "birth_date,nationality,phone_number,ticket_id,flag " + "FROM passenger where passenger_id = ?");
-
-			ps.setInt(1, key);
-			ResultSet m_ResultSet = ps.executeQuery();
-			while (m_ResultSet.next()) {
-
-				client = new Client(m_ResultSet.getInt(1), m_ResultSet.getString(2), m_ResultSet.getString(3), null, // passport
-																														// numbrer
-						null, // age group
-						m_ResultSet.getString(7), m_ResultSet.getString(4),
-						m_ResultSet.getDate(5).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-						m_ResultSet.getInt(8), m_ResultSet.getInt(9));
-			}
-			ps.close();
+			rs = db.SelectFun("Select * from passenger WHERE passenger_id='"+key+"'");
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			while (rs.next()) {
+				client = new Client(
+						rs.getInt(1), //id
+						rs.getString(2), // first name
+						rs.getString(3), // last name
+						rs.getString(4), //age group
+						rs.getString(6), // phone number
+						rs.getString(5), // email address
+						rs.getInt(7)); // flag
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return client;
 	}
 
+
 	@Override
 	public List<Client> findAll() {
+		// TODO Auto-generated method stub
+		ResultSet rs = null;
+		try {
+			rs = db.SelectFun("Select * from passenger WHERE flag='1'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		Connection con = DataBase.ConnectDb();
-		PreparedStatement ps;
+
 		ArrayList<Client> listOfClients = new ArrayList<>();
 		try {
-			ps = con.prepareStatement("SELECT * from passenger");
-
-			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Client client = new Client(rs.getString(2), // first name
+				Client client = new Client(
+						rs.getInt(1), //id
+						rs.getString(2), // first name
 						rs.getString(3), // last name
-						"LH43534535", "adult", rs.getString(7), // phone number
-						rs.getString(4), // email address
-						rs.getDate(5).toLocalDate()); // birth date
+						rs.getString(4), //age group
+						rs.getString(6), // phone number
+						rs.getString(5), // email address
+						rs.getInt(7)); // flag
 				listOfClients.add(client);
 			}
-			ps.close();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return listOfClients;
-
 	}
 
 	@Override
 	public void update(Client t, Integer k) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
