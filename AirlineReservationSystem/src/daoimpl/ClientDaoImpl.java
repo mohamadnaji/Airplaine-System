@@ -43,7 +43,6 @@ public class ClientDaoImpl implements IClientDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -69,24 +68,18 @@ public class ClientDaoImpl implements IClientDao {
 		Client client = null;
 		try {
 			ps = con.prepareStatement("SELECT passenger_id,first_name,last_name,email,"
-					+ "birth_date,nationality,phone_number,ticket_id,flag "
-					+ "FROM passenger where passenger_id = ?");
+					+ "birth_date,nationality,phone_number,ticket_id,flag " + "FROM passenger where passenger_id = ?");
 
 			ps.setInt(1, key);
 			ResultSet m_ResultSet = ps.executeQuery();
 			while (m_ResultSet.next()) {
 
-				client = new Client(
-						m_ResultSet.getInt(1),
-						m_ResultSet.getString(2),
-						m_ResultSet.getString(3),
-						null,//passport numbrer
-						null,//age group
-						m_ResultSet.getString(7),
-						m_ResultSet.getString(4),
+				client = new Client(m_ResultSet.getInt(1), m_ResultSet.getString(2), m_ResultSet.getString(3), null, // passport
+																														// numbrer
+						null, // age group
+						m_ResultSet.getString(7), m_ResultSet.getString(4),
 						m_ResultSet.getDate(5).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-						m_ResultSet.getInt(8),
-						m_ResultSet.getInt(9));
+						m_ResultSet.getInt(8), m_ResultSet.getInt(9));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -108,9 +101,7 @@ public class ClientDaoImpl implements IClientDao {
 			while (rs.next()) {
 				Client client = new Client(rs.getString(2), // first name
 						rs.getString(3), // last name
-						"LH43534535",
-						"adult", 
-						rs.getString(7), // phone number
+						"LH43534535", "adult", rs.getString(7), // phone number
 						rs.getString(4), // email address
 						rs.getDate(5).toLocalDate()); // birth date
 				listOfClients.add(client);

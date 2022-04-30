@@ -1,11 +1,10 @@
 package daoimpl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,10 +122,15 @@ public class FlightDaoImpl implements IFlightDao {
 				flight.setDestination(m_ResultSet.getString(1));
 				flight.setArrival_time(m_ResultSet.getString(1));
 				flight.setDeparture_time(m_ResultSet.getString(1));
-				flight.setArrival_date(
-						m_ResultSet.getDate(10).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-				flight.setDeparture_date(
-						m_ResultSet.getDate(11).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+				if (m_ResultSet.getDate(10) != null)
+					
+				flight.setArrival_date(Instant.ofEpochMilli(m_ResultSet.getDate(10).getTime())
+					      .atZone(ZoneId.systemDefault())
+					      .toLocalDate());
+				if (m_ResultSet.getDate(11) != null)
+				flight.setDeparture_date(Instant.ofEpochMilli(m_ResultSet.getDate(11).getTime())
+					      .atZone(ZoneId.systemDefault())
+					      .toLocalDate());
 				flight.setFlag(m_ResultSet.getInt(1));
 				flights.add(flight);
 			}

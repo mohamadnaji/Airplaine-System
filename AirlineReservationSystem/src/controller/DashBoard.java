@@ -43,10 +43,7 @@ public class DashBoard implements Initializable {
 	@FXML
 	private Button show;
 
-	@FXML
-	private Button passport;
-
-	AnchorPane mov, theat, showp, homep, settingsp, historyp, clients, seats, reservations, passportDetails;
+	AnchorPane mov, theat, showp, homep, settingsp, historyp, clients, seats, reservations;
 
 	/**
 	 * Initialises the controller class.
@@ -67,8 +64,6 @@ public class DashBoard implements Initializable {
 			URL url3 = new File("src/view/BookSeat.fxml").toURI().toURL();
 			seats = FXMLLoader.load(url3);
 
-			URL url4 = new File("src/views/Passport.fxml").toURI().toURL();
-
 			// homep=FXMLLoader.load(getClass().getResource("src/view/Home.fxml"));
 			/*
 			 * mov=FXMLLoader.load(getClass().getResource("Movies.fxml"));
@@ -78,7 +73,7 @@ public class DashBoard implements Initializable {
 			 * historyp=FXMLLoader.load(getClass().getResource("History.fxml"));
 			 */
 		} catch (IOException ex) {
-
+			ex.printStackTrace();
 			System.out.println(ex);
 		}
 		setNode(homep);
@@ -164,10 +159,4 @@ public class DashBoard implements Initializable {
 	private void goToHistory(ActionEvent event) {
 		setNode(historyp);
 	}
-
-	@FXML
-	private void goToPassportDetails(ActionEvent event) {
-		setNode(passportDetails);
-	}
-
 }
