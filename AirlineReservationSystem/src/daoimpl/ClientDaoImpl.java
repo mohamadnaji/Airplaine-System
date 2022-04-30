@@ -41,7 +41,6 @@ public class ClientDaoImpl implements IClientDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class ClientDaoImpl implements IClientDao {
 		PreparedStatement ps;
 		ArrayList<Client> listOfClients = new ArrayList<>();
 		try {
-			ps = con.prepareStatement("SELECT * from CLIENT");
+			ps = con.prepareStatement("SELECT * from passemger");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

@@ -109,6 +109,7 @@ public class Controller implements Initializable {
 				alert.showAndWait();
 			}
 		} catch (Exception e1) {
+			e1.printStackTrace();
 			JOptionPane.showMessageDialog(null, e1);
 		}
 	}

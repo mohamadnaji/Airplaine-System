@@ -74,7 +74,7 @@ public class DashBoard implements Initializable{
             settingsp=FXMLLoader.load(getClass().getResource("Settings.fxml"));
             historyp=FXMLLoader.load(getClass().getResource("History.fxml"));*/
         } catch (IOException ex) {
-            
+            ex.printStackTrace();
         	System.out.println(ex);
         }
         setNode(homep);
