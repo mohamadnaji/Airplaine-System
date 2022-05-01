@@ -32,7 +32,7 @@ public class TicketDaoImpl implements ITicketDao {
 		try {
 			ps = conn.prepareStatement("insert into ticket "
 					+ "(ticket_id,flight_id,passenger_id,flight_price,nb_of_bags,seat_number, meals,payment_id,flag,creation_date) "
-					+ "values (?,?,?,?,?,0,0,0,0,now())");
+					+ "values (?,?,?,?,?,0,0,0,1,now())");
 			ps.setInt(1, t.getTicketId());
 			ps.setInt(2, t.getFlightId());
 			ps.setInt(3, t.getPassengerId());
@@ -70,8 +70,8 @@ public class TicketDaoImpl implements ITicketDao {
 		PreparedStatement ps;
 		Ticket ticket = null;
 		try {
-			ps = con.prepareStatement("SELECT ticket_Id,ticket_Number,flight_Id,"
-					+ "passenger_Id,flight_Price_Id,Number_Of_Bugs,meal,seat_Number,payment_Id,creation_Date "
+			ps = con.prepareStatement("SELECT ticket_Id,flight_Id, "
+					+ "passenger_Id,flight_Price,Nb_Of_Bags,meals,seat_Number,payment_Id,creation_Date "
 					+ "FROM ticket where ticket_id = ?");
 
 			ps.setInt(1, key);
@@ -80,15 +80,14 @@ public class TicketDaoImpl implements ITicketDao {
 
 				ticket = new Ticket();
 				ticket.setTicketId(m_ResultSet.getInt(1));
-				ticket.setTicketNumber(m_ResultSet.getInt(2));
-				ticket.setFlightId(m_ResultSet.getInt(3));
-				ticket.setPassengerId(m_ResultSet.getInt(4));
-				ticket.setFlightPriceId(m_ResultSet.getInt(5));
-				ticket.setNumberOfBugs(m_ResultSet.getInt(6));
-				ticket.setMeal(m_ResultSet.getString(7));
-				ticket.setSeatNumber(m_ResultSet.getInt(8));
-				ticket.setPaymentId(m_ResultSet.getInt(9));
-				ticket.setCreationDate(m_ResultSet.getDate(10));
+				ticket.setFlightId(m_ResultSet.getInt(2));
+				ticket.setPassengerId(m_ResultSet.getInt(3));
+				ticket.setFlightPriceId(m_ResultSet.getInt(4));
+				ticket.setNumberOfBugs(m_ResultSet.getInt(5));
+				ticket.setMeal(m_ResultSet.getString(6));
+				ticket.setSeatNumber(m_ResultSet.getInt(7));
+				ticket.setPaymentId(m_ResultSet.getInt(8));
+				ticket.setCreationDate(m_ResultSet.getDate(9));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -104,23 +103,22 @@ public class TicketDaoImpl implements ITicketDao {
 		Statement m_Statement;
 		try {
 			m_Statement = con.createStatement();
-			String query = "SELECT ticket_Id,ticket_Number,flight_Id,"
-					+ "passenger_Id,flight_Price_Id,Number_Of_Bugs,meal,seat_Number,payment_Id,creation_Date "
-					+ "FROM ticket";
+			String query = "SELECT ticket_Id,flight_Id,"
+					+ "passenger_Id,flight_Price,Nb_Of_Bags,meals,seat_Number,payment_Id,creation_Date "
+					+ "FROM ticket where flag = 1";
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
 			while (m_ResultSet.next()) {
 				Ticket ticket = new Ticket();
 				ticket.setTicketId(m_ResultSet.getInt(1));
-				ticket.setTicketNumber(m_ResultSet.getInt(2));
-				ticket.setFlightId(m_ResultSet.getInt(3));
-				ticket.setPassengerId(m_ResultSet.getInt(4));
-				ticket.setFlightPriceId(m_ResultSet.getInt(5));
-				ticket.setNumberOfBugs(m_ResultSet.getInt(6));
-				ticket.setMeal(m_ResultSet.getString(7));
-				ticket.setSeatNumber(m_ResultSet.getInt(8));
-				ticket.setPaymentId(m_ResultSet.getInt(9));
-				ticket.setCreationDate(m_ResultSet.getDate(10));
+				ticket.setFlightId(m_ResultSet.getInt(2));
+				ticket.setPassengerId(m_ResultSet.getInt(3));
+				ticket.setFlightPriceId(m_ResultSet.getInt(4));
+				ticket.setNumberOfBugs(m_ResultSet.getInt(5));
+				ticket.setMeal(m_ResultSet.getString(6));
+				ticket.setSeatNumber(m_ResultSet.getInt(7));
+				ticket.setPaymentId(m_ResultSet.getInt(8));
+				ticket.setCreationDate(m_ResultSet.getDate(9));
 				tickets.add(ticket);
 			}
 			m_Statement.close();
