@@ -8,11 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.collections.ObservableList;
+import javax.swing.JOptionPane;
+
+import dao.IDao;
+import daoimpl.PassportDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import model.Passport;
 import pojo.DataBase;
@@ -132,9 +140,11 @@ public class PassportDetails implements Initializable {
 			failed.setContentText("Please fill the id.");
 			failed.show();
 		} else {
-			Passport passport;
 			passenger_id = passenger_ids.getValue();
-			passport = PassportModel.searchPassport(passenger_id);
+			Passport passport = null;
+			IDao<Passport, Integer> passportDao = PassportDaoImpl.getPassportDaoImpl();
+			passport = passportDao.findById(passenger_id);
+			
 			passport_number_textField.setText(passport.getPassport_number());
 			System.out.println(passport.getPassport_number());
 			fatherName_textField.setText(passport.getFather_name());
@@ -154,12 +164,53 @@ public class PassportDetails implements Initializable {
 	
 	@FXML
 	public void handleSaveButton(ActionEvent event) throws SQLException {
-		
+
+		Passport newPassport = new Passport();
+		newPassport.setPassport_number(passport_number_textField.getText());
+		newPassport.setFather_name(fatherName_textField.getText());
+		newPassport.setMother_name(motherName_textField.getText());
+		newPassport.setPlace_of_birth(placeOfBirth_textField.getText());
+		newPassport.setDate_of_birth(dateOfBirth_datePicker.getValue());
+		newPassport.setIssue_date(dateOfIssue_textField.getValue());
+		newPassport.setExpiry_date(expiryDate_textField.getValue());
+		newPassport.setType(typeOfPassport_textField.getText());
+		newPassport.setIssuing_state_code(issuingCode_textField.getText());
+		newPassport.setProfession(profession_textField.getText());
+		newPassport.setPassenger_id(passenger_ids.getValue());
+		newPassport.setNationality(nationality_textField.getText());
+		newPassport.setGender(gender_textField.getText());
+		try {
+			IDao<Passport, Integer> passportDao = PassportDaoImpl.getPassportDaoImpl();
+			passportDao.save(newPassport);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
 	}
 	
 	@FXML
 	public void handleUpdateButton(ActionEvent event) throws SQLException {
-		
+
+		Passport newPassport = new Passport();
+		newPassport.setPassport_number(passport_number_textField.getText());
+		newPassport.setFather_name(fatherName_textField.getText());
+		newPassport.setMother_name(motherName_textField.getText());
+		newPassport.setPlace_of_birth(placeOfBirth_textField.getText());
+		newPassport.setDate_of_birth(dateOfBirth_datePicker.getValue());
+		newPassport.setIssue_date(dateOfIssue_textField.getValue());
+		newPassport.setExpiry_date(expiryDate_textField.getValue());
+		newPassport.setType(typeOfPassport_textField.getText());
+		newPassport.setIssuing_state_code(issuingCode_textField.getText());
+		newPassport.setProfession(profession_textField.getText());
+		newPassport.setPassenger_id(passenger_ids.getValue());
+		newPassport.setNationality(nationality_textField.getText());
+		newPassport.setGender(gender_textField.getText());
+		try {
+			IDao<Passport, Integer> passportDao = PassportDaoImpl.getPassportDaoImpl();
+			passportDao.update(newPassport, newPassport.getPassenger_id());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+
 	}
  	
 	private Boolean noEmpltyFields() {
