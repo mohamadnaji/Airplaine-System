@@ -43,7 +43,7 @@ public class DashBoard implements Initializable {
 	@FXML
 	private Button show;
 
-	AnchorPane mov, theat, showp, homep, settingsp, historyp, clients, seats, reservations;
+	AnchorPane mov, theat, showp, homep, settingsp, historyp, clients, seats, reservations,services;
 
 	/**
 	 * Initialises the controller class.
@@ -112,8 +112,15 @@ public class DashBoard implements Initializable {
 	}
 
 	@FXML
-	void goToClients(ActionEvent event) {
+	void goToClients(ActionEvent event) throws IOException {
 		setNode(clients);
+	}
+	
+	@FXML
+	void goToSpecialServices(ActionEvent event) throws IOException {
+		URL url5 = new File("src/view/SpecialServices.fxml").toURI().toURL();
+		services = FXMLLoader.load(url5);
+		setNode(services);
 	}
 
 	@FXML

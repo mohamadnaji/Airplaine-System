@@ -105,6 +105,8 @@ public class Clients implements Initializable {
 	private RadioButton child1;
 	@FXML
 	private RadioButton adult1;
+	@FXML
+	private TextField filterTextArea1;
 	
 	
 	@FXML
@@ -208,7 +210,7 @@ public class Clients implements Initializable {
 
 		FilteredList<Flight> filteredData = new FilteredList<>(flightsList, p -> true);
 
-		filterTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+		filterTextArea1.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(flight -> {
 				// If filter text is empty, display all persons.
 				if (newValue == null || newValue.isEmpty()) {
