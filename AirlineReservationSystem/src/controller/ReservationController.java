@@ -1,7 +1,6 @@
 package controller;
 
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,6 +12,8 @@ import dao.ITicketDao;
 import daoimpl.ClientDaoImpl;
 import daoimpl.FlightDaoImpl;
 import daoimpl.TicketDaoImpl;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -31,7 +32,6 @@ import javafx.util.StringConverter;
 import model.Client;
 import model.Flight;
 import model.Ticket;
-import pojo.DataBase;
 
 public class ReservationController implements Initializable {
 
@@ -50,6 +50,9 @@ public class ReservationController implements Initializable {
 
 	@FXML
 	private Button confirmButton;
+
+	@FXML
+	private Button cancelButton;
 
 	@FXML
 	private Button deleteTicketButton;
@@ -83,12 +86,12 @@ public class ReservationController implements Initializable {
 
 	@FXML
 	private TableColumn<Ticket, String> ticketColumn;
-	
+
 	@FXML
 	private TableColumn<Ticket, String> passengerIdColumn;
-	
+
 	Ticket selectedTicket;
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
@@ -102,19 +105,40 @@ public class ReservationController implements Initializable {
 			numOfBugsColumn.setCellValueFactory(new PropertyValueFactory<Ticket, String>("numberOfBugs"));
 			ticketColumn.setCellValueFactory(new PropertyValueFactory<Ticket, String>("ticketId"));
 			passengerIdColumn.setCellValueFactory(new PropertyValueFactory<Ticket, String>("passengerId"));
-			
+
+			updateTicketButton.setDisable(true);
+			deleteTicketButton.setDisable(true);
 			reservationsTable.setRowFactory(tv -> {
 				TableRow<Ticket> row = new TableRow<>();
 				row.setOnMouseClicked(event -> {
 					if (event.getClickCount() == 1 && (!row.isEmpty())) {
 						updateTicketButton.setDisable(false);
 						deleteTicketButton.setDisable(false);
-					}else {
+					} else {
 						updateTicketButton.setDisable(true);
-						deleteTicketButton.setDisable(true);	
+						deleteTicketButton.setDisable(true);
 					}
 				});
 				return row;
+			});
+
+			flightPrice.textProperty().addListener(new ChangeListener<String>() {
+			    @Override
+			    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+			        String newValue) {
+			        if (newValue != null && !newValue.matches("\\d*")) {
+			            flightPrice.setText(newValue.replaceAll("[^\\d]", ""));
+			        }
+			    }
+			});
+			numberOfBugs.textProperty().addListener(new ChangeListener<String>() {
+			    @Override
+			    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+			        String newValue) {
+			        if (newValue != null && !newValue.matches("\\d*")) {
+			        	numberOfBugs.setText(newValue.replaceAll("[^\\d]", ""));
+			        }
+			    }
 			});
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -181,7 +205,6 @@ public class ReservationController implements Initializable {
 
 			flightListData = FXCollections.observableArrayList();
 			flightListData.clear();
-			Connection con = DataBase.ConnectDb();
 			IFlightDao flightDao = FlightDaoImpl.getFlightDaoImpl();
 			List<Flight> flights = flightDao.findAll();
 			for (Flight flight : flights) {
@@ -207,16 +230,17 @@ public class ReservationController implements Initializable {
 	@FXML
 	private void deleteTicket(ActionEvent event) {
 		selectedTicket = reservationsTable.getSelectionModel().getSelectedItem();
-		//ClientsModel.deleteClient(selectedClient);
+		// ClientsModel.deleteClient(selectedClient);
 		IDao<Ticket, Integer> clientDao = TicketDaoImpl.getTicketDaoImpl();
 		clientDao.delete(selectedTicket.getTicketId());
 		try {
 			fillTicketsTable();
+			reset(null);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@FXML
@@ -232,14 +256,15 @@ public class ReservationController implements Initializable {
 		passengerList.setValue(cli);
 		flightList.setValue(selectedTicket.getFlightId().toString());
 		updateTicketButton.setDisable(true);
-		
+
 	}
 
 	@FXML
 	private void saveNewTicket(ActionEvent event) {
 		try {
-			if (!ticketId.getText().isEmpty() && !flightPrice.getText().isEmpty() && !flightList.getValue().isEmpty()
-					&& passengerList.getValue() != null && !numberOfBugs.getText().isEmpty()) {
+			if (!ticketId.getText().isEmpty() && flightPrice.getText() != null && !flightPrice.getText().isEmpty()
+					&& !flightList.getValue().isEmpty() && passengerList.getValue() != null
+					&& numberOfBugs.getText() != null && !numberOfBugs.getText().isEmpty()) {
 
 				Ticket newTicket = new Ticket();
 				newTicket.setTicketId(Integer.parseInt(ticketId.getText()));
@@ -250,32 +275,36 @@ public class ReservationController implements Initializable {
 
 				IDao<Ticket, Integer> ticketDao = TicketDaoImpl.getTicketDaoImpl();
 				Ticket tic = ticketDao.findById(newTicket.getTicketId());
-				if(tic != null) {
+				if (tic != null) {
 					ticketDao.update(newTicket, newTicket.getTicketId());
-				}else {
-					ticketDao.save(newTicket);	
+				} else {
+					ticketDao.save(newTicket);
 				}
 				AlertController.alert1("Saved successfully");
-				reset();
 
+				reset(null);
 			} else {
 //				error.setText("Fill The Form and Check Box to Insert !!");
-				AlertController.alert("Please Fill The Form to save !!", "Insert Error");
+				AlertController.alert("Please Fill The Form to save", "Mandatory fields");
 			}
 
 			fillTicketsTable();
-			reset();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
-	public void reset() throws SQLException {
+	public void reset(ActionEvent event) throws SQLException {
 		loadPassengerList(null);
 		loadFlightList(null);
 		loadMaxTicketId(null);
 		numberOfBugs.setText(null);
 		flightPrice.setText(null);
+
+		updateTicketButton.setDisable(true);
+		deleteTicketButton.setDisable(true);
 	}
+	
+
 }
