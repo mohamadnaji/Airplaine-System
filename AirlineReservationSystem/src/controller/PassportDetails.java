@@ -111,21 +111,21 @@ public class PassportDetails implements Initializable {
 	
 	
 	
-//	
-//	@FXML
-//	public void handleSearchButton(ActionEvent event) throws SQLException {
-//		
-//	}
 	
-//	@FXML
-//	public void handleSaveButton() throws SQLException {
-//		
-//	}
-//	
-//	@FXML
-//	public void handleUpdateButton() throws SQLException {
-//		
-//	}
+	@FXML
+	public void handleSearchButton(ActionEvent event) throws SQLException {
+		
+	}
+	
+	@FXML
+	public void handleSaveButton(ActionEvent event) throws SQLException {
+		
+	}
+	
+	@FXML
+	public void handleUpdateButton(ActionEvent event) throws SQLException {
+		
+	}
  	
 //	private Boolean noEmpltyFields() {
 //		//System.out.println("CHECK IF WE HAVE EMPTY FIELDS");

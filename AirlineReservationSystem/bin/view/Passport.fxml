@@ -98,25 +98,25 @@
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="passport_number_textField11" layoutX="624.0" layoutY="197.0" prefHeight="25.0" prefWidth="175.0" />
+            <TextField fx:id="passport_number_textField" layoutX="624.0" layoutY="197.0" prefHeight="25.0" prefWidth="175.0" />
             <Label layoutX="467.0" layoutY="27.0" prefHeight="33.0" prefWidth="97.0" text="Profession" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
             <TextField fx:id="profession_textField" layoutX="622.0" layoutY="28.0" prefHeight="25.0" prefWidth="175.0" />
-            <Button fx:id="updateButton" layoutX="705.0" layoutY="296.0" mnemonicParsing="false" onAction="" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #ff9d3c;" text="Update" textFill="WHITE">
+            <Button fx:id="updateButton" layoutX="705.0" layoutY="296.0" mnemonicParsing="false" onAction="#handleUpdateButton" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #ff9d3c;" text="Update" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             
-            <Button fx:id="searchButton" layoutX="706.0" layoutY="330.0" mnemonicParsing="false" onAction='' prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #59eacd;" text="Search" textFill="WHITE">
+            <Button fx:id="searchButton" layoutX="706.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #59eacd;" text="Search" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="saveButton" layoutX="705.0" layoutY="261.0" mnemonicParsing="false" onAction="" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #7eafb7;" text="Save" textFill="WHITE">
+            <Button fx:id="saveButton" layoutX="705.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #7eafb7;" text="Save" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -137,7 +137,6 @@
                   <Font name="Cambria Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="passenger_id" layoutX="449.0" layoutY="315.0" prefHeight="25.0" prefWidth="175.0" />
          </children>
       </Pane>
    </children>

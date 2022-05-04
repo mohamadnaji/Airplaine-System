@@ -14,11 +14,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD:AirlineReservationSystem/bin/application/BookSeat.fxml
-<AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.BookSeat">
-=======
+
 <AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookSeat">
->>>>>>> ba94cb7f9c12a49eb41f871617859243245d1c06:AirlineReservationSystem/src/view/BookSeat.fxml
 <children>
       <Label layoutX="242.0" layoutY="7.0" prefHeight="29.0" prefWidth="207.0" text="Book A Seat" textFill="#3e5ab7">
          <font>

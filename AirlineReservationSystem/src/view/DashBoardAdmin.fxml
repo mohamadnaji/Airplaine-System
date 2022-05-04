@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="801.0" prefWidth="1531.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoard">
+<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="801.0" prefWidth="1531.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoard">
    <children>
       <ToolBar layoutX="-1.0" layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="42.0" prefHeight="44.0" prefWidth="1531.0" style="-fx-background-color: #7eafb7; -fx-border-color: white;" />
       <Label alignment="CENTER" layoutY="45.0" maxHeight="100.0" prefHeight="73.0" prefWidth="190.0" style="-fx-background-color: #7eafb7; -fx-border-color: white;" text="NAVIGATION" textFill="#2674f2">
@@ -95,7 +95,7 @@
                   <Font name="Georgia Bold" size="15.0" />
                </font>
             </Button>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" GridPane.rowIndex="5">
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" GridPane.rowIndex="6">
                <image>
                   <Image url="@../../settings.png" />
                </image>
