@@ -97,10 +97,10 @@ public class AddFlight implements Initializable {
 
 	@FXML
 	private Button getAllFlights;
+	
+	@FXML
+	private Button searchButton;
 
-	PreparedStatement preparedStatement = null;
-	ResultSet resultSet;
-	Connection connection = DataBase.ConnectDb();
 	ObservableList<Flight> flightsList;
 
 	String flight_number, airline_name, source, destination, arrTime, depTime;
@@ -113,6 +113,7 @@ public class AddFlight implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		try {
 			fillTable();
+//			id_textField.setDisable(true);
 			flights_tableView.setVisible(false);
 			hideAllFlights.setVisible(false);
 			flight_number_textField.setVisible(false);
@@ -127,9 +128,6 @@ public class AddFlight implements Initializable {
 		destination_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
 		arrivalDate_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("arrival_date"));
 		departureDate_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("departure_date"));
-		// HERE WE HAVE A PROBLEM !!!!
-//		departureDate_col.setCellValueFactory(new PropertyValueFactory<Flight, Date>("departure_date"));
-
 		arrivalTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("arrival_time"));
 		departureTime_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("departure_time"));
 		flightNumber_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_number"));
@@ -153,26 +151,29 @@ public class AddFlight implements Initializable {
 	}
 
 	private Boolean noEmpltyFields() {
-		System.out.println("CHECK IF WE HAVE EMPTY FIELDS");
+		//System.out.println("CHECK IF WE HAVE EMPTY FIELDS");
 		if (id_textField.getText().isEmpty() || airline_name_textField.getText().trim().isEmpty()
 				|| source_textField.getText().trim().isEmpty() || destination_textField.getText().trim().isEmpty()
 				|| arrival_time_textField.getText().trim().isEmpty()
-				|| departure_time_textField.getText().trim().isEmpty() || flight_number_textField.getText().isEmpty()
+				|| departure_time_textField.getText().trim().isEmpty() 
+				//|| flight_number_textField.getText().isEmpty()
 				|| nbr_of_seats_TextField.getText().isEmpty() || nbr_of_reserved_seats_textField.getText().isEmpty()
 //				|| arrival_date_textField.getValue() 
 //				|| departure_date_textField.getValue() 
 		) {
-			System.out.println("EMPTY FIELDS");
+//			System.out.println("EMPTY FIELDS");
 			return false;
 		}
-		System.out.println("NO EMPTY FIELDS");
+//		System.out.println("NO EMPTY FIELDS");
 		return true;
 	}
+	
+	
 
 	// Event Listener on Button.onAction
 	@FXML
 	public void handleDeleteButton() throws SQLException {
-		System.out.println("DELETE BUTTON");
+
 		if (id_textField.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
 			failed.setTitle("Missing Fields!");
@@ -180,22 +181,50 @@ public class AddFlight implements Initializable {
 			failed.show();
 		} else {
 			id = Integer.parseInt(id_textField.getText());
-			System.out.println("DELETE flight with ID = " + id);
+			//System.out.println("DELETE flight with ID = " + id);
 			FlightsModel.deleteFlightByID(id);
 			fillTable();
-			System.out.println("Delete is ok!");
+			//System.out.println("Delete is ok!");
 			Alert flightDeleteAlert = new Alert(Alert.AlertType.INFORMATION);
 			flightDeleteAlert.setContentText("This flight has been successfly deleted.");
 			flightDeleteAlert.show();
 			fillTable();
 		}
-
+	}
+	
+	@FXML
+	public void handleSearchButton() throws SQLException {
+		if (id_textField.getText().isEmpty()) {
+			Alert failed = new Alert(Alert.AlertType.WARNING);
+			failed.setTitle("Missing Fields!");
+			failed.setContentText("Please fill the id.");
+			failed.show();
+		} else {
+			Flight flight = null;
+			id = Integer.parseInt(id_textField.getText());
+			flight = FlightsModel.searchFlight(id);
+			id_textField.setDisable(true);
+			flight_number_label.setVisible(true);
+			flight_number_textField.setVisible(true);
+			flight_number_textField.setText(flight.getFlight_number());
+			flight_number_textField.setDisable(true);
+			airline_name_textField.setText(flight.getAirline_name());
+			source_textField.setText(flight.getSource());
+			destination_textField.setText(flight.getDestination());
+			nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
+			nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
+			arrival_time_textField.setText(flight.getArrival_time());
+			departure_time_textField.setText(flight.getDeparture_time());
+			arrival_date_textField.setValue(flight.getArrival_date());
+			departure_date_textField.setValue(flight.getDeparture_date());
+			
+		}
 	}
 
 	// Event Listener on Button.onAction
 	@FXML
 	public void handleUpdateButton() throws SQLException {
-		System.out.println("UPDATE BUTTON");
+		//System.out.println("UPDATE BUTTON");
 		if (id_textField.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
 			failed.setTitle("Missing Fields!");
@@ -225,7 +254,7 @@ public class AddFlight implements Initializable {
 	// Event Listener on Button.onAction
 	@FXML
 	public void handleAddButton() throws SQLException {
-		System.out.println("ADD BUTTON");
+		//System.out.println("ADD BUTTON");
 
 		if (!noEmpltyFields()) {
 			System.out.println("WE HAVE EMPTY FIELDS");
@@ -234,14 +263,6 @@ public class AddFlight implements Initializable {
 			failed.setContentText("Please fill all fields.");
 			failed.show();
 		}
-//		if(FlightsModel.checkFlightByID(id) == true) {
-//			Alert failed = new Alert(Alert.AlertType.WARNING);
-//			failed.setTitle("Flight already exist!");
-//			failed.setContentText("Clear, and re-enter all fields ");
-//			failed.show();
-//		}
-
-		else {
 			id = Integer.parseInt(id_textField.getText());
 			flight_number = generateFlightNumber();
 			airline_name = airline_name_textField.getText();
@@ -264,14 +285,17 @@ public class AddFlight implements Initializable {
 			flightAddAlert.setContentText("New Flight has been successfly added.");
 			flightAddAlert.show();
 			fillTable();
-		}
+		
 	}
 
 	@FXML
 	public void handleClearButton() throws SQLException {
-		System.out.println("CLEAR BUTTON");
+		//System.out.println("CLEAR BUTTON");
+		id_textField.setDisable(false);
+		flight_number_textField.setVisible(false);
+		flight_number_label.setVisible(false);
 		id_textField.setText(id_autoincrement + "");
-		flight_number_textField.clear();
+		//flight_number_textField.clear();
 		airline_name_textField.clear();
 		source_textField.clear();
 		destination_textField.clear();
@@ -286,9 +310,12 @@ public class AddFlight implements Initializable {
 	@FXML
 	public void handleTableViewMouseAction() {
 		Flight flight = flights_tableView.getSelectionModel().getSelectedItem();
-//		System.out.println("id = " + flight.getFlight_id());
 		id_textField.setText("" + flight.getFlight_id());
+		id_textField.setDisable(true);
+		flight_number_label.setVisible(true);
+		flight_number_textField.setVisible(true);
 		flight_number_textField.setText(flight.getFlight_number());
+		flight_number_textField.setDisable(true);
 		airline_name_textField.setText(flight.getAirline_name());
 		source_textField.setText(flight.getSource());
 		destination_textField.setText(flight.getDestination());
@@ -314,14 +341,15 @@ public class AddFlight implements Initializable {
 		hideAllFlights.setVisible(false);
 	}
 
+	
 //	 if airline name is "Air Canada" the flight number should be "ACxxx" where xxx is
 //	 * a random 3 digit number between 101 and 300
 	public String generateFlightNumber() {
 		String flight_nbr = "";
-		// split the airline name by white space
-		String[] strings = airline_name_textField.getText().split("\\s+");
+		//split the airline name by white space
+		String[] strings = (airline_name_textField.getText()).split("\\s+");
 		int randomNumber = getRandomInteger(101, 300);
-		flight_nbr = flight_nbr + strings[0].charAt(0) + strings[1].charAt(0) + String.valueOf(randomNumber);
+		flight_nbr =  flight_nbr + strings[0].charAt(0) + strings[1].charAt(0) + String.valueOf(randomNumber);
 		return flight_nbr;
 	}
 
