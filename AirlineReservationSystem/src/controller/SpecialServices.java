@@ -4,7 +4,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import dao.IClientDao;
 import dao.IDao;
+import dao.ISpecialServicesDao;
+import daoimpl.ClientDaoImpl;
+import daoimpl.SpecialServicesDaoImpl;
 import daoimpl.TicketDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -90,6 +94,9 @@ public class SpecialServices implements Initializable{
 	private Ticket ticket;
 	private Services service;
 	
+
+	ISpecialServicesDao serviceDao = SpecialServicesDaoImpl.getSpecialServicesDaoImpl();
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		hideOptions();
@@ -111,11 +118,11 @@ public class SpecialServices implements Initializable{
 			return;
 		}
 		
-		service = SpecialServicesModel.getTicketServices(ticket);
+		service = serviceDao.findById(ticket.getTicketId());
 		
 		if( service == null ) {
 			service = new Services(ticketId, 0, "", 0,0,0,0,0,0 );
-			SpecialServicesModel.addServices(service);
+			serviceDao.save(service);
 		}
 		
 		
@@ -152,7 +159,7 @@ public class SpecialServices implements Initializable{
 				meals,
 				s1,s2,s3,s4,s5,s6
 				);
-		SpecialServicesModel.updateServices(service,s);
+		serviceDao.updateServices(service,s);
 		
 		AlertController.alert1("Changes applied");
 		hideOptions();
