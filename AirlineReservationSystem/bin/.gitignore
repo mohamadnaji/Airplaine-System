@@ -1,1 +1,10 @@
+<<<<<<< HEAD
 /application/
+=======
+/controller/
+/dao/
+/daoimpl/
+/model/
+/pojo/
+/view/
+>>>>>>> ba94cb7f9c12a49eb41f871617859243245d1c06
