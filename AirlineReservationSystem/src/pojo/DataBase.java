@@ -24,9 +24,10 @@ public class DataBase {
 //				--module-path "C:\Program Files\openjfx-17.0.2_windows-x64_bin-sdk\javafx-sdk-17.0.2\lib" --add-modules javafx.controls,javafx.fxml
 //				Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ars", "root", "");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ars","root","");
 //				Connection con = DriverManager.getConnection("jdbc:mysql://localhost/ars", "root", "root");
 			statement = conn.createStatement();
+
 		} catch (Exception ex) {
 			System.out.println("Echec de chargement du driver");
 		}
@@ -37,7 +38,7 @@ public class DataBase {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ars", "root", "");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ars","root","");
 //			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ars", "root", "root");
 			return conn;
 		} catch (Exception e) {

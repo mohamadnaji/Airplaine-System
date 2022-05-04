@@ -1,7 +1,7 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.Date;
+//import java.util.Date;
 
 public class Flight {
 
@@ -10,7 +10,8 @@ public class Flight {
 	private String airline_name, source, destination, arrival_time, departure_time;
 	private LocalDate arrival_date, departure_date;
 	private String flight_number;
-	private String arrivalDateString,departureDateString;
+	private String arrivalDateString;
+	private String departureDateString;
 
 	public String getArrivalDateString() {
 		return arrivalDateString;

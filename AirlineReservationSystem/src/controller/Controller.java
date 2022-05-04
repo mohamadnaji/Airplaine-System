@@ -99,6 +99,7 @@ public class Controller implements Initializable {
 				alert.showAndWait();
 			}
 			if (user.equals(u) && pass.equals(p)) {
+				//System.out.println("true username & password : Controller.java");
 
 				loadWindow("src/view/DashBoardAdmin.fxml", "Aurora");
 			} else {
@@ -129,7 +130,7 @@ public class Controller implements Initializable {
 			password.setText(pass_text.getText());
 		}
 
-		System.out.println("Show password done!");
+		//System.out.println("Show password done!");
 	}
 
 }
