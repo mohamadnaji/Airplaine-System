@@ -151,6 +151,11 @@
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
+            <Button fx:id="specialServices" mnemonicParsing="false" onAction="#goToSpecialServices" prefHeight="88.0" prefWidth="105.0" style="-fx-background-color: #7eafb7;" text="Special Services" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Georgia Bold" size="18.0" />
+               </font>
+            </Button>
             <ImageView fitHeight="37.0" fitWidth="67.0" pickOnBounds="true" x="500.0" y="10.0" GridPane.rowIndex="5">
                <image>
                   <Image url="@../../specialServices.png" />

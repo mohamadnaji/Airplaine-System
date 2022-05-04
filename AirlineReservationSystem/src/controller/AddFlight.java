@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Flight;
 import pojo.DataBase;
@@ -172,7 +173,7 @@ public class AddFlight implements Initializable {
 
 	// Event Listener on Button.onAction
 	@FXML
-	public void handleDeleteButton() throws SQLException {
+	public void handleDeleteButton(ActionEvent event) throws SQLException {
 
 		if (id_textField.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
@@ -193,7 +194,7 @@ public class AddFlight implements Initializable {
 	}
 	
 	@FXML
-	public void handleSearchButton() throws SQLException {
+	public void handleSearchButton(ActionEvent event) throws SQLException {
 		if (id_textField.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
 			failed.setTitle("Missing Fields!");
@@ -223,7 +224,7 @@ public class AddFlight implements Initializable {
 
 	// Event Listener on Button.onAction
 	@FXML
-	public void handleUpdateButton() throws SQLException {
+	public void handleUpdateButton(ActionEvent event) throws SQLException {
 		//System.out.println("UPDATE BUTTON");
 		if (id_textField.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
@@ -253,7 +254,7 @@ public class AddFlight implements Initializable {
 
 	// Event Listener on Button.onAction
 	@FXML
-	public void handleAddButton() throws SQLException {
+	public void handleAddButton(ActionEvent event) throws SQLException {
 		//System.out.println("ADD BUTTON");
 
 		if (!noEmpltyFields()) {
@@ -289,7 +290,7 @@ public class AddFlight implements Initializable {
 	}
 
 	@FXML
-	public void handleClearButton() throws SQLException {
+	public void handleClearButton(ActionEvent event) throws SQLException {
 		//System.out.println("CLEAR BUTTON");
 		id_textField.setDisable(false);
 		flight_number_textField.setVisible(false);
@@ -308,7 +309,7 @@ public class AddFlight implements Initializable {
 	}
 
 	@FXML
-	public void handleTableViewMouseAction() {
+	public void handleTableViewMouseAction(ActionEvent event) {
 		Flight flight = flights_tableView.getSelectionModel().getSelectedItem();
 		id_textField.setText("" + flight.getFlight_id());
 		id_textField.setDisable(true);
@@ -328,14 +329,14 @@ public class AddFlight implements Initializable {
 	}
 
 	@FXML
-	public void getAllFlightsButton() {
+	public void getAllFlightsButton(ActionEvent event) {
 		flights_tableView.setVisible(true);
 		getAllFlights.setVisible(false);
 		hideAllFlights.setVisible(true);
 	}
 
 	@FXML
-	public void HideAllFlightsButton() {
+	public void HideAllFlightsButton(ActionEvent event) {
 		flights_tableView.setVisible(false);
 		getAllFlights.setVisible(true);
 		hideAllFlights.setVisible(false);
