@@ -193,19 +193,20 @@ public class BookSeat implements Initializable{
 		        else {
 	    			ReservedSeats.add(idBtn);
 	    	//	SeatsIDE.put(idBtn, btn);
-	    		System.out.println("ReservedSeats2="+ReservedSeats.toArray());
+	    		//System.out.println("ReservedSeats2="+ReservedSeats.toArray());
 	    		stringReservedSeats=String.join(",", ReservedSeats);
-	    		System.out.println("stringReservedSeats="+stringReservedSeats.toString());
+	    		//System.out.println("stringReservedSeats="+stringReservedSeats.toString());
 	    		//lzm a3ml update tickets
 	    		/*DB.InsertFun("INSERT INTO tickets VALUES('"+FlightId.getText()+"','"+PassengerId.getText()+"','"+"','"+price+"','"+ 
 	    				nbBags+"','"+idBtn +"','"+TypeS+"','"+""+"','"+1+"')");*/
-	    		String Str="UPDATE seat SET seat_number = '" + stringReservedSeats +
+	    		/*String Str="UPDATE seat SET seat_number = '" + stringReservedSeats +
 	    				                    "' WHERE passenger_id = " + passengerId.getText() + "";
-	    		System.out.println("hay str"+Str);
+	    		System.out.println("hay str"+Str);*/
 	    		DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
 							"' WHERE flight_id = " + FlightId.getText() + "");
 	    		DB.InsertFun("UPDATE ticket SET seat_number = '" + idBtn +
 						"' WHERE passenger_id = " + passengerId.getText() + "");
+	    
 	        	Alert alert = new Alert(AlertType.ERROR);
 	            alert.setTitle("Seat Added");
 	            alert.setHeaderText("Seats");

@@ -26,12 +26,17 @@ public class FlightDaoImpl implements IFlightDao {
 	public void save(Flight f) {
 		try {
 			int flag = 1;
+			String seat=null;
 			db.InsertFun("INSERT INTO flight (flight_id,flight_number,nbr_of_seats,nbr_of_reserved_seats,"
 					+ "airline_name,source,destination,arrival_time,departure_time,arrival_date,departure_date,flag) "
 					+ "VALUES(" + f.getFlight_id() + ",'" + f.getFlight_number() + "'," + f.getNbr_of_seats() + ","
 					+ f.getNbr_of_reserved_seats() + ",'" + f.getAirline_name() + "','" + f.getSource() + "','"
 					+ f.getDestination() + "','" + f.getArrival_time() + "','" + f.getDeparture_time() + "','"
 					+ f.getArrival_date() + "','" + f.getDeparture_date() + "'," + flag + ")");
+
+			db.InsertFun("INSERT INTO seat (flight_id,seat_number,first_class_price,economic_class_price,business_class_price,flag) "
+					+ "VALUES(" + f.getFlight_id() + ",'" + "" + "'," + 100 + ","
+					+ 150 + "," + 200 + "," + flag + ")");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e);
 		}

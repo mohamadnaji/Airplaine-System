@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.Cursor?>
@@ -15,7 +22,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="801.0" prefWidth="1531.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoard">
+<AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="801.0" prefWidth="1531.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoard">
    <children>
       <ToolBar layoutX="-1.0" layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="42.0" prefHeight="44.0" prefWidth="1531.0" style="-fx-background-color: #7eafb7; -fx-border-color: white;" />
       <Label alignment="CENTER" layoutY="45.0" maxHeight="100.0" prefHeight="73.0" prefWidth="190.0" style="-fx-background-color: #7eafb7; -fx-border-color: white;" text="NAVIGATION" textFill="#2674f2">
@@ -32,7 +39,6 @@
           <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
@@ -95,23 +101,7 @@
                   <Font name="Georgia Bold" size="15.0" />
                </font>
             </Button>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@../../settings.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-               <rotationAxis>
-                  <Point3D />
-               </rotationAxis>
-            </ImageView>
-            <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" style="-fx-background-color: #7eafb7;" text="Settings" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
+            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
                <image>
                   <Image url="@../../logout.png" />
                </image>
@@ -119,7 +109,7 @@
                   <Insets bottom="5.0" left="10.0" />
                </GridPane.margin>
             </ImageView>
-            <Button fx:id="logout" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Button fx:id="logout" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
@@ -127,38 +117,30 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="history" layoutX="93.0" layoutY="97.0" mnemonicParsing="false" onAction="#goToHistory" style="-fx-background-color: #7eafb7;" text="History" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="57.0" fitWidth="52.0" layoutX="10.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true" x="500.0" y="10.0" GridPane.rowIndex="4">
-               <image>
-                  <Image url="@../../history.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </ImageView>
             <Button fx:id="logout1" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" textFill="WHITE">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
 
-            <Button mnemonicParsing="false" onAction="#goToPassportDetails" prefHeight="63.0" prefWidth="114.0" style="-fx-background-color: #7eafb7;" text="Passport" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Button mnemonicParsing="false" onAction="#goToPassportDetails" prefHeight="63.0" prefWidth="114.0" style="-fx-background-color: #7eafb7;" text="Passport" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="specialServices" mnemonicParsing="false" onAction="#goToSpecialServices" prefHeight="88.0" prefWidth="105.0" style="-fx-background-color: #7eafb7;" text="Special Services" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Button fx:id="specialServices" mnemonicParsing="false" onAction="#goToSpecialServices" prefHeight="88.0" prefWidth="105.0" style="-fx-background-color: #7eafb7;" text="Special Services" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
-            <ImageView fitHeight="37.0" fitWidth="67.0" pickOnBounds="true" x="500.0" y="10.0" GridPane.rowIndex="5">
+            <ImageView fitHeight="37.0" fitWidth="67.0" pickOnBounds="true" x="500.0" y="10.0" GridPane.rowIndex="4">
                <image>
                   <Image url="@../../specialServices.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="69.0" fitWidth="54.0" layoutX="-490.0" layoutY="367.0" pickOnBounds="true" x="500.0" y="10.0" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../passport.jpg" />
                </image>
             </ImageView>
          </children>
