@@ -8,18 +8,50 @@ public class Passport {
 	private String father_name;
 	private String mother_name;
 	private String place_of_birth;
+	private LocalDate date_of_birth;
 	private LocalDate issue_date, expiry_date;
 	private String type;
 	private String issuing_state_code;
 	private String profession;
+	private int passenger_id;
+	private String nationality;
+	private String gender;
+	
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getDate_of_birth() {
+		return date_of_birth;
+	}
+
+	public void setDate_of_birth(LocalDate date_of_birth) {
+		this.date_of_birth = date_of_birth;
+	}
+
+	
 
 	public Passport() {
 
 	}
 
-	public Passport(String passport_number, String father_name, String mother_name, String place_of_birth,
-			String profession, LocalDate issue_date, LocalDate expiry_date, String type, String issuing_state_code) {
+	public Passport(int passenger_id, String passport_number, String father_name, String mother_name, String place_of_birth,
+			String gender, String nationality, LocalDate date_of_birth, String profession, LocalDate issue_date, LocalDate expiry_date, String type, String issuing_state_code) {
 		super();
+		this.passenger_id = passenger_id;
 		this.passport_number = passport_number;
 		this.father_name = father_name;
 		this.mother_name = mother_name;
@@ -29,6 +61,17 @@ public class Passport {
 		this.type = type;
 		this.issuing_state_code = issuing_state_code;
 		this.profession = profession;
+		this.gender = gender;
+		this.nationality = nationality;
+		this.date_of_birth = date_of_birth;
+	}
+
+	public int getPassenger_id() {
+		return passenger_id;
+	}
+
+	public void setPassenger_id(int passenger_id) {
+		this.passenger_id = passenger_id;
 	}
 
 	public String getProfession() {

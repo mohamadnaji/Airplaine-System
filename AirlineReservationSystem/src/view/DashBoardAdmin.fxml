@@ -37,6 +37,7 @@
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+
         </rowConstraints>
          <children>
             <ImageView fitHeight="54.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
@@ -94,7 +95,7 @@
                   <Font name="Georgia Bold" size="15.0" />
                </font>
             </Button>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" GridPane.rowIndex="5">
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" GridPane.rowIndex="6">
                <image>
                   <Image url="@../../settings.png" />
                </image>
@@ -105,12 +106,12 @@
                   <Point3D />
                </rotationAxis>
             </ImageView>
-            <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" style="-fx-background-color: #7eafb7;" text="Settings" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" style="-fx-background-color: #7eafb7;" text="Settings" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
-            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
+            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
                <image>
                   <Image url="@../../logout.png" />
                </image>
@@ -118,7 +119,7 @@
                   <Insets bottom="5.0" left="10.0" />
                </GridPane.margin>
             </ImageView>
-            <Button fx:id="logout" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Button fx:id="logout" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
@@ -144,11 +145,22 @@
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="passport" mnemonicParsing="false" prefHeight="63.0" prefWidth="114.0" style="-fx-background-color: #7eafb7;" text="Passport" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
+
+            <Button mnemonicParsing="false" onAction="#goToPassportDetails" prefHeight="63.0" prefWidth="114.0" style="-fx-background-color: #7eafb7;" text="Passport" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <font>
                   <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
+            <Button fx:id="specialServices" mnemonicParsing="false" onAction="#goToSpecialServices" prefHeight="88.0" prefWidth="105.0" style="-fx-background-color: #7eafb7;" text="Special Services" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Georgia Bold" size="18.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="37.0" fitWidth="67.0" pickOnBounds="true" x="500.0" y="10.0" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../specialServices.png" />
+               </image>
+            </ImageView>
          </children>
       </GridPane>
       <AnchorPane fx:id="holderPane" layoutX="250.0" layoutY="41.0" maxWidth="1.7976931348623157E308" />

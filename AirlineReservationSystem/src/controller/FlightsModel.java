@@ -24,6 +24,13 @@ public class FlightsModel {
 		List<Flight> flights = flightDao.findAll();
 		return flights;
 	}
+	
+	public static Flight searchFlight(int id)  throws SQLException{
+		Flight flight = null;
+		IDao<Flight, Integer> flightDao = FlightDaoImpl.getFlightDaoImpl();
+		flight = flightDao.findById(id);
+		return flight;
+	}
 
 	public static void addFlight(Flight flight) throws SQLException {
 		try {
@@ -46,7 +53,6 @@ public class FlightsModel {
 	public static void updateFlightByID(Flight flight) {
 
 		try {
-
 			IDao<Flight, Integer> flightDao = FlightDaoImpl.getFlightDaoImpl();
 			flightDao.update(flight, flight.getFlight_id());
 		} catch (Exception e) {

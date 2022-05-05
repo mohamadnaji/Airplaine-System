@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import dao.IDao;
-import daoimpl.ClientDaoImpl;
 import model.Client;
 import model.Flight;
 import pojo.DataBase;

@@ -1,10 +1,7 @@
 package daoimpl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +115,14 @@ public class ClientDaoImpl implements IClientDao {
 	@Override
 	public void update(Client t, Integer k) {
 		// TODO Auto-generated method stub
-		
+		String Query = "UPDATE `ars`.`passenger` SET `first_name` = '"+t.getFirstName()+"', `last_name` = '"+t.getLastName()
+		+"', `age_group` = '"+t.getAgeGroup()+"',`email` = ' "+t.getEmailAddress()+"', `phone_number` = '"+t.getPhoneNumber()+
+		"' WHERE (`passenger_id` = '"+t.getClientID()+"');";
+		try {
+			db.InsertFun(Query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
