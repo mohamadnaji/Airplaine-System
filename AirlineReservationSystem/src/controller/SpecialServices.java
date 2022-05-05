@@ -4,10 +4,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import dao.IClientDao;
 import dao.IDao;
 import dao.ISpecialServicesDao;
-import daoimpl.ClientDaoImpl;
 import daoimpl.SpecialServicesDaoImpl;
 import daoimpl.TicketDaoImpl;
 import javafx.event.ActionEvent;
