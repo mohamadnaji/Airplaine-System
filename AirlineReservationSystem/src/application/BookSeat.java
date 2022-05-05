@@ -1,13 +1,7 @@
-package controller;
-
-import javafx.fxml.Initializable;
-
+package application;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,28 +11,17 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import application.DataBase;
-import application.Seat;
-import application.SeatFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
@@ -199,13 +182,12 @@ public class BookSeat implements Initializable{
 	    		//lzm a3ml update tickets
 	    		/*DB.InsertFun("INSERT INTO tickets VALUES('"+FlightId.getText()+"','"+PassengerId.getText()+"','"+"','"+price+"','"+ 
 	    				nbBags+"','"+idBtn +"','"+TypeS+"','"+""+"','"+1+"')");*/
-	    		String Str="UPDATE seat SET seat_number = '" + stringReservedSeats +
-	    				                    "' WHERE passenger_id = " + passengerId.getText() + "";
-	    		System.out.println("hay str"+Str);
-	    		DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
+	    		
+	    		DB.InsertFun("UPDATE seat SET seat_number = '" + idBtn +
+							"' WHERE passenger_id = " + passengerId.getText() + "");
+
+	    		DB.InsertFun("UPDATE ticket SET seat_number = '" + stringReservedSeats +
 							"' WHERE flight_id = " + FlightId.getText() + "");
-	    		DB.InsertFun("UPDATE ticket SET seat_number = '" + idBtn +
-						"' WHERE passenger_id = " + passengerId.getText() + "");
 	        	Alert alert = new Alert(AlertType.ERROR);
 	            alert.setTitle("Seat Added");
 	            alert.setHeaderText("Seats");
@@ -266,7 +248,8 @@ public class BookSeat implements Initializable{
     		if(btnF != null)
     		SeatsIDF.put(idF, btnF);
     		}
-    		
+    		 System.out.println("Size of map is:- "
+                     + SeatsIDC.size());
 	    	String ID=FlightId.getText();
 	    	try{
 	    		rs=DB.SelectFun("select seat_number from seat where flight_id='"+FlightId.getText()+"'");
@@ -281,7 +264,7 @@ public class BookSeat implements Initializable{
 	        	}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
 		    	for(int i=0;i<RedSeats.size();i++) { 
 		    		Button b = null;
-		    		 System.out.println("seatttID="+RedSeats.get(i));
+		    		// System.out.println("seatttID="+RedSeats.get(i));
 		    		 //System.out.println("jhj="+ SeatsIDC.get("C11"));
 		    		 if(SeatsIDA.get(RedSeats.get(i)) != null)
 		    		       b= SeatsIDA.get(RedSeats.get(i));
@@ -298,7 +281,7 @@ public class BookSeat implements Initializable{
 		    		       b= SeatsIDE.get(RedSeats.get(i));
 		    		 else if(SeatsIDF.get(RedSeats.get(i)) != null)
 		    		       b= SeatsIDF.get(RedSeats.get(i));
-		    		 if(b != null)
+		    
 		    		b.setStyle("-fx-background-color: #c5291b; -fx-background-radius: 100; ");
 		    		}
 	    

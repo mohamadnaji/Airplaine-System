@@ -2,9 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -43,7 +39,10 @@ public class DashBoard implements Initializable {
 	@FXML
 	private Button show;
 
-	AnchorPane mov, theat, showp, homep, settingsp, historyp, clients, seats, reservations,services;
+	AnchorPane mov, theat, showp, homep, settingsp, historyp, clients, seats, reservations, passport2, services;
+	
+//	@FXML
+//	private Button passport;
 
 	/**
 	 * Initialises the controller class.
@@ -57,12 +56,20 @@ public class DashBoard implements Initializable {
 
 			URL url1 = new File("src/view/AddFlight.fxml").toURI().toURL();
 			homep = FXMLLoader.load(url1);
-
+			
 			URL url2 = new File("src/view/Clients.fxml").toURI().toURL();
 			clients = FXMLLoader.load(url2);
 
 			URL url3 = new File("src/view/BookSeat.fxml").toURI().toURL();
+			System.out.println(url3);
 			seats = FXMLLoader.load(url3);
+			
+			
+			URL url5 = new File("src/view/Passport.fxml").toURI().toURL();
+			System.out.println(url5);
+			passport2 = FXMLLoader.load(url5);
+			
+			
 
 			// homep=FXMLLoader.load(getClass().getResource("src/view/Home.fxml"));
 			/*
@@ -129,6 +136,11 @@ public class DashBoard implements Initializable {
 		reservations = FXMLLoader.load(url4);
 		setNode(reservations);
 	}
+	
+	@FXML
+	private void goToPassportDetails(ActionEvent event) throws IOException {
+		setNode(passport2);
+	}
 
 	@FXML
 	void goToMovies(ActionEvent e) {
@@ -166,4 +178,6 @@ public class DashBoard implements Initializable {
 	private void goToHistory(ActionEvent event) {
 		setNode(historyp);
 	}
+	
+	
 }
