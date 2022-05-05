@@ -48,7 +48,7 @@ public class BookSeat implements Initializable{
 	    @FXML
 	    private TextField FlightId;
 	    @FXML
-	    private TextField PassengerId;
+	    private TextField passengerId;
 		@FXML
 	    private Button F8,F72,F7,F37,F36,F35,F34,F32,F31,F30,F3,F27,F26,F25,F24,F23,F22,F21,F20,F2,F15,F14,F13,F12,F11,F10,F1;
 		@FXML
@@ -76,12 +76,9 @@ public class BookSeat implements Initializable{
 	       
 	    }
 	    @FXML
-	    void shape1(Event event) {
-	    		
-	    		
-	    		
-	 
-	    		SeatsIDF.entrySet().forEach(entry -> {
+	    void test(Event event) {
+	   
+	    	/*	SeatsIDF.entrySet().forEach(entry -> {
 	    		    System.out.println(entry.getKey() + " " + entry.getValue());
 	    		});
 	    		SeatsIDA.entrySet().forEach(entry -> {
@@ -117,14 +114,13 @@ public class BookSeat implements Initializable{
 		  Button E= SeatsIDE.get("E1");
 		  E.setStyle("-fx-background-color:#ff0000;");
 			    	
-		  Button F= SeatsIDF.get("F1");
-		  F.setStyle("-fx-background-color:#ff0000;");
+		  Button F= SeatsIDF.get("F1");*/
+		  F1.setStyle("-fx-background-color:#ff0000;");
 	    }
 	   
 	    @FXML
-	    void shape(Event event) {
+	    public void shape(ActionEvent event) {
 	    	
-
 	    	Button btn = (Button) event.getSource();
 	    	Color color = (Color)btn.getBackground().getFills().get(0).getFill();
 	    	String col=color.toString();
@@ -186,12 +182,12 @@ public class BookSeat implements Initializable{
 	    		//lzm a3ml update tickets
 	    		/*DB.InsertFun("INSERT INTO tickets VALUES('"+FlightId.getText()+"','"+PassengerId.getText()+"','"+"','"+price+"','"+ 
 	    				nbBags+"','"+idBtn +"','"+TypeS+"','"+""+"','"+1+"')");*/
-	    		String Str="UPDATE seat SET seat_number = '" + stringReservedSeats +
-	    				                    "' WHERE flight_id = " + FlightId.getText() + "";
-	    		System.out.println("hay str"+Str);
-	    		DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
-							"' WHERE flight_id = " + FlightId.getText() + "");
 	    		
+	    		DB.InsertFun("UPDATE seat SET seat_number = '" + idBtn +
+							"' WHERE passenger_id = " + passengerId.getText() + "");
+
+	    		DB.InsertFun("UPDATE ticket SET seat_number = '" + stringReservedSeats +
+							"' WHERE flight_id = " + FlightId.getText() + "");
 	        	Alert alert = new Alert(AlertType.ERROR);
 	            alert.setTitle("Seat Added");
 	            alert.setHeaderText("Seats");
@@ -199,11 +195,12 @@ public class BookSeat implements Initializable{
 	            alert.showAndWait();
 		        }
 	        	}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
+	    
         }
 	    
 	    
 	    @FXML
-	    private void setSeats(Event e)
+	    public void setSeats(Event e)
 	    {
 	    	Stage stage = (Stage) anchorPane.getScene().getWindow();
     		Scene scene = stage.getScene(); 
