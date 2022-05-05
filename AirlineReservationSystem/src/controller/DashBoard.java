@@ -65,12 +65,12 @@ public class DashBoard implements Initializable {
 			clients = FXMLLoader.load(url2);
 
 			URL url3 = new File("src/view/BookSeat.fxml").toURI().toURL();
-			System.out.println(url3);
+			//System.out.println(url3);
 			seats = FXMLLoader.load(url3);
 			
 			
 			URL url5 = new File("src/view/Passport.fxml").toURI().toURL();
-			System.out.println(url5);
+		//	System.out.println(url5);
 			passport2 = FXMLLoader.load(url5);
 			
 			
