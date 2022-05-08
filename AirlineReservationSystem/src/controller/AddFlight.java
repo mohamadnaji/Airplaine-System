@@ -28,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 
 public class AddFlight implements Initializable {
 	DataBase DB = DataBase.getDataBase();
@@ -121,10 +122,12 @@ public class AddFlight implements Initializable {
 		countries_comboBox2.getItems().addAll(getAllCountries());
 		try {
 			fillTable();
+			id_textField.setDisable(true);
+			flight_number_textField.setDisable(true);
 			flights_tableView.setVisible(false);
 			hideAllFlights.setVisible(false);
-			flight_number_textField.setVisible(false);
-			flight_number_label.setVisible(false);
+//			flight_number_textField.setVisible(false);
+//			flight_number_label.setVisible(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -140,6 +143,20 @@ public class AddFlight implements Initializable {
 		flightNumber_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_number"));
 		nbrOfReservedSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_reserved_seats"));
 		nbrOfSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_seats"));
+		
+//		flights_tableView.setRowFactory(tv -> {
+//			TableRow<Flight> row = new TableRow<>();
+//			row.setOnMouseClicked(event -> {
+//				if (event.getClickCount() == 1 && (!row.isEmpty())) {
+//					updateButton.setDisable(false);
+//					deleteButton.setDisable(false);
+//				} else {
+//					updateButton.setDisable(true);
+//					deleteButton.setDisable(true);
+//				}
+//			});
+//			return row;
+//		});
 	}
 
 	private List<String> getAllCountries() {
@@ -213,16 +230,20 @@ public class AddFlight implements Initializable {
 	}
 	
 	@FXML
+	private TextField id_textField2;
+	
+	@FXML
 	public void handleSearchButton(ActionEvent event) throws SQLException {
-		if (id_textField.getText().isEmpty()) {
+		if (id_textField2.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
 			failed.setTitle("Missing Fields!");
 			failed.setContentText("Please fill the id.");
 			failed.show();
 		} else {
 			Flight flight = null;
-			id = Integer.parseInt(id_textField.getText());
+			id = Integer.parseInt(id_textField2.getText());
 			flight = FlightsModel.searchFlight(id);
+			id_textField.setText(id_textField2.getText());
 			id_textField.setDisable(true);
 			flight_number_label.setVisible(true);
 			flight_number_textField.setVisible(true);
@@ -280,11 +301,12 @@ public class AddFlight implements Initializable {
 		int randomNumber = getRandomInteger(101, 300);
 		flight_nbr =  flight_nbr + strings[0].charAt(0) + strings[1].charAt(0) + String.valueOf(randomNumber);
 		return flight_nbr;
-	}
+	} 
 
 	private int getRandomInteger(int max, int min) {
 		return ((int) (Math.random() * (max - min))) + min;
 	}
+	
 
 	// Event Listener on Button.onAction
 	@FXML
@@ -365,8 +387,8 @@ public class AddFlight implements Initializable {
 ////		System.out.println("123");
 ////		arrival_date_textField.setValue(flight.getArrival_date());
 ////		departure_date_textField.setValue(flight.getDeparture_date());
-//		
 //	}
+	
 
 	@FXML
 	public void getAllFlightsButton(ActionEvent event) {

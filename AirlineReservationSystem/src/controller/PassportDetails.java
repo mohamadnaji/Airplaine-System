@@ -91,6 +91,9 @@ public class PassportDetails implements Initializable {
 	@FXML
 	private TextField passportNumberSearch;
 	
+	@FXML
+	private Button loadButton;
+	
 	String father_name;
 	String mother_name;
 	String place_of_birth;
@@ -121,8 +124,13 @@ public class PassportDetails implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		passenger_ids.getItems().addAll(findAllPassengerID());
+		//passenger_ids.getItems().addAll(findAllPassengerID());
 		reset();
+	}
+	
+	@FXML
+	public void handleLoadutton() {
+		passenger_ids.getItems().addAll(findAllPassengerID());
 	}
 
 	
