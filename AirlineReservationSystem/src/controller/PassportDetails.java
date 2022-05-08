@@ -90,6 +90,18 @@ public class PassportDetails implements Initializable {
 
 	@FXML
 	private TextField passportNumberSearch;
+	
+	String father_name;
+	String mother_name;
+	String place_of_birth;
+	LocalDate date_of_birth;
+	LocalDate issue_date, expiry_date;
+	String type;
+	String issuing_state_code;
+	String profession;
+	String passport_number;
+	String nationality;
+	String gender;
 
 	// create a toggle group
 	ToggleGroup tg = new ToggleGroup();
@@ -103,26 +115,17 @@ public class PassportDetails implements Initializable {
 		for (int i = 0; i < clients.size(); i++) {
 			ids.add(clients.get(i).getClientID());
 		}
+		//System.out.println(ids);
 		return ids;
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-//		passenger_ids = new ComboBox<Integer>((ObservableList<Integer>) this.findAllPassengerID());
+		passenger_ids.getItems().addAll(findAllPassengerID());
 		reset();
 	}
 
-	String father_name;
-	String mother_name;
-	String place_of_birth;
-	LocalDate date_of_birth;
-	LocalDate issue_date, expiry_date;
-	String type;
-	String issuing_state_code;
-	String profession;
-	String passport_number;
-	String nationality;
-	String gender;
+	
 
 	@FXML
 	public void handleSearchButton(ActionEvent event) throws SQLException {
@@ -139,7 +142,7 @@ public class PassportDetails implements Initializable {
 			if (passport != null) {
 				passenger_ids.setValue(passport.getPassenger_id());
 				passport_number_textField.setText(passport.getPassport_number());
-				System.out.println(passport.getPassport_number());
+				//System.out.println(passport.getPassport_number());
 				fatherName_textField.setText(passport.getFather_name());
 				motherName_textField.setText(passport.getMother_name());
 				nationality_textField.setText(passport.getNationality());
@@ -273,7 +276,7 @@ public class PassportDetails implements Initializable {
 		updateButton.setDisable(true);
 		saveButton.setDisable(false);
 
-		passenger_ids.getItems().addAll(findAllPassengerID());
+		//passenger_ids.getItems().addAll(findAllPassengerID());
 		passenger_ids.setValue(null);
 	}
 }

@@ -40,7 +40,6 @@ public class ClientDaoImpl implements IClientDao {
 		// TODO Auto-generated method stub
 		//String Query = "DELETE FROM `ars`.`passenger` WHERE (`passenger_id` = '"+client.getClientID()+"');";
 		String Query = "UPDATE `ars`.`passenger` SET `flag` = '0' WHERE (`passenger_id` = '"+ t +"');";
-
 		try {
 			db.InsertFun(Query);
 		} catch (SQLException e) {

@@ -51,7 +51,7 @@ public class Controller implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		username.setStyle("-fx-prompt-text-fill: black");
 		password.setStyle("-fx-prompt-text-fill: black");
-		System.out.println("1");
+		System.out.println("Start");
 		pass_text.setVisible(false);
 		// TODO
 	}

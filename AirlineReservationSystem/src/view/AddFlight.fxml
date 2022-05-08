@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -63,8 +64,6 @@
                </font>
             </Label>
             <TextField fx:id="airline_name_textField" layoutX="185.0" layoutY="49.0" prefHeight="25.0" prefWidth="175.0" />
-            <TextField fx:id="source_textField" layoutX="185.0" layoutY="90.0" prefHeight="25.0" prefWidth="175.0" />
-            <TextField fx:id="destination_textField" layoutX="185.0" layoutY="131.0" prefHeight="25.0" prefWidth="175.0" />
             <TextField fx:id="arrival_time_textField" layoutX="551.0" layoutY="149.0" prefHeight="25.0" prefWidth="175.0" />
             <TextField fx:id="departure_time_textField" layoutX="551.0" layoutY="190.0" prefHeight="25.0" prefWidth="175.0" />
             <DatePicker fx:id="arrival_date_textField" layoutX="551.0" layoutY="71.0" />
@@ -112,11 +111,13 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
+            <ComboBox fx:id="countries_comboBox1" layoutX="185.0" layoutY="86.0" prefHeight="25.0" prefWidth="175.0" promptText="Countries" />
+            <ComboBox fx:id="countries_comboBox2" layoutX="185.0" layoutY="127.0" prefHeight="25.0" prefWidth="175.0" promptText="Countries" />
          </children>
       </Pane>
     <AnchorPane layoutX="25.0" layoutY="350.0" minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="1023.0">
          <children>
-            <TableView fx:id="flights_tableView" onMouseClicked="#handleTableViewMouseAction" prefHeight="237.0" prefWidth="1024.0">
+            <TableView fx:id="flights_tableView" prefHeight="237.0" prefWidth="1024.0">
               <columns>
                 <TableColumn fx:id="id_col" prefWidth="63.0" text="Id" />
                   <TableColumn fx:id="flightNumber_col" minWidth="0.0" prefWidth="63.0" text="Flight Nbr" />

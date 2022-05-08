@@ -6,3 +6,7 @@ public interface IFlightDao extends IDao<Flight, Integer> {
 
 	Integer getMaxFlightId();
 }
+
+
+
+
