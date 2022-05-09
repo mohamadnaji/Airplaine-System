@@ -241,7 +241,7 @@ public class Clients implements Initializable {
 	void addClient(ActionEvent event) throws SQLException {
 		
 		if (!noEmptyFields()) {
-			AlertController.alert("Error", "Empty Fields");
+			AlertController.alert("Error", "Empty Fields.");
 			return;
 		}
 		
@@ -254,7 +254,7 @@ public class Clients implements Initializable {
 		//adding
 		if(updating==0) {
 			if (!ClientsModel.checkClient(fn, ln, age, emailAd, mbNB)) {
-				AlertController.alert("Error", "Empty Fields");
+				AlertController.alert("Error", "Client already exists.");
 				return;
 			}
 
