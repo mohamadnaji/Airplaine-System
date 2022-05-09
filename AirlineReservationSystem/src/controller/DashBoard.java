@@ -65,9 +65,7 @@ public class DashBoard implements Initializable {
 			seats = FXMLLoader.load(url3);
 			
 			
-			URL url5 = new File("src/view/Passport.fxml").toURI().toURL();
-			//System.out.println(url5);
-			passport2 = FXMLLoader.load(url5);
+			
 			
 			
 
@@ -139,6 +137,9 @@ public class DashBoard implements Initializable {
 	
 	@FXML
 	private void goToPassportDetails(ActionEvent event) throws IOException {
+		URL url5 = new File("src/view/Passport.fxml").toURI().toURL();
+		//System.out.println(url5);
+		passport2 = FXMLLoader.load(url5);
 		setNode(passport2);
 	}
 

@@ -132,7 +132,7 @@
                </font>
             </Label>
             <Separator layoutX="14.0" layoutY="320.0" prefHeight="3.0" prefWidth="455.0" />
-            <Button fx:id="loadButton" layoutX="360.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleLoadutton" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #7eafb7;" text="Load" textFill="WHITE">
+            <Button fx:id="clearButton" layoutX="360.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleClearButton" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #59eacd;" text="Clear" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

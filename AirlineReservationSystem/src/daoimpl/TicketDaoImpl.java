@@ -85,7 +85,7 @@ public class TicketDaoImpl implements ITicketDao {
 				ticket.setFlightPriceId(m_ResultSet.getInt(4));
 				ticket.setNumberOfBugs(m_ResultSet.getInt(5));
 				ticket.setMeal(m_ResultSet.getString(6));
-				ticket.setSeatNumber(m_ResultSet.getInt(7));
+				ticket.setSeatNumber(m_ResultSet.getString(7));
 				ticket.setPaymentId(m_ResultSet.getInt(8));
 				ticket.setCreationDate(m_ResultSet.getDate(9));
 			}
@@ -116,7 +116,7 @@ public class TicketDaoImpl implements ITicketDao {
 				ticket.setFlightPriceId(m_ResultSet.getInt(4));
 				ticket.setNumberOfBugs(m_ResultSet.getInt(5));
 				ticket.setMeal(m_ResultSet.getString(6));
-				ticket.setSeatNumber(m_ResultSet.getInt(7));
+				ticket.setSeatNumber(m_ResultSet.getString(7));
 				ticket.setPaymentId(m_ResultSet.getInt(8));
 				ticket.setCreationDate(m_ResultSet.getDate(9));
 				tickets.add(ticket);
