@@ -80,7 +80,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Label fx:id="flight_number_label" layoutX="462.0" layoutY="27.0" prefHeight="33.0" prefWidth="107.0" text="Flight Number" textFill="#331bfa">
+            <Label fx:id="flight_number_label" layoutX="462.0" layoutY="25.0" prefHeight="33.0" prefWidth="107.0" text="Flight Number" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
