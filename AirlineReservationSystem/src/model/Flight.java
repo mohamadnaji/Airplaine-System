@@ -146,6 +146,7 @@ public class Flight {
 	public void setFlight_number(String flight_nbr) {
 		flight_number = flight_nbr;
 	}
+
 	
 	
 

@@ -7,7 +7,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,11 +22,13 @@ import model.Flight;
 import pojo.DataBase;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 
 public class AddFlight implements Initializable {
 	DataBase DB = DataBase.getDataBase();
@@ -33,31 +39,23 @@ public class AddFlight implements Initializable {
 	@FXML
 	private TextField airline_name_textField;
 	@FXML
-	private TextField source_textField;
-	@FXML
-	private TextField destination_textField;
-	@FXML
 	private TextField arrival_time_textField;
 	@FXML
 	private TextField departure_time_textField;
 	@FXML
 	private TextField price_textField;
-
 	@FXML
 	private DatePicker arrival_date_textField;
 	@FXML
 	private DatePicker departure_date_textField;
-
 	@FXML
 	private TextField nbr_of_seats_TextField;
 	@FXML
 	private TextField nbr_of_reserved_seats_textField;
 	@FXML
 	private TextField flight_number_textField;
-
 	@FXML
 	private Label flight_number_label;
-
 	@FXML
 	private TableView<Flight> flights_tableView;
 	@FXML
@@ -103,6 +101,14 @@ public class AddFlight implements Initializable {
 	private Button searchButton;
 
 	ObservableList<Flight> flightsList;
+	
+	ObservableList<String> countries1;
+	
+	@FXML
+	private ComboBox<String> countries_comboBox1;
+	
+	@FXML
+	private ComboBox<String> countries_comboBox2;
 
 	String flight_number, airline_name, source, destination, arrTime, depTime;
 	int id, flight_price, capacity, nbr_of_seats, nbr_of_reserved_seats;
@@ -112,13 +118,16 @@ public class AddFlight implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		countries_comboBox1.getItems().addAll(getAllCountries());
+		countries_comboBox2.getItems().addAll(getAllCountries());
 		try {
 			fillTable();
-//			id_textField.setDisable(true);
-			flights_tableView.setVisible(false);
 			hideAllFlights.setVisible(false);
-			flight_number_textField.setVisible(false);
-			flight_number_label.setVisible(false);
+			flights_tableView.setVisible(false);
+			id_textField.setDisable(true);
+			flight_number_textField.setDisable(true);
+			deleteButton.setDisable(true);
+			updateButton.setDisable(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -134,6 +143,36 @@ public class AddFlight implements Initializable {
 		flightNumber_col.setCellValueFactory(new PropertyValueFactory<Flight, String>("flight_number"));
 		nbrOfReservedSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_reserved_seats"));
 		nbrOfSeats_col.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("nbr_of_seats"));
+		
+//		flights_tableView.setRowFactory(tv -> {
+//			TableRow<Flight> row = new TableRow<>();
+//			row.setOnMouseClicked(event -> {
+//				if (event.getClickCount() == 1 && (!row.isEmpty())) {
+//					updateButton.setDisable(false);
+//					deleteButton.setDisable(false);
+//				} else {
+//					updateButton.setDisable(true);
+//					deleteButton.setDisable(true);
+//				}
+//			});
+//			return row;
+//		});
+	}
+
+	private List<String> getAllCountries() {
+		List<String> countries = Arrays.asList(Locale.getISOCountries());	
+		List <String> countriesList = new ArrayList<>();
+		
+		for(String countryCode: countries) {
+			Locale obj = new Locale("", countryCode);
+//			System.out.println("Country Code = " + obj.getCountry()
+//					+ ", Country name = " + obj.getDisplayCountry());
+			countriesList.add(obj.getDisplayCountry());
+		}
+//		System.out.println(countriesList);
+		
+		return countriesList;
+		
 	}
 
 	private ObservableList<Flight> fillTable() throws SQLException {
@@ -154,10 +193,9 @@ public class AddFlight implements Initializable {
 	private Boolean noEmpltyFields() {
 		//System.out.println("CHECK IF WE HAVE EMPTY FIELDS");
 		if (id_textField.getText().isEmpty() || airline_name_textField.getText().trim().isEmpty()
-				|| source_textField.getText().trim().isEmpty() || destination_textField.getText().trim().isEmpty()
+				|| countries_comboBox1.getValue() == null || countries_comboBox2.getValue() == null
 				|| arrival_time_textField.getText().trim().isEmpty()
 				|| departure_time_textField.getText().trim().isEmpty() 
-				//|| flight_number_textField.getText().isEmpty()
 				|| nbr_of_seats_TextField.getText().isEmpty() || nbr_of_reserved_seats_textField.getText().isEmpty()
 //				|| arrival_date_textField.getValue() 
 //				|| departure_date_textField.getValue() 
@@ -169,8 +207,6 @@ public class AddFlight implements Initializable {
 		return true;
 	}
 	
-	
-
 	// Event Listener on Button.onAction
 	@FXML
 	public void handleDeleteButton(ActionEvent event) throws SQLException {
@@ -194,31 +230,45 @@ public class AddFlight implements Initializable {
 	}
 	
 	@FXML
+	private TextField id_textField2;
+	
+	@FXML
 	public void handleSearchButton(ActionEvent event) throws SQLException {
-		if (id_textField.getText().isEmpty()) {
+		if (id_textField2.getText().isEmpty()) {
 			Alert failed = new Alert(Alert.AlertType.WARNING);
 			failed.setTitle("Missing Fields!");
 			failed.setContentText("Please fill the id.");
 			failed.show();
 		} else {
+			deleteButton.setDisable(false);
+			updateButton.setDisable(false);
 			Flight flight = null;
-			id = Integer.parseInt(id_textField.getText());
+			id = Integer.parseInt(id_textField2.getText());
 			flight = FlightsModel.searchFlight(id);
-			id_textField.setDisable(true);
-			flight_number_label.setVisible(true);
-			flight_number_textField.setVisible(true);
-			flight_number_textField.setText(flight.getFlight_number());
-			flight_number_textField.setDisable(true);
-			airline_name_textField.setText(flight.getAirline_name());
-			source_textField.setText(flight.getSource());
-			destination_textField.setText(flight.getDestination());
-			nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
-			nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
-			arrival_time_textField.setText(flight.getArrival_time());
-			departure_time_textField.setText(flight.getDeparture_time());
-			arrival_date_textField.setValue(flight.getArrival_date());
-			departure_date_textField.setValue(flight.getDeparture_date());
-			
+			if(flight == null) {
+				Alert failed = new Alert(Alert.AlertType.WARNING);
+				failed.setTitle("Flight ID not Found!");
+				failed.setContentText("Please re-enter another id.");
+				failed.show();
+			} else {
+				addButton.setDisable(true);
+				//System.out.println("Flight = " + flight);
+				id_textField.setText(id_textField2.getText());
+				id_textField.setDisable(true);
+				flight_number_label.setVisible(true);
+				flight_number_textField.setVisible(true);
+				flight_number_textField.setText(flight.getFlight_number());
+				flight_number_textField.setDisable(true);
+				airline_name_textField.setText(flight.getAirline_name());
+				countries_comboBox1.setValue(flight.getSource());
+				countries_comboBox2.setValue(flight.getDestination());
+				nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
+				nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
+				arrival_time_textField.setText(flight.getArrival_time());
+				departure_time_textField.setText(flight.getDeparture_time());
+				arrival_date_textField.setValue(flight.getArrival_date());
+				departure_date_textField.setValue(flight.getDeparture_date());
+			}
 		}
 	}
 
@@ -236,8 +286,8 @@ public class AddFlight implements Initializable {
 		flight.setFlight_id(Integer.parseInt(id_textField.getText()));
 		flight.setFlight_number(generateFlightNumber());
 		flight.setAirline_name(airline_name_textField.getText());
-		flight.setSource(source_textField.getText());
-		flight.setDestination(destination_textField.getText());
+		flight.setSource(countries_comboBox1.getValue());
+		flight.setDestination(countries_comboBox2.getValue());
 		flight.setNbr_of_seats(Integer.parseInt(nbr_of_seats_TextField.getText()));
 		flight.setNbr_of_reserved_seats(Integer.parseInt(nbr_of_reserved_seats_textField.getText()));
 		flight.setDeparture_time(departure_time_textField.getText());
@@ -264,11 +314,12 @@ public class AddFlight implements Initializable {
 			failed.setContentText("Please fill all fields.");
 			failed.show();
 		}
+		//System.out.println("Add new flight : ");
 			id = Integer.parseInt(id_textField.getText());
 			flight_number = generateFlightNumber();
 			airline_name = airline_name_textField.getText();
-			source = source_textField.getText();
-			destination = destination_textField.getText();
+			source = countries_comboBox1.getValue();
+			destination = countries_comboBox2.getValue();
 			nbr_of_seats = Integer.parseInt(nbr_of_seats_TextField.getText());
 			nbr_of_reserved_seats = Integer.parseInt(nbr_of_reserved_seats_textField.getText());
 			depTime = departure_time_textField.getText();
@@ -292,41 +343,49 @@ public class AddFlight implements Initializable {
 	@FXML
 	public void handleClearButton(ActionEvent event) throws SQLException {
 		//System.out.println("CLEAR BUTTON");
-		id_textField.setDisable(false);
-		flight_number_textField.setVisible(false);
-		flight_number_label.setVisible(false);
 		id_textField.setText(id_autoincrement + "");
-		//flight_number_textField.clear();
 		airline_name_textField.clear();
-		source_textField.clear();
-		destination_textField.clear();
 		nbr_of_reserved_seats_textField.clear();
 		nbr_of_seats_TextField.clear();
 		arrival_time_textField.clear();
 		departure_time_textField.clear();
-//		arrival_date_textField.setValue(null);
-//		departure_date_textField.setValue(null);
+		id_textField2.clear();
+		updateButton.setDisable(true);
+		deleteButton.setDisable(true);
+		countries_comboBox1.getSelectionModel().clearSelection();
+		countries_comboBox2.getSelectionModel().clearSelection();
+		id_textField.setDisable(true);
+		addButton.setDisable(false);
+		flight_number_textField.clear();
+		departure_date_textField.setValue(null);
+		arrival_date_textField.setValue(null);
 	}
 
-	@FXML
-	public void handleTableViewMouseAction(ActionEvent event) {
-		Flight flight = flights_tableView.getSelectionModel().getSelectedItem();
-		id_textField.setText("" + flight.getFlight_id());
-		id_textField.setDisable(true);
-		flight_number_label.setVisible(true);
-		flight_number_textField.setVisible(true);
-		flight_number_textField.setText(flight.getFlight_number());
-		flight_number_textField.setDisable(true);
-		airline_name_textField.setText(flight.getAirline_name());
-		source_textField.setText(flight.getSource());
-		destination_textField.setText(flight.getDestination());
-		nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
-		nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
-		arrival_time_textField.setText(flight.getArrival_time());
-		departure_time_textField.setText(flight.getDeparture_time());
-		arrival_date_textField.setValue(flight.getArrival_date());
-		departure_date_textField.setValue(flight.getDeparture_date());
-	}
+//	@FXML
+//	public void handleTableViewMouseAction(ActionEvent event) {
+//		System.out.println("mouse action");
+////		Flight flight = flights_tableView.getSelectionModel().getSelectedItem();
+////		id_textField.setText("" + flight.getFlight_id());
+////		System.out.println("hey");
+////		id_textField.setDisable(true);
+////		flight_number_label.setVisible(true);
+////		flight_number_textField.setVisible(true);
+////		flight_number_textField.setText(flight.getFlight_number());
+////		System.out.println("hey2");
+////		flight_number_textField.setDisable(true);
+////		airline_name_textField.setText(flight.getAirline_name());
+////		//source_textField.setText(flight.getSource());
+////		//destination_textField.setText(flight.getDestination());
+////		nbr_of_seats_TextField.setText("" + flight.getNbr_of_seats());
+////		nbr_of_reserved_seats_textField.setText("" + flight.getNbr_of_reserved_seats());
+////		arrival_time_textField.setText(flight.getArrival_time());
+////		System.out.println("hey2");
+////		departure_time_textField.setText(flight.getDeparture_time());
+////		System.out.println("123");
+////		arrival_date_textField.setValue(flight.getArrival_date());
+////		departure_date_textField.setValue(flight.getDeparture_date());
+//	}
+	
 
 	@FXML
 	public void getAllFlightsButton(ActionEvent event) {
@@ -341,7 +400,6 @@ public class AddFlight implements Initializable {
 		getAllFlights.setVisible(true);
 		hideAllFlights.setVisible(false);
 	}
-
 	
 //	 if airline name is "Air Canada" the flight number should be "ACxxx" where xxx is
 //	 * a random 3 digit number between 101 and 300

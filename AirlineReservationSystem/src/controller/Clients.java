@@ -260,6 +260,7 @@ public class Clients implements Initializable {
 
 			
 			//ClientsModel.addClient(fn, ln, age, emailAd, mbNB);
+//			Client newClient = new Client(fn,ln,age,emailAd,mbNB,1);
 			Client newClient = new Client(fn,ln,mbNB,emailAd,age,1);
 			IDao<Client, Integer> clientDao = ClientDaoImpl.getclientDaoImpl();
 			clientDao.save(newClient);

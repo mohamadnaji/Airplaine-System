@@ -71,8 +71,8 @@ public class TicketDaoImpl implements ITicketDao {
 		PreparedStatement ps;
 		Ticket ticket = null;
 		try {
-			ps = con.prepareStatement("SELECT ticket_Id,flight_Id, "
-					+ "passenger_Id,flight_Price,Nb_Of_Bags,meals,seat_Number,payment_Id,creation_Date "
+			ps = con.prepareStatement("SELECT ticket_id,flight_id, "
+					+ "passenger_id,flight_price,nb_of_bags,meals,seat_number,payment_id,creation_date "
 					+ "FROM ticket where ticket_id = ?");
 
 			ps.setInt(1, key);
@@ -104,8 +104,8 @@ public class TicketDaoImpl implements ITicketDao {
 		Statement m_Statement;
 		try {
 			m_Statement = con.createStatement();
-			String query = "SELECT ticket_Id,flight_Id,"
-					+ "passenger_Id,flight_Price,Nb_Of_Bags,meals,seat_Number,payment_Id,creation_Date "
+			String query = "SELECT ticket_id,flight_id,"
+					+ "passenger_id,flight_price,nb_of_bags,meals,seat_number,payment_id,creation_date "
 					+ "FROM ticket where flag = 1";
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
@@ -136,7 +136,7 @@ public class TicketDaoImpl implements ITicketDao {
 		Integer maxTicketId = 0;
 		try {
 			m_Statement = con.createStatement();
-			String query = "SELECT max(ticket_Id) FROM ticket";
+			String query = "SELECT max(ticket_id) FROM ticket";
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
 			while (m_ResultSet.next()) {
