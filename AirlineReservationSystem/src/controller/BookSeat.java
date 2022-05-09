@@ -24,6 +24,7 @@ import application.SeatFactory;
 import dao.IDao;
 import daoimpl.ClientDaoImpl;
 import daoimpl.FlightDaoImpl;
+import daoimpl.TicketDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,6 +47,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Client;
 import model.Flight;
+import model.Ticket;
 
 
 
@@ -86,7 +88,7 @@ public class BookSeat implements Initializable{
 	    private Button A8,A72,A7,A37,A36,A35,A34,A32,A31,A30,A3,A27,A26,A25,A24,A23,A22,A21,A20,A2,A15,A14,A13,A12,A11,A10,A1;
 	    @Override
 	    public void initialize(URL url, ResourceBundle rb) {
-	    	passenger_ids_list.getItems().addAll(findAllPassengerID());
+	    	passenger_ids_list.getItems().addAll(findAllTicketID());
 	    	flight_ids_list.getItems().addAll(findAllFlightsID());
 	   }
 	
@@ -105,6 +107,19 @@ public class BookSeat implements Initializable{
 			ids = new ArrayList<>();
 			for (int i = 0; i < clients.size(); i++) {
 				ids.add(clients.get(i).getClientID());
+			}
+			//System.out.println(ids);
+			return ids;
+		}
+	    
+	    public List<Integer> findAllTicketID() { // DONE
+			List<Integer> ids = null;
+
+			IDao<Ticket, Integer> ticketDao = TicketDaoImpl.getTicketDaoImpl();
+			List<Ticket> tickets = ticketDao.findAll();
+			ids = new ArrayList<>();
+			for (int i = 0; i < tickets.size(); i++) {
+				ids.add(tickets.get(i).getTicketId());
 			}
 			//System.out.println(ids);
 			return ids;
@@ -209,7 +224,7 @@ public class BookSeat implements Initializable{
 		     /*   for (String a : ReservedSeats)
 		            System.out.println(a);*/
 		        boolean btnIdReserved = ReservedSeats.contains(idBtn);
-		        System.out.println("flag="+btnIdReserved);
+		       // System.out.println("flag="+btnIdReserved);
 		        if(btnIdReserved) {
 		        	Alert alert = new Alert(AlertType.ERROR);
 		            alert.setTitle("Error");
@@ -220,22 +235,15 @@ public class BookSeat implements Initializable{
 		        }
 		        else {
 	    			ReservedSeats.add(idBtn);
-	    	//	SeatsIDE.put(idBtn, btn);
-	    		//System.out.println("ReservedSeats2="+ReservedSeats.toArray());
+	  
 	    		stringReservedSeats=String.join(",", ReservedSeats);
-	    		//System.out.println("stringReservedSeats="+stringReservedSeats.toString());
-	    		//lzm a3ml update tickets
-	    		/*DB.InsertFun("INSERT INTO tickets VALUES('"+FlightId.getText()+"','"+PassengerId.getText()+"','"+"','"+price+"','"+ 
-	    				nbBags+"','"+idBtn +"','"+TypeS+"','"+""+"','"+1+"')");*/
-	    		/*String Str="UPDATE seat SET seat_number = '" + stringReservedSeats +
-	    				                    "' WHERE passenger_id = " + passengerId.getText() + "";
-	    		System.out.println("hay str"+Str); passenger_ids.getValue()*/
+	
 	    		DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
 							"' WHERE flight_id = " + flight_ids_list.getValue() + "");
 	    		DB.InsertFun("UPDATE ticket SET seat_number = '" + idBtn +
-						"' WHERE passenger_id = " +passenger_ids_list.getValue() + "");
+						"' WHERE ticket_id = " +passenger_ids_list.getValue() + "");
 	    
-	        	Alert alert = new Alert(AlertType.ERROR);
+	        	Alert alert = new Alert(AlertType.CONFIRMATION);
 	            alert.setTitle("Seat Added");
 	            alert.setHeaderText("Seats");
 	            alert.setContentText("Your Seat is reserved successfuly");
@@ -369,7 +377,7 @@ public class BookSeat implements Initializable{
 	        	}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
 		    	for(int i=0;i<RedSeats.size();i++) { 
 		    		Button b = null;
-		    		 System.out.println("seatttID="+RedSeats.get(i));
+		    		// System.out.println("seatttID="+RedSeats.get(i));
 		    		 //System.out.println("jhj="+ SeatsIDC.get("C11"));
 		    		 if(SeatsIDA.get(RedSeats.get(i)) != null)
 		    		       b= SeatsIDA.get(RedSeats.get(i));

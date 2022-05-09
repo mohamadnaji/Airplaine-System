@@ -159,7 +159,9 @@ public class DashBoard implements Initializable {
 	}
 
 	@FXML
-	private void goToSeat(ActionEvent event) {
+	private void goToSeat(ActionEvent event) throws IOException  {
+		URL url4 = new File("src/view/BookSeat.fxml").toURI().toURL();
+		seats = FXMLLoader.load(url4);
 		setNode(seats);
 	}
 

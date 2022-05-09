@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dao.ITicketDao;
@@ -170,8 +171,48 @@ public class TicketDaoImpl implements ITicketDao {
 	}
 
 	@Override
-	public void deleteSeat() {
+	public void deleteSeat(Integer t) {
 		// TODO Auto-generated method stub
+		Connection conn = db.ConnectDb();
+		DataBase DB=new DataBase();
+		ResultSet rs;
+		String seat_number = null,seat_numbers,stringReservedSeats= null;
+		int flightId = 0;
+		PreparedStatement ps;
+		try {
+		rs=DB.SelectFun("select seat_number,flight_id from ticket where ticket_id='"+t+"'");
+		rs.next();
+		seat_number=rs.getString(1);
+		flightId=rs.getInt(2);
+		// System.out.println("seatttID="+seat_number);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<String>  ReservedSeats =new ArrayList<>();
+					try {
+						rs=DB.SelectFun("select seat_number from seat where flight_id='"+flightId+"'");
+			    		rs.next();
+			    		seat_numbers=rs.getString(1);
+			    		if(seat_numbers.contains(",")) {
+			        		List<String>list=Arrays.asList(seat_numbers.split(","));
+			        		ReservedSeats  = new ArrayList<>(list);
+			        	}
+			    		ReservedSeats.remove(seat_number);
+		
+			        	}catch(SQLException e){ e.printStackTrace();}
+					if(ReservedSeats.size() !=0)
+					stringReservedSeats=String.join(",", ReservedSeats);
+					
+		try {
+			DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
+							"' WHERE flight_id = " + flightId + "");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 

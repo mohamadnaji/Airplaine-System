@@ -6,5 +6,5 @@ public interface ITicketDao extends IDao<Ticket, Integer> {
 
 	public Integer getMaxTicketId();
 	
-	public void deleteSeat();
+	public void deleteSeat(Integer Id);
 }

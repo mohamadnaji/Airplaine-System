@@ -103,7 +103,7 @@
       <Button fx:id="A23" layoutX="751.0" layoutY="271.0" mnemonicParsing="false" onAction="#shape" prefHeight="10.0" prefWidth="5.0" rotate="90.0" style="-fx-background-color: #85d1ae;" />
       <AnchorPane layoutX="51.0" layoutY="398.0" prefHeight="299.0" prefWidth="1326.0">
          <children>
-            <ComboBox fx:id="passenger_ids_list" layoutX="138.0" layoutY="177.0" prefWidth="150.0" promptText="Passenger ID" />
+            <ComboBox fx:id="passenger_ids_list" layoutX="138.0" layoutY="177.0" prefWidth="150.0" promptText="Ticket ID" />
             <Button layoutX="26.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: #fc9a29;" textFill="#fc941c" />
             <Label layoutX="8.0" layoutY="43.0" prefHeight="18.0" prefWidth="62.0" text="First Class">
                <font>
