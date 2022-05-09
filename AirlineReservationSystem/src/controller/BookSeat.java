@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,9 @@ import javax.swing.JOptionPane;
 import application.DataBase;
 import application.Seat;
 import application.SeatFactory;
+import dao.IDao;
+import daoimpl.ClientDaoImpl;
+import daoimpl.FlightDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,6 +44,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import model.Client;
+import model.Flight;
 
 
 
@@ -55,17 +61,17 @@ public class BookSeat implements Initializable{
 		HashMap<String, Button> SeatsIDD = new HashMap<>();
 		HashMap<String, Button> SeatsIDE = new HashMap<>();
 		HashMap<String, Button> SeatsIDF = new HashMap<>();
-		//HashMap<String, Button> ReservedSeats = new HashMap<>();
+		
 		
 		String stringReservedSeats;
 		List<String>  ReservedSeats=new ArrayList<>();
 		List<String>  RedSeats=new ArrayList<>();
 		@FXML
+		private ComboBox<Integer> passenger_ids_list;
+	    @FXML
+	    private ComboBox<Integer> flight_ids_list;
+		@FXML
 		private AnchorPane anchorPane;
-	    @FXML
-	    private TextField FlightId;
-	    @FXML
-	    private TextField passengerId;
 		@FXML
 	    private Button F8,F72,F7,F37,F36,F35,F34,F32,F31,F30,F3,F27,F26,F25,F24,F23,F22,F21,F20,F2,F15,F14,F13,F12,F11,F10,F1;
 		@FXML
@@ -80,17 +86,39 @@ public class BookSeat implements Initializable{
 	    private Button A8,A72,A7,A37,A36,A35,A34,A32,A31,A30,A3,A27,A26,A25,A24,A23,A22,A21,A20,A2,A15,A14,A13,A12,A11,A10,A1;
 	    @Override
 	    public void initialize(URL url, ResourceBundle rb) {
-	  
+	    	passenger_ids_list.getItems().addAll(findAllPassengerID());
+	    	flight_ids_list.getItems().addAll(findAllFlightsID());
 	   }
-	  /*  public Node lookup(final String selector) {
-	    	  return node().lookup(selector);
-	    	}*/
+	
 	    @FXML
 	    void back(ActionEvent event) {
 	    	closeStage();
 	    }
 	    private void closeStage() {
 	       
+	    }
+	    public List<Integer> findAllPassengerID() { // DONE
+			List<Integer> ids = null;
+
+			IDao<Client, Integer> clientDao = ClientDaoImpl.getclientDaoImpl();
+			List<Client> clients = clientDao.findAll();
+			ids = new ArrayList<>();
+			for (int i = 0; i < clients.size(); i++) {
+				ids.add(clients.get(i).getClientID());
+			}
+			//System.out.println(ids);
+			return ids;
+		}
+	    public List<Integer> findAllFlightsID() { // DONE
+	    	List<Integer> ids = null;
+	    	
+	    	IDao<Flight, Integer> flightDao = FlightDaoImpl.getFlightDaoImpl();
+	    	List<Flight> flights = flightDao.findAll();
+	    	ids = new ArrayList<>();
+	    	for (int i = 0; i < flights.size(); i++) {
+				ids.add(flights.get(i).getFlight_id());
+			}
+	    	return ids;
 	    }
 	    @FXML
 	    void test(Event event) {
@@ -152,17 +180,17 @@ public class BookSeat implements Initializable{
 	    	btn.setStyle("-fx-background-color: #c5291b;");
 	     	try{
 	    		if(TypeS.equals("FirstClass")) {
-	    		rs3=DB.SelectFun("select first_class_price,seat_number from seat where flight_id='"+FlightId.getText()+"'");
+	    		rs3=DB.SelectFun("select first_class_price,seat_number from seat where flight_id='"+flight_ids_list.getValue()+"'");
 	    		rs3.next();
 	   
 	    		}
 				else if(TypeS.equals("Business")) {
-				rs3=DB.SelectFun("select economic_class_price,seat_number from seat where flight_id='"+FlightId.getText()+"'");
+				rs3=DB.SelectFun("select economic_class_price,seat_number from seat where flight_id='"+flight_ids_list.getValue()+"'");
 		    	rs3.next();
 	    	
 	    		}
 				else if(TypeS.equals("Economy")) {
-				rs3=DB.SelectFun("select business_class_price,seat_number from seat where flight_id='"+FlightId.getText()+"'");
+				rs3=DB.SelectFun("select business_class_price,seat_number from seat where flight_id='"+flight_ids_list.getValue()+"'");
 			    rs3.next();
 	  
 	    		}
@@ -201,11 +229,11 @@ public class BookSeat implements Initializable{
 	    				nbBags+"','"+idBtn +"','"+TypeS+"','"+""+"','"+1+"')");*/
 	    		/*String Str="UPDATE seat SET seat_number = '" + stringReservedSeats +
 	    				                    "' WHERE passenger_id = " + passengerId.getText() + "";
-	    		System.out.println("hay str"+Str);*/
+	    		System.out.println("hay str"+Str); passenger_ids.getValue()*/
 	    		DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
-							"' WHERE flight_id = " + FlightId.getText() + "");
+							"' WHERE flight_id = " + flight_ids_list.getValue() + "");
 	    		DB.InsertFun("UPDATE ticket SET seat_number = '" + idBtn +
-						"' WHERE passenger_id = " + passengerId.getText() + "");
+						"' WHERE passenger_id = " +passenger_ids_list.getValue() + "");
 	    
 	        	Alert alert = new Alert(AlertType.ERROR);
 	            alert.setTitle("Seat Added");
@@ -216,8 +244,63 @@ public class BookSeat implements Initializable{
 	        	}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
 	    
         }
-	    
-	    
+	
+		public void ClearButton() {
+			Stage stage = (Stage) anchorPane.getScene().getWindow();
+    		Scene scene = stage.getScene(); 
+			
+			for(int i=0;i<38;i++) {
+				
+				String idofbtnA= "#A"+String.valueOf(i);
+	    		Button btnA= (Button) scene.lookup(idofbtnA);
+	    		
+	    		String idofbtnB= "#B"+String.valueOf(i);
+	    		Button btnB= (Button) scene.lookup(idofbtnB);
+	    		
+	    		String idofbtnC= "#C"+String.valueOf(i);
+	    		Button btnC= (Button) scene.lookup(idofbtnC);
+	    		
+	    		String idofbtnD= "#D"+String.valueOf(i);
+	    		Button btnD= (Button) scene.lookup(idofbtnD);
+
+	    		String idofbtnE= "#E"+String.valueOf(i);
+	        	Button btnE= (Button) scene.lookup(idofbtnE);
+	        	
+	        	String idofbtnF= "#F"+String.valueOf(i);
+	        	Button btnF= (Button) scene.lookup(idofbtnF);
+				if(i<4) {
+					if(btnA != null) 	btnA.setStyle("-fx-background-color: #fc941c; -fx-background-radius: 0; ");
+					if(btnB != null) 	btnB.setStyle("-fx-background-color: #fc941c; -fx-background-radius: 0; ");
+					if(btnE != null) 	btnE.setStyle("-fx-background-color: #fc941c; -fx-background-radius: 0; ");
+					if(btnF != null) 	btnF.setStyle("-fx-background-color: #fc941c; -fx-background-radius: 0; ");
+					
+				}
+				else if(i>4 && i<22) {
+					if(btnA != null) 	btnA.setStyle("-fx-background-color: #2d6eb4; -fx-background-radius: 0; ");
+					if(btnB != null) 	btnB.setStyle("-fx-background-color: #2d6eb4; -fx-background-radius: 0; ");
+					if(btnE != null) 	btnE.setStyle("-fx-background-color: #2d6eb4; -fx-background-radius: 0; ");
+					if(btnF != null) 	btnF.setStyle("-fx-background-color: #2d6eb4; -fx-background-radius: 0; ");
+					if(btnC != null) 	btnC.setStyle("-fx-background-color: #2d6eb4; -fx-background-radius: 0; ");
+					if(btnD != null) 	btnD.setStyle("-fx-background-color: #2d6eb4; -fx-background-radius: 0; ");
+				}
+				else {
+					if(btnA != null) 	btnA.setStyle("-fx-background-color: #85d1ae; -fx-background-radius: 0; ");
+					if(btnB != null) 	btnB.setStyle("-fx-background-color: #85d1ae; -fx-background-radius: 0; ");
+					if(btnE != null) 	btnE.setStyle("-fx-background-color: #85d1ae; -fx-background-radius: 0; ");
+					if(btnF != null) 	btnF.setStyle("-fx-background-color: #85d1ae; -fx-background-radius: 0; ");
+					if(btnC != null) 	btnC.setStyle("-fx-background-color: #85d1ae; -fx-background-radius: 0; ");
+					if(btnD != null) 	btnD.setStyle("-fx-background-color: #85d1ae; -fx-background-radius: 0; ");
+				}
+				
+			}
+			
+		}
+		 @FXML
+		 public void ClearButton(Event e)
+		    {
+			 ClearButton();
+		    }
+		    
 	    @FXML
 	    public void setSeats(Event e)
 	    {
@@ -268,9 +351,9 @@ public class BookSeat implements Initializable{
     		SeatsIDF.put(idF, btnF);
     		}
     		
-	    	String ID=FlightId.getText();
+	    	//String ID=FlightId.getText();
 	    	try{
-	    		rs=DB.SelectFun("select seat_number from seat where flight_id='"+FlightId.getText()+"'");
+	    		rs=DB.SelectFun("select seat_number from seat where flight_id='"+flight_ids_list.getValue()+"'");
 	    		rs.next();
 	    		seat_number=rs.getString(1);
 	    		
@@ -278,6 +361,10 @@ public class BookSeat implements Initializable{
 	        		List<String>list=Arrays.asList(seat_number.split(","));
 	        		RedSeats = new ArrayList<>(list);
 	        	}
+	    		else{
+	    			ClearButton();
+	    			return;
+	    		}
 	    		
 	        	}catch(Exception e1){ JOptionPane.showMessageDialog(null, e1);}
 		    	for(int i=0;i<RedSeats.size();i++) { 

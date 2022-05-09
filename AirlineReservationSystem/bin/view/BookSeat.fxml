@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookSeat">
+<AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookSeat">
 <children>
       <Label layoutX="242.0" layoutY="7.0" prefHeight="29.0" prefWidth="207.0" text="Book A Seat" textFill="#3e5ab7">
          <font>
@@ -106,9 +101,10 @@
       <Button fx:id="C23" layoutX="751.0" layoutY="229.0" mnemonicParsing="false" onAction="#shape" prefHeight="10.0" prefWidth="5.0" rotate="90.0" style="-fx-background-color: #85d1ae;" />
       <Button fx:id="B23" layoutX="751.0" layoutY="250.0" mnemonicParsing="false" onAction="#shape" prefHeight="10.0" prefWidth="5.0" rotate="90.0" style="-fx-background-color: #85d1ae;" />
       <Button fx:id="A23" layoutX="751.0" layoutY="271.0" mnemonicParsing="false" onAction="#shape" prefHeight="10.0" prefWidth="5.0" rotate="90.0" style="-fx-background-color: #85d1ae;" />
-      <AnchorPane layoutX="64.0" layoutY="400.0" prefHeight="299.0" prefWidth="1326.0">
+      <AnchorPane layoutX="51.0" layoutY="398.0" prefHeight="299.0" prefWidth="1326.0">
          <children>
-            <Button fx:id="F13" layoutX="26.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: #fc9a29;" textFill="#fc941c" />
+            <ComboBox fx:id="passenger_ids_list" layoutX="138.0" layoutY="177.0" prefWidth="150.0" promptText="Passenger ID" />
+            <Button layoutX="26.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: #fc9a29;" textFill="#fc941c" />
             <Label layoutX="8.0" layoutY="43.0" prefHeight="18.0" prefWidth="62.0" text="First Class">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -161,7 +157,6 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="FlightId" layoutX="139.0" layoutY="134.0" />
             <Button layoutX="408.0" layoutY="136.0" mnemonicParsing="false" onAction="#setSeats" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: #7eafb7;" text="Search Reseved Lists" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -172,7 +167,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="passengerId" layoutX="139.0" layoutY="175.0" />
+            <Button layoutX="598.0" layoutY="136.0" mnemonicParsing="false" onAction="#ClearButton" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: #7eafb7;" text="Clear" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ComboBox fx:id="flight_ids_list" layoutX="138.0" layoutY="133.0" prefWidth="150.0" promptText="Flight ID" />
          </children>
       </AnchorPane>
       <Button fx:id="F24" layoutX="783.0" layoutY="145.0" mnemonicParsing="false" onAction="#shape" prefHeight="10.0" prefWidth="5.0" rotate="90.0" style="-fx-background-color: #85d1ae;" textFill="#85d1ae" />

@@ -348,12 +348,12 @@ public class AddFlight implements Initializable {
 	public String generateFlightNumber() {
 		String flight_nbr = "";
 		//split the airline name by white space
-		String[] strings = (airline_name_textField.getText()).split("\\s+");
+		char[] strings = (airline_name_textField.getText()).toCharArray();
 		int randomNumber = getRandomInteger(101, 300);
-		flight_nbr =  flight_nbr + strings[0].charAt(0) + strings[1].charAt(0) + String.valueOf(randomNumber);
+		flight_nbr =  flight_nbr + strings[0] + strings[1] + String.valueOf(randomNumber);
 		return flight_nbr;
 	}
-
+	
 	public int getRandomInteger(int max, int min) {
 		return ((int) (Math.random() * (max - min))) + min;
 	}
