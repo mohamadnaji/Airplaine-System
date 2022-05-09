@@ -101,48 +101,6 @@
                   <Font name="Georgia Bold" size="15.0" />
                </font>
             </Button>
-<<<<<<< HEAD
-            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
-=======
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" GridPane.rowIndex="6">
-
-               <image>
-                  <Image url="@../../settings.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-               <rotationAxis>
-                  <Point3D />
-               </rotationAxis>
-            </ImageView>
-            <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" style="-fx-background-color: #7eafb7;" text="Settings" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
->>>>>>> 17f8f4af26678078fa801eddb2561bac2dc9c53f
-               <image>
-                  <Image url="@../../logout.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets bottom="5.0" left="10.0" />
-               </GridPane.margin>
-            </ImageView>
-            <Button fx:id="logout" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="5.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="logout1" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" textFill="WHITE">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
-               </font>
-            </Button>
 
             <Button mnemonicParsing="false" onAction="#goToPassportDetails" prefHeight="63.0" prefWidth="114.0" style="-fx-background-color: #7eafb7;" text="Passport" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>

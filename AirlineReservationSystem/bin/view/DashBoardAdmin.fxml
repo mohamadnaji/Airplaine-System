@@ -43,7 +43,7 @@
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-
+            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <ImageView fitHeight="54.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
@@ -99,27 +99,6 @@
             <Button fx:id="show" mnemonicParsing="false" onAction="#goToSeat" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: #7eafb7;" text="Book A Seat" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="Georgia Bold" size="15.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="49.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
-               <image>
-                  <Image url="@../../logout.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets bottom="5.0" left="10.0" />
-               </GridPane.margin>
-            </ImageView>
-            <Button fx:id="logout" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="5.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="logout1" mnemonicParsing="false" onAction="#goToLogin" style="-fx-background-color: #7eafb7;" textFill="WHITE">
-               <font>
-                  <Font name="Georgia Bold" size="18.0" />
                </font>
             </Button>
 
