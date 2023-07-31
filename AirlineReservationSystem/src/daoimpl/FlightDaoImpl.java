@@ -26,12 +26,17 @@ public class FlightDaoImpl implements IFlightDao {
 	public void save(Flight f) {
 		try {
 			int flag = 1;
+			String seat=null;
 			db.InsertFun("INSERT INTO flight (flight_id,flight_number,nbr_of_seats,nbr_of_reserved_seats,"
 					+ "airline_name,source,destination,arrival_time,departure_time,arrival_date,departure_date,flag) "
 					+ "VALUES(" + f.getFlight_id() + ",'" + f.getFlight_number() + "'," + f.getNbr_of_seats() + ","
 					+ f.getNbr_of_reserved_seats() + ",'" + f.getAirline_name() + "','" + f.getSource() + "','"
 					+ f.getDestination() + "','" + f.getArrival_time() + "','" + f.getDeparture_time() + "','"
 					+ f.getArrival_date() + "','" + f.getDeparture_date() + "'," + flag + ")");
+
+			db.InsertFun("INSERT INTO seat (flight_id,seat_number,first_class_price,economic_class_price,business_class_price,flag) "
+					+ "VALUES(" + f.getFlight_id() + ",'" + "" + "'," + 100 + ","
+					+ 150 + "," + 200 + "," + flag + ")");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
@@ -88,14 +93,14 @@ public class FlightDaoImpl implements IFlightDao {
 				Flight flight = new Flight(rs.getInt(1), //flight id
 						rs.getString(12), //flight_number
 						rs.getString(2), // airline_name
-						rs.getInt(4), // nbr_of_seats
-						rs.getInt(5), // nbr of reserved seats
-						rs.getString(6), // source
-						rs.getString(7), //destination
-						rs.getString(8), // arrival time
-						rs.getString(9), //departure time
-						rs.getDate(10).toLocalDate(), // arrival date
-						rs.getDate(11).toLocalDate() // departure date
+						rs.getInt(3), // nbr_of_seats
+						rs.getInt(4), // nbr of reserved seats
+						rs.getString(5), // source
+						rs.getString(6), //destination
+						rs.getString(7), // arrival time
+						rs.getString(8), //departure time
+						rs.getDate(9).toLocalDate(), // arrival date
+						rs.getDate(10).toLocalDate() // departure date
 //				rs.getInt(12)  // flag
 						); 
 				flightsList.add(flight);

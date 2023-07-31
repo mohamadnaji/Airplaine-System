@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -10,7 +13,10 @@ import daoimpl.SpecialServicesDaoImpl;
 import daoimpl.TicketDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -20,6 +26,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import model.Services;
 import model.Ticket;
 
@@ -56,10 +63,10 @@ public class SpecialServices implements Initializable{
 	private CheckBox cb6;
 	
 	@FXML
-	private Button loadButton;
-	@FXML
 	private Button confirmButton;
 	
+	@FXML
+	private Label detailsLabel;
 	@FXML
 	private Label bagLabel;
 	@FXML
@@ -68,12 +75,18 @@ public class SpecialServices implements Initializable{
 	private Label servicesLabel;
 	
 	@FXML
+	private Separator detailsSeparator;
+	@FXML
 	private Separator bagSeparator;
 	@FXML
 	private Separator mealSeparator;
 	@FXML
 	private Separator servicesSeparator;
 	
+	@FXML
+	private Pane originalPane;
+	@FXML
+	private Pane detailsPane;
 	@FXML
 	private Pane bagPane;
 	@FXML
@@ -107,8 +120,35 @@ public class SpecialServices implements Initializable{
 	
 	
 	@FXML
-	void findTicket(ActionEvent event) throws SQLException {
-		ticketId = Integer.parseInt(ticketID.getText().toString());
+	void showPopup(ActionEvent event) throws MalformedURLException {
+		URL url = new File("src/view/TicketPopup.fxml").toURI().toURL();
+		FXMLLoader loader = new FXMLLoader();
+		//loader.setLocation(getClass().getResource(".../view/TicketPopup.fxml"));
+		// initializing the controller
+		TicketPopup popupController = new TicketPopup();
+		loader.setController(popupController);
+		Parent layout;
+		try {
+			layout = loader.load(url);
+			Scene scene = new Scene(layout);
+			// this is the popup stage
+			Stage popupStage = new Stage();
+			// now
+			popupController.setStage(popupStage);
+			popupStage.setScene(scene);
+			popupStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+			AlertController.alert("Error", "There was an error trying to load the popup fxml file.");
+		}
+		ticketId = popupController.getResult();
+		if(ticketId!=0)
+			findTicket();
+	}
+	
+	
+	void findTicket(){
+		//ticketId = Integer.parseInt(ticketID.getText().toString());
 		IDao<Ticket, Integer> ticketDao = TicketDaoImpl.getTicketDaoImpl();
 		ticket = ticketDao.findById(ticketId);
 		if(ticket==null) {
@@ -165,6 +205,8 @@ public class SpecialServices implements Initializable{
 	
 	
 	private void fillOptions(Services s) {
+		ticketID.setText(""+ticketId);
+		
 		slider.adjustValue(s.getBags()*1.0);
 		
 		if(s.getMeal()!=null) {
@@ -196,30 +238,44 @@ public class SpecialServices implements Initializable{
 	}
 	
 	private void showOptions() {
+		originalPane.setVisible(false);
+		
+		detailsLabel.setVisible(true);
 		bagLabel.setVisible(true);
 		mealLabel.setVisible(true);
 		servicesLabel.setVisible(true);
 		
+		detailsSeparator.setVisible(true);
 		bagSeparator.setVisible(true);
 		mealSeparator.setVisible(true);
 		servicesSeparator.setVisible(true);
 
+		detailsPane.setVisible(true);
 		bagPane.setVisible(true);
 		mealPane.setVisible(true);
 		servicesPane.setVisible(true);
+		
+		confirmButton.setVisible(true);
 	}
 	
 	private void hideOptions() {
+		originalPane.setVisible(true);
+		
+		detailsLabel.setVisible(false);
 		bagLabel.setVisible(false);
 		mealLabel.setVisible(false);
 		servicesLabel.setVisible(false);
 		
+		detailsSeparator.setVisible(false);
 		bagSeparator.setVisible(false);
 		mealSeparator.setVisible(false);
 		servicesSeparator.setVisible(false);
 
+		detailsPane.setVisible(false);
 		bagPane.setVisible(false);
 		mealPane.setVisible(false);
 		servicesPane.setVisible(false);
+		
+		confirmButton.setVisible(false);
 	}
 }

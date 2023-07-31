@@ -11,7 +11,7 @@ public class Ticket {
 	private Integer flightPriceId;
 	private Integer NumberOfBugs;
 	private String meal;
-	private Integer seatNumber;
+	private String seatNumber;
 	private Integer paymentId;
 	private Date creationDate;
 
@@ -71,12 +71,12 @@ public class Ticket {
 		this.meal = meal;
 	}
 
-	public Integer getSeatNumber() {
+	public String getSeatNumber() {
 		return seatNumber;
 	}
 
-	public void setSeatNumber(Integer seatNumber) {
-		this.seatNumber = seatNumber;
+	public void setSeatNumber(String string) {
+		this.seatNumber = string;
 	}
 
 	public Integer getPaymentId() {
@@ -96,7 +96,7 @@ public class Ticket {
 	}
 
 	public Ticket(Integer ticketId, Integer ticketNumber, Integer flightId, Integer passengerId, Integer flightPriceId,
-			Integer numberOfBugs, String meal, Integer seatNumber, Integer paymentId, Date cre) {
+			Integer numberOfBugs, String meal, String seatNumber, Integer paymentId, Date cre) {
 		super();
 		this.ticketId = ticketId;
 		this.ticketNumber = ticketNumber;

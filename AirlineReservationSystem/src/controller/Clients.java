@@ -241,7 +241,7 @@ public class Clients implements Initializable {
 	void addClient(ActionEvent event) throws SQLException {
 		
 		if (!noEmptyFields()) {
-			AlertController.alert("Error", "Empty Fields");
+			AlertController.alert("Error", "Empty Fields.");
 			return;
 		}
 		
@@ -254,13 +254,14 @@ public class Clients implements Initializable {
 		//adding
 		if(updating==0) {
 			if (!ClientsModel.checkClient(fn, ln, age, emailAd, mbNB)) {
-				AlertController.alert("Error", "Empty Fields");
+				AlertController.alert("Error", "Client already exists.");
 				return;
 			}
 
 			
 			//ClientsModel.addClient(fn, ln, age, emailAd, mbNB);
-			Client newClient = new Client(fn,ln,age,emailAd,mbNB,1);
+//			Client newClient = new Client(fn,ln,age,emailAd,mbNB,1);
+			Client newClient = new Client(fn,ln,mbNB,emailAd,age,1);
 			IDao<Client, Integer> clientDao = ClientDaoImpl.getclientDaoImpl();
 			clientDao.save(newClient);
 			AlertController.alert1("New client has been successfly added.");

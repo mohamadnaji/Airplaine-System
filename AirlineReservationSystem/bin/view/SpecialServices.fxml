@@ -14,21 +14,20 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="755.0" maxWidth="1400.0" minHeight="-Infinity" minWidth="800.0" prefHeight="755.0" prefWidth="1380.0" style="-fx-background-color: white;" translateX="-60.0" translateY="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SpecialServices">
 <children>
-      <Label layoutX="240.0" layoutY="7.0" prefHeight="29.0" prefWidth="207.0" text="Details" textFill="#3e5ab7">
+      <Label fx:id="detailsLabel" layoutX="240.0" layoutY="7.0" prefHeight="29.0" prefWidth="207.0" text="Details" textFill="#3e5ab7">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Separator layoutY="37.0" prefHeight="9.0" prefWidth="1380.0" style="-fx-border-color: white;" />
+      <Separator fx:id="detailsSeparator" layoutY="37.0" prefHeight="9.0" prefWidth="1380.0" style="-fx-border-color: white;" />
       <AnchorPane layoutY="666.0" prefHeight="0.0" prefWidth="1219.0" style="-fx-background-color: white;" />
-      <Pane layoutX="66.0" layoutY="55.0" prefHeight="33.0" prefWidth="798.0" style="-fx-background-color: white;">
+      <Pane fx:id="detailsPane" layoutX="66.0" layoutY="55.0" prefHeight="33.0" prefWidth="798.0" style="-fx-background-color: white;">
          <children>
             <Label layoutX="7.0" layoutY="-2.0" prefHeight="33.0" prefWidth="97.0" text="Ticket ID" textFill="#331bfa">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font></Label>
-            <TextField fx:id="ticketID" layoutX="100.0" layoutY="2.0" prefHeight="25.0" prefWidth="175.0" />
-            <Button fx:id="loadButton" layoutX="373.0" layoutY="2.0" mnemonicParsing="false" onAction="#findTicket" text="Load" />
+            <TextField fx:id="ticketID" disable="true" layoutX="100.0" layoutY="2.0" prefHeight="25.0" prefWidth="80.0" />
          </children>
       </Pane>
       <Label fx:id="servicesLabel" layoutX="240.0" layoutY="450.0" prefHeight="29.0" prefWidth="226.0" text="Services" textFill="#3e5ab7">
@@ -130,5 +129,20 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <Pane fx:id="originalPane" layoutX="85.0" layoutY="17.0" prefHeight="164.0" prefWidth="900.0" visible="false">
+         <children>
+            <Button fx:id="findTicketButton" layoutX="34.0" layoutY="86.0" mnemonicParsing="false" onAction="#showPopup" prefHeight="33.0" prefWidth="178.0" style="-fx-background-color: #7eafb7;" text="Find ticket" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="specialLabel" layoutX="34.0" layoutY="14.0" prefHeight="29.0" prefWidth="226.0" text="Add Special Sevices" textFill="#3e5ab7">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Separator fx:id="specialSeparator" layoutX="-29.0" layoutY="41.0" prefHeight="9.0" prefWidth="1332.0" style="-fx-border-color: white;" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

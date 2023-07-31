@@ -1,9 +1,9 @@
 package model;
 
 public class Services implements Comparable{
-	int servicesId,ticketId,bags;
-	String meal;
-	int s1,s2,s3,s4,s5,s6;
+	private int servicesId,ticketId,bags;
+	private String meal;
+	private int s1,s2,s3,s4,s5,s6;
 	
 	public Services(int services_id, int ticket_id, int bags, String meal, int s1, int s2, int s3, int s4, int s5,
 			int s6) {

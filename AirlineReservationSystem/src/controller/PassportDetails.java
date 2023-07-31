@@ -90,6 +90,30 @@ public class PassportDetails implements Initializable {
 
 	@FXML
 	private TextField passportNumberSearch;
+	
+	@FXML
+	private Button clearButton;
+	
+	String father_name;
+	String mother_name;
+	String place_of_birth;
+	LocalDate date_of_birth;
+	LocalDate issue_date, expiry_date;
+	String type;
+	String issuing_state_code;
+	String profession;
+	String passport_number;
+	String nationality;
+	String gender;
+	
+	@FXML
+	public void handleClearButton() {
+		clearButton.setVisible(false);
+		searchButton.setVisible(true);
+		reset();
+		passportNumberSearch.clear();
+		
+	}
 
 	// create a toggle group
 	ToggleGroup tg = new ToggleGroup();
@@ -103,26 +127,26 @@ public class PassportDetails implements Initializable {
 		for (int i = 0; i < clients.size(); i++) {
 			ids.add(clients.get(i).getClientID());
 		}
+		//System.out.println(ids);
 		return ids;
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-//		passenger_ids = new ComboBox<Integer>((ObservableList<Integer>) this.findAllPassengerID());
+		//passenger_ids.getItems().addAll(findAllPassengerID());
+//		searchButton.setDisable(true);
+		saveButton.setDisable(true);
+		clearButton.setVisible(false);
 		reset();
 	}
+	
+//	@FXML
+//	public void handleLoadutton() {
+//		passenger_ids.getItems().addAll(findAllPassengerID());
+//		searchButton.setDisable(false);
+//	}
 
-	String father_name;
-	String mother_name;
-	String place_of_birth;
-	LocalDate date_of_birth;
-	LocalDate issue_date, expiry_date;
-	String type;
-	String issuing_state_code;
-	String profession;
-	String passport_number;
-	String nationality;
-	String gender;
+	
 
 	@FXML
 	public void handleSearchButton(ActionEvent event) throws SQLException {
@@ -136,10 +160,17 @@ public class PassportDetails implements Initializable {
 			Passport passport = null;
 			IDao<Passport, String> passportDao = PassportDaoImpl.getPassportDaoImpl();
 			passport = passportDao.findById(passport_number);
-			if (passport != null) {
+			if (passport == null) {
+				Alert failed = new Alert(Alert.AlertType.WARNING);
+				failed.setTitle("Passport number not Found!");
+				failed.setContentText("Please re-enter another number.");
+				failed.show();
+			} else {
+				searchButton.setVisible(false);
+				clearButton.setVisible(true);
 				passenger_ids.setValue(passport.getPassenger_id());
 				passport_number_textField.setText(passport.getPassport_number());
-				System.out.println(passport.getPassport_number());
+				//System.out.println(passport.getPassport_number());
 				fatherName_textField.setText(passport.getFather_name());
 				motherName_textField.setText(passport.getMother_name());
 				nationality_textField.setText(passport.getNationality());
@@ -199,9 +230,7 @@ public class PassportDetails implements Initializable {
 
 	@FXML
 	public void handleUpdateButton(ActionEvent event) throws SQLException {
-
 		if (noEmpltyFields()) {
-
 			Passport newPassport = new Passport();
 			newPassport.setPassport_number(passport_number_textField.getText());
 			newPassport.setFather_name(fatherName_textField.getText());
@@ -272,8 +301,13 @@ public class PassportDetails implements Initializable {
 
 		updateButton.setDisable(true);
 		saveButton.setDisable(false);
-
+		// set comboBox = null;
+		passenger_ids.getItems().clear();
 		passenger_ids.getItems().addAll(findAllPassengerID());
-		passenger_ids.setValue(null);
+//		passenger_ids.getItems().addAll(nullCollection);
+//		passenger_ids.setValue(null);
 	}
+	
+	
+
 }

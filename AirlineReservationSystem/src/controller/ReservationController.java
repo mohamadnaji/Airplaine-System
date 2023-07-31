@@ -231,8 +231,9 @@ public class ReservationController implements Initializable {
 	private void deleteTicket(ActionEvent event) {
 		selectedTicket = reservationsTable.getSelectionModel().getSelectedItem();
 		// ClientsModel.deleteClient(selectedClient);
-		IDao<Ticket, Integer> clientDao = TicketDaoImpl.getTicketDaoImpl();
-		clientDao.delete(selectedTicket.getTicketId());
+		ITicketDao ticketDao = TicketDaoImpl.getTicketDaoImpl();
+		ticketDao.delete(selectedTicket.getTicketId());
+		ticketDao.deleteSeat(selectedTicket.getTicketId());
 		try {
 			fillTicketsTable();
 			reset(null);

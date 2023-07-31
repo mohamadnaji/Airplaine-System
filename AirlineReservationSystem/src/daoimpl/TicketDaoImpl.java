@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dao.ITicketDao;
@@ -70,8 +71,8 @@ public class TicketDaoImpl implements ITicketDao {
 		PreparedStatement ps;
 		Ticket ticket = null;
 		try {
-			ps = con.prepareStatement("SELECT ticket_Id,flight_Id, "
-					+ "passenger_Id,flight_Price,Nb_Of_Bags,meals,seat_Number,payment_Id,creation_Date "
+			ps = con.prepareStatement("SELECT ticket_id,flight_id, "
+					+ "passenger_id,flight_price,nb_of_bags,meals,seat_number,payment_id,creation_date "
 					+ "FROM ticket where ticket_id = ?");
 
 			ps.setInt(1, key);
@@ -85,7 +86,7 @@ public class TicketDaoImpl implements ITicketDao {
 				ticket.setFlightPriceId(m_ResultSet.getInt(4));
 				ticket.setNumberOfBugs(m_ResultSet.getInt(5));
 				ticket.setMeal(m_ResultSet.getString(6));
-				ticket.setSeatNumber(m_ResultSet.getInt(7));
+				ticket.setSeatNumber(m_ResultSet.getString(7));
 				ticket.setPaymentId(m_ResultSet.getInt(8));
 				ticket.setCreationDate(m_ResultSet.getDate(9));
 			}
@@ -103,8 +104,8 @@ public class TicketDaoImpl implements ITicketDao {
 		Statement m_Statement;
 		try {
 			m_Statement = con.createStatement();
-			String query = "SELECT ticket_Id,flight_Id,"
-					+ "passenger_Id,flight_Price,Nb_Of_Bags,meals,seat_Number,payment_Id,creation_Date "
+			String query = "SELECT ticket_id,flight_id,"
+					+ "passenger_id,flight_price,nb_of_bags,meals,seat_number,payment_id,creation_date "
 					+ "FROM ticket where flag = 1";
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
@@ -116,7 +117,7 @@ public class TicketDaoImpl implements ITicketDao {
 				ticket.setFlightPriceId(m_ResultSet.getInt(4));
 				ticket.setNumberOfBugs(m_ResultSet.getInt(5));
 				ticket.setMeal(m_ResultSet.getString(6));
-				ticket.setSeatNumber(m_ResultSet.getInt(7));
+				ticket.setSeatNumber(m_ResultSet.getString(7));
 				ticket.setPaymentId(m_ResultSet.getInt(8));
 				ticket.setCreationDate(m_ResultSet.getDate(9));
 				tickets.add(ticket);
@@ -135,7 +136,7 @@ public class TicketDaoImpl implements ITicketDao {
 		Integer maxTicketId = 0;
 		try {
 			m_Statement = con.createStatement();
-			String query = "SELECT max(ticket_Id) FROM ticket";
+			String query = "SELECT max(ticket_id) FROM ticket";
 
 			ResultSet m_ResultSet = m_Statement.executeQuery(query);
 			while (m_ResultSet.next()) {
@@ -167,6 +168,52 @@ public class TicketDaoImpl implements ITicketDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void deleteSeat(Integer t) {
+		// TODO Auto-generated method stub
+		Connection conn = db.ConnectDb();
+		DataBase DB=new DataBase();
+		ResultSet rs;
+		String seat_number = null,seat_numbers,stringReservedSeats= null;
+		int flightId = 0;
+		PreparedStatement ps;
+		try {
+		rs=DB.SelectFun("select seat_number,flight_id from ticket where ticket_id='"+t+"'");
+		rs.next();
+		seat_number=rs.getString(1);
+		flightId=rs.getInt(2);
+		// System.out.println("seatttID="+seat_number);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<String>  ReservedSeats =new ArrayList<>();
+					try {
+						rs=DB.SelectFun("select seat_number from seat where flight_id='"+flightId+"'");
+			    		rs.next();
+			    		seat_numbers=rs.getString(1);
+			    		if(seat_numbers.contains(",")) {
+			        		List<String>list=Arrays.asList(seat_numbers.split(","));
+			        		ReservedSeats  = new ArrayList<>(list);
+			        	}
+			    		ReservedSeats.remove(seat_number);
+		
+			        	}catch(SQLException e){ e.printStackTrace();}
+					if(ReservedSeats.size() !=0)
+					stringReservedSeats=String.join(",", ReservedSeats);
+					
+		try {
+			DB.InsertFun("UPDATE seat SET seat_number = '" + stringReservedSeats +
+							"' WHERE flight_id = " + flightId + "");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }
